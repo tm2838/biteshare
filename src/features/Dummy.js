@@ -11,6 +11,7 @@ const Title2 = styled.Text`
 
 const DummyComponent = () => {
   return (
+    // eslint-disable-next-line no-use-before-define
     <View style={styles.container}>
       <Title1>
         Welcome to Biteshare!!
@@ -20,8 +21,8 @@ const DummyComponent = () => {
       </Title2>
     </View>
 
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

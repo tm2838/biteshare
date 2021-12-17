@@ -5,4 +5,4 @@ export const colors = {
     kazan: '',
     beach: '#B3A285',
   }
-}
+};
