@@ -16,13 +16,12 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react",
         "react-native"
     ],
     "rules": {
-        // allow .js files to contain JSX code
-        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-        // ignore errors for the react-navigation package
-        "react/prop-types": ["error", { "ignore": ["navigation", "navigation.navigate"] }]
+        // // allow .js files to contain JSX code
+        // "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        // // ignore errors for the react-navigation package
+        // "react/prop-types": ["error", { "ignore": ["navigation", "navigation.navigate"] }]
     }
 }
