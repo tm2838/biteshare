@@ -9,6 +9,15 @@ const Title2 = styled.Text`
   color: ${(props) => props.theme.colors.brand.beach}
 `;
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
 const DummyComponent = () => {
   return (
     // eslint-disable-next-line no-use-before-define
@@ -24,13 +33,5 @@ const DummyComponent = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default DummyComponent;
