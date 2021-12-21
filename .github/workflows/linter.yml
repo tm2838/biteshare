@@ -1,0 +1,14 @@
+name: Linter
+# Action run on push to github
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    # Installs new modules to virtual machine
+    - name: Install modules
+      run: npm install
+    # Runs lint on whole repo per script in package.json
+    - name: Run ESLint
+      run: npm run lint

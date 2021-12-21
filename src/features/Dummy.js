@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
 
 const DummyComponent = () => {
   return (
+    // eslint-disable-next-line no-use-before-define
     <View style={styles.container}>
       <Title1>
         Welcome to Biteshare!!
@@ -31,7 +32,6 @@ const DummyComponent = () => {
 
   );
 };
-
 
 
 export default DummyComponent;
