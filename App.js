@@ -1,13 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useReducer } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ThemeProvider } from 'styled-components/native';
 import { theme } from './src/infrastructure/index.js';
 import DummyComponent from './src/features/Dummy.js';
+import { BiteShareContext, biteShareReducer, biteShareState } from './src/BiteShareContext';
 import { signUpNewUser } from './firebase/helpers/authentication.firebase.js';
 import { addNewDocument, getAllDocuments } from './firebase/helpers/database.firebase.js';
 
 export default function App() {
+  const [state, dispatch] = useReducer(biteShareReducer, biteShareState);
   // The following methods is a test/example code.
   // Please delete it when someone starts working on authentication
   signUpNewUser('jane.doe@gmail.com', 'test123')
@@ -50,11 +52,11 @@ export default function App() {
     },
   });
   return (
-    <>
+    <BiteShareContext.Provider value={{ state, dispatch }}>
       <ThemeProvider theme={theme}>
         <DummyComponent />
       </ThemeProvider>
 
-    </>
+    </BiteShareContext.Provider>
   );
 }
