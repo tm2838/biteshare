@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import BiteshareButton from '../components/BiteshareButton.js';
-import { colors } from '../infrastructure/colors.js';
-import { BiteShareContext } from '../BiteShareContext.js';
+import BiteshareButton from '../BiteshareButton.js';
+import { colors } from '../../infrastructure/colors.js';
+import { BiteShareContext } from '../../BiteShareContext.js';
 
 const styles = StyleSheet.create({
   container: {
