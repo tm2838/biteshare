@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import styled from 'styled-components/native';
 import { BiteShareContext } from '../BiteShareContext';
+import BiteshareButton from '../components/BiteshareButton.js';
+import { colors } from '../infrastructure/colors.js';
 
 const Title1 = styled.Text`
 color: ${(props) => props.theme.colors.brand.rausch}
@@ -20,7 +22,11 @@ const styles = StyleSheet.create({
 });
 
 const DummyComponent = () => {
-  const { state: { testState }, dispatch } = useContext(BiteShareContext);
+  const { state: { role }, dispatch } = useContext(BiteShareContext);
+  const handleButtonPress = () => {
+    dispatch({ type: 'SET_ROLE', role: ['guest', 'host'].filter((r) => r !== role)[0]});
+  };
+
   return (
     // eslint-disable-next-line no-use-before-define
     <View style={styles.container}>
@@ -30,7 +36,12 @@ const DummyComponent = () => {
       <Title2>
         Welcome to Biteshare!!
       </Title2>
-      <Text>{testState}</Text>
+      <Text>I am a {role}</Text>
+      <BiteshareButton
+        title="Button"
+        buttonStyle={{ backgroundColor: colors.brand.beachLight }}
+        onPress={handleButtonPress}
+      />
     </View>
 
   );

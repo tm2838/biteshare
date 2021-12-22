@@ -1,13 +1,13 @@
 import React from 'react';
 
 export const biteShareState = {
-  testState: 'This is a test state',
+  role: 'host',
 };
 
 export const biteShareReducer = (state, action) => {
   switch (action.type) {
-  case 'SET_TESTSTATE':
-    return {...state, testState: action.testState }; // dispatch({ type: 'SET_TESTSTATE', testState: 'This is test No.2' })
+  case 'SET_ROLE':
+    return {...state, role: action.role}; // dispatch({ type: 'SET_ROLE', role: 'guest' })
   default:
     return state;
   }
