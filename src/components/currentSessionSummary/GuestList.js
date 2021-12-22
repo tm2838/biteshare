@@ -1,28 +1,33 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useEffect, useContext } from 'react';
+import { SafeAreaView, StyleSheet, FlatList } from 'react-native';
+import Guest from './Guest.js';
+import mockGuests from '../../../fixtures/mockGuests.json';
+import { BiteShareContext } from '../../BiteShareContext.js';
 
 const styles = StyleSheet.create({
   container: {
     flex: 0.5,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: '100%',
   },
 });
 
 const GuestList = () => {
+  const { state: { guests }, dispatch } = useContext(BiteShareContext);
+
+  useEffect(() => {
+    dispatch({ type: 'SET_GUESTS', guests: mockGuests });
+  }, [mockGuests]);
+
+  const renderGuest = (guest) => (<Guest guest={guest} />);
   return (
-    <View style={styles.container}>
-      <View>
-        <Text>This is guest 1</Text>
-      </View>
-      <View>
-        <Text>This is guest 2</Text>
-      </View>
-      <View>
-        <Text>This is guest 3</Text>
-      </View>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={guests}
+        renderItem={renderGuest}
+        keyExtractor={guest => guest.name}
+      />
+    </SafeAreaView>
   );
 };
 

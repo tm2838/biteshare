@@ -15,36 +15,36 @@ export default function App() {
   const [state, dispatch] = useReducer(biteShareReducer, biteShareState);
   // The following methods is a test/example code.
   // Please delete it when someone starts working on authentication
-  signUpNewUser('jane.doe@gmail.com', 'test123')
-    .then((userCredentails) => {
-      console.log('User Credentials: ', userCredentails);
-    })
-    .catch((error) => {
-      console.log('Error: ', error);
-    });
+  // signUpNewUser('jane.doe@gmail.com', 'test123')
+  //   .then((userCredentails) => {
+  //     console.log('User Credentials: ', userCredentails);
+  //   })
+  //   .catch((error) => {
+  //     console.log('Error: ', error);
+  //   });
 
-  addNewDocument('users', {
-    firstName: 'Alan',
-    middleName: 'Mathison',
-    lastName: 'Turing',
-    born: 1912,
-  })
-    .then((docRef) => {
-      console.log('Document written with ID: ', docRef.id);
+  // addNewDocument('users', {
+  //   firstName: 'Alan',
+  //   middleName: 'Mathison',
+  //   lastName: 'Turing',
+  //   born: 1912,
+  // })
+  //   .then((docRef) => {
+  //     console.log('Document written with ID: ', docRef.id);
 
-      getAllDocuments('users')
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            console.log(`${doc.id} => ${doc.data()}`);
-          });
-        })
-        .catch((error) => {
-          console.log('Error reading document');
-        });
-    })
-    .catch((error) => {
-      console.error('Error adding document: ', e);
-    });
+  //     getAllDocuments('users')
+  //       .then((querySnapshot) => {
+  //         querySnapshot.forEach((doc) => {
+  //           console.log(`${doc.id} => ${doc.data()}`);
+  //         });
+  //       })
+  //       .catch((error) => {
+  //         console.log('Error reading document');
+  //       });
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error adding document: ', e);
+  //   });
 
   const styles = StyleSheet.create({
     container: {
@@ -57,7 +57,7 @@ export default function App() {
   return (
     <BiteShareContext.Provider value={{ state, dispatch }}>
       <ThemeProvider theme={theme}>
-        <DummyComponent />
+        {/* <DummyComponent /> */}
         <CurrentSessionSummary />
       </ThemeProvider>
 

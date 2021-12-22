@@ -5,6 +5,7 @@ export const biteShareState = {
   isEveryoneReady: false,
   splitMethod: '',
   totalBill: 0,
+  guests: [],
 };
 
 export const biteShareReducer = (state, action) => {
@@ -17,6 +18,8 @@ export const biteShareReducer = (state, action) => {
     return {...state, splitMethod: action.splitMethod};
   case 'SET_TOTAL_BILL':
     return {...state, totalBill: action.totalBill};
+  case 'SET_GUESTS':
+    return {...state, guests: action.guests};
   default:
     return state;
   }
