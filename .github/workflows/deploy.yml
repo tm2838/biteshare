@@ -14,9 +14,9 @@ jobs:
           node-version: 14.x
       - uses: expo/expo-github-action@v5
         with:
-          expo-version: 3.x
+          expo-version: 5.x
           expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
           expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
           expo-cache: true
       - run: yarn
-      - run: expo publish --release-channel production
+      - run: expo publish
