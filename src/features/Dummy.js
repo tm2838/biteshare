@@ -6,8 +6,7 @@ import BiteshareButton from '../components/BiteshareButton.js';
 import { colors } from '../infrastructure/colors.js';
 
 const Title1 = styled.Text`
-color: ${(props) => props.theme.colors.brand.rausch}
-`;
+color: ${(props) => props.theme.colors.brand.rausch}`;
 const Title2 = styled.Text`
   color: ${(props) => props.theme.colors.brand.beach}
 `;
@@ -15,7 +14,7 @@ const Title2 = styled.Text`
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(243,225,210,0.4)',
     alignItems: 'center',
     justifyContent: 'center',
   },
