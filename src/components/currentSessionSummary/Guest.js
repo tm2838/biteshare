@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Image } from 'react-native';
 import { colors } from '../../infrastructure/colors.js';
 import BiteshareButton from '../BiteshareButton.js';
 import { BiteShareContext } from '../../BiteShareContext.js';
@@ -11,21 +11,18 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: colors.brand.ebisuLight,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
   },
   profileContainer: {
-    width: '20%',
+    width: 60,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginRight: 80
   },
   profile: {
-    borderRadius: 10,
-    backgroundColor: '#000',
-    width: 20,
-    height: 20,
+    borderRadius: 15,
+    width: 30,
+    height: 30,
     marginRight: 20,
   },
   buttonContainer: {
@@ -36,18 +33,22 @@ const styles = StyleSheet.create({
 });
 
 const Guest = ({ guest }) => {
-  const { state: { guests }, dispatch } = useContext(BiteShareContext);
-  const [status, setStatus] = useState('access'); // access: allow/deny guest; status: ready/not ready;
-  // not ready -> ready should be triggered by clicking on 'I'm ready' in menu's tab, DB should be updated
-  // on click, and this summary page should pull from DB periodically to see whether that status has changed?
+  const { state: { currentUser, guests }, dispatch } = useContext(BiteShareContext);
+  const [status, setStatus] = useState('access'); // status: access/ready/not ready;
+  // @TODO:
+  // not ready -> ready status change should be triggered by clicking on 'I'm ready' in menu's tab
+  // DB should be updated on click
+  // the summary page should pull from DB periodically to see whether that status has changed?
   const allowButtonStyle = { margin: 0, marginRight: 10, backgroundColor: colors.brand.beachLight };
   const denyButtonStyle = { margin: 0, backgroundColor: colors.brand.kazanLight };
 
   const handleAllowGuest = () => {
+    // @TODO: update DB to include user as guest in transaction
     setStatus('not ready');
   };
 
   const handleDenyGuest = () => {
+    // @TODO: update DB to set 'request pending' back to false?
     const updatedGuests = guests.filter((g) => g.name !== guest.item.name);
     dispatch({ type: 'SET_GUESTS', guests: updatedGuests });
   };
@@ -55,10 +56,14 @@ const Guest = ({ guest }) => {
   return (
     <View style={styles.container}>
       <View style={styles.profileContainer}>
-        <View style={styles.profile}></View>
-        <Text>{guest.item.name}</Text>
+        <Image source={require('../../../assets/femaleUser.png')} style={styles.profile}/>
+        {currentUser !== guest.item.name
+          ? <Text>{guest.item.name}</Text>
+          : <Text>You</Text>
+        }
+
       </View>
-      {status === 'access'
+      {(status === 'access' && currentUser !== guest.item.name)
         ?
         <View style={styles.buttonContainer}>
           <BiteshareButton size={70} title='Allow' buttonStyle={allowButtonStyle} onPress={handleAllowGuest} />
@@ -66,7 +71,7 @@ const Guest = ({ guest }) => {
         </View>
         :
         <View style={styles.buttonContainer}>
-          <BiteshareButton size={70} title='Not Ready' />
+          <BiteshareButton size={70} title='Not Ready' buttonStyle={{ margin: 0 }} disabled={true} />
         </View>
       }
     </View>

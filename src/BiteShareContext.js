@@ -1,6 +1,7 @@
 import React from 'react';
 
 export const biteShareState = {
+  currentUser: 'Susan',
   role: 'host',
   isEveryoneReady: false,
   splitMethod: '',
@@ -10,6 +11,8 @@ export const biteShareState = {
 
 export const biteShareReducer = (state, action) => {
   switch (action.type) {
+  case 'SET_CURRENT_USER':
+    return {...state, currentUser: action.currentUser};
   case 'SET_ROLE':
     return {...state, role: action.role}; // dispatch({ type: 'SET_ROLE', role: 'guest' })
   case 'SET_ORDER_STATUS':
