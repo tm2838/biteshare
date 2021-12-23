@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Text, View, StyleSheet, Image } from 'react-native';
+import { SwipeRow } from 'react-native-swipe-list-view';
 import { colors } from '../../infrastructure/colors.js';
 import BiteshareButton from '../BiteshareButton.js';
 import { BiteShareContext } from '../../BiteShareContext.js';
@@ -9,7 +10,7 @@ const styles = StyleSheet.create({
     height: 50,
     margin: 5,
     padding: 10,
-    backgroundColor: colors.brand.ebisuLight,
+    backgroundColor: colors.brand.ebisuLight2,
     flexDirection: 'row',
   },
   profileContainer: {
@@ -29,6 +30,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  hiddernView: {
+    padding: 10,
+    flexDirection: 'row',
+    backgroundColor: colors.brand.rausch,
+    height: 50,
+    margin: 5,
+    alignItems: 'center',
+    justifyContent: 'space-between',
   }
 });
 
@@ -42,6 +52,8 @@ const Guest = ({ guest }) => {
   const allowButtonStyle = { margin: 0, marginRight: 10, backgroundColor: colors.brand.beachLight };
   const denyButtonStyle = { margin: 0, backgroundColor: colors.brand.kazanLight };
 
+  const swipeable = currentUser !== guest.item.name && status === 'access';
+
   const handleAllowGuest = () => {
     // @TODO: update DB to include user as guest in transaction
     setStatus('not ready');
@@ -54,27 +66,32 @@ const Guest = ({ guest }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.profileContainer}>
-        <Image source={require('../../../assets/femaleUser.png')} style={styles.profile}/>
-        {currentUser !== guest.item.name
-          ? <Text>{guest.item.name}</Text>
-          : <Text>You</Text>
-        }
+    <SwipeRow rightOpenValue={-80} disableRightSwipe disableLeftSwipe={!swipeable}>
 
+      <View style={styles.hiddernView} >
+        <Text></Text>
+        <Text onPress={handleDenyGuest}>Remove</Text>
       </View>
-      {(status === 'access' && currentUser !== guest.item.name)
-        ?
-        <View style={styles.buttonContainer}>
-          <BiteshareButton size={70} title='Allow' buttonStyle={allowButtonStyle} onPress={handleAllowGuest} />
-          <BiteshareButton size={70} title='Deny' buttonStyle={denyButtonStyle} onPress={handleDenyGuest} />
+
+      <View style={styles.container}>
+        <View style={styles.profileContainer}>
+          <Image source={require('../../../assets/femaleUser.png')} style={styles.profile}/>
+          <Text>{currentUser === guest.item.name ? 'You' : guest.item.name }</Text>
         </View>
-        :
-        <View style={styles.buttonContainer}>
-          <BiteshareButton size={70} title='Not Ready' buttonStyle={{ margin: 0 }} disabled={true} />
-        </View>
-      }
-    </View>
+        {(status === 'access' && currentUser !== guest.item.name)
+          ?
+          <View style={styles.buttonContainer}>
+            <BiteshareButton size={70} title='Allow' buttonStyle={allowButtonStyle} onPress={handleAllowGuest} />
+            <BiteshareButton size={70} title='Deny' buttonStyle={denyButtonStyle} onPress={handleDenyGuest} />
+          </View>
+          :
+          <View style={styles.buttonContainer}>
+            <BiteshareButton size={70} title='Not Ready' buttonStyle={{ margin: 0 }} disabled={true} />
+          </View>
+        }
+      </View>
+
+    </SwipeRow>
   );
 };
 
