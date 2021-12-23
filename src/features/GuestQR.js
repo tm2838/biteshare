@@ -1,7 +1,15 @@
-//https://docs.expo.dev/versions/v44.0.0/sdk/bar-code-scanner/
+//https://snack.expo.dev/@sugarexpo/380485
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+});
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -16,7 +24,12 @@ export default function App() {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    let sampleData = data.split('&');
+    let sessionId = sampleData[0];
+    let hostName = sampleData[1];
+
+    alert(`Session Id: ${sessionId} & HostName:${hostName}`);
+    // alert(`Bar code with type ${type} and \n data [ ${data} ] has been scanned!`);
   };
 
   if (hasPermission === null) {
@@ -37,10 +50,5 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-});
+
+
