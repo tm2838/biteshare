@@ -31,7 +31,6 @@ const GuestList = () => {
         data={guests}
         renderItem={renderGuest}
         keyExtractor={guest => guest.name}
-        style={styles.container}
       />
     </SafeAreaView>
   );

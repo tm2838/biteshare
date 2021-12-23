@@ -1,12 +1,16 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Text, View, StyleSheet, Image } from 'react-native';
+import { Text, View, StyleSheet, Image, Pressable } from 'react-native';
 import { SwipeRow } from 'react-native-swipe-list-view';
 import { colors } from '../../../infrastructure/colors.js';
 import BiteshareButton from '../../../components/BiteshareButton.js';
 import { BiteShareContext } from '../../../BiteShareContext.js';
+import MenuItemCard from '../../../components/MenuItemCard.js';
 
 const styles = StyleSheet.create({
   container: {
+    justifyContent: 'flex-start',
+  },
+  guestContainer: {
     height: 50,
     margin: 5,
     padding: 10,
@@ -44,6 +48,8 @@ const styles = StyleSheet.create({
 
 const Guest = ({ guest }) => {
   const { state: { accountHolderName, accountType, guests }, dispatch } = useContext(BiteShareContext);
+  const [rowDisabled, setRowDisabled] = useState(false);
+  const [showOrderedItem, setShowOrderedItem] = useState(false);
   const [status, setStatus] = useState('access'); // status: access/ready/not ready;
   // @TODO:
   // not ready -> ready status change should be triggered by clicking on 'I'm ready' in menu's tab
@@ -76,41 +82,65 @@ const Guest = ({ guest }) => {
     dispatch({ type: 'SET_GUESTS', guests: updatedGuests });
   };
 
+  const handleRowSwiped = () => {
+    setRowDisabled(true);
+  };
+
+  const handleRowClose = () => {
+    setRowDisabled(false);
+  };
+
+  const handleShowOrderedItem = () => {
+    setShowOrderedItem(!showOrderedItem);
+  };
+
   return (
-    <SwipeRow rightOpenValue={-80} disableRightSwipe disableLeftSwipe={!swipeable}>
+    <View style={styles.container}>
+      <SwipeRow
+        rightOpenValue={-80}
+        disableRightSwipe
+        disableLeftSwipe={!swipeable}
+        onRowOpen={handleRowSwiped}
+        onRowClose={handleRowClose}
+      >
 
-      <View style={styles.hiddenView} >
-        <Text></Text>
-        <Text onPress={handleDenyGuest}>Remove</Text>
-      </View>
-
-      <View style={styles.container}>
-        <View style={styles.profileContainer}>
-          <Image source={require(profilePicturePath)} style={styles.profile}/>
-          <Text>{accountHolderName === guest.name ? 'You' : guest.name }</Text>
+        <View style={styles.hiddenView} >
+          <Text></Text>
+          <Text onPress={handleDenyGuest}>Remove</Text>
         </View>
-        {hostViewAccessStage
-          &&
-          <View style={styles.buttonContainer}>
-            <BiteshareButton size={70} title='Allow' buttonStyle={allowButtonStyle} onPress={handleAllowGuest} />
-            <BiteshareButton size={70} title='Deny' buttonStyle={denyButtonStyle} onPress={handleDenyGuest} />
-          </View>
-        }
-        {accountHolderOrderStage
-          &&
-          <View style={styles.buttonContainer}>
-            <BiteshareButton size={70} title='Not Ready' buttonStyle={{ margin: 0 }} disabled={true} />
-          </View>
-        }
-        {guestView
-          &&
-          <View style={styles.buttonContainer}>
-            <BiteshareButton size={70} title='Not Ready' buttonStyle={{ margin: 0 }} disabled={true} />
-          </View>
-        }
-      </View>
 
-    </SwipeRow>
+        <Pressable style={styles.guestContainer} onPress={handleShowOrderedItem} disabled={rowDisabled}>
+          <View style={styles.profileContainer}>
+            <Image source={require(profilePicturePath)} style={styles.profile}/>
+            <Text>{accountHolderName === guest.name ? 'You' : guest.name }</Text>
+          </View>
+
+          {hostViewAccessStage
+            &&
+            <View style={styles.buttonContainer}>
+              <BiteshareButton size={70} title='Allow' buttonStyle={allowButtonStyle} onPress={handleAllowGuest} />
+              <BiteshareButton size={70} title='Deny' buttonStyle={denyButtonStyle} onPress={handleDenyGuest} />
+            </View>
+          }
+
+          {accountHolderOrderStage
+            &&
+            <View style={styles.buttonContainer}>
+              <BiteshareButton size={70} title='Not Ready' buttonStyle={{ margin: 0 }} disabled={true} />
+            </View>
+          }
+
+          {guestView
+            &&
+            <View style={styles.buttonContainer}>
+              <BiteshareButton size={70} title='Not Ready' buttonStyle={{ margin: 0 }} disabled={true} />
+            </View>
+          }
+        </Pressable>
+
+      </SwipeRow>
+      {showOrderedItem && guest?.orderedItems?.length && <MenuItemCard menuItems={guest.orderedItems} />}
+    </View>
   );
 };
 
