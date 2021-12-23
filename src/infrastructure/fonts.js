@@ -1,17 +1,11 @@
 export const fonts = {
-  // OpenSans_300Light,
-  // OpenSans_400Regular,
-  // OpenSans_600SemiBold,
-  // OpenSans_700Bold,
-  // Montserrat_300Light,
-  // Montserrat_400Regular,
-  // Montserrat_500Medium,
-  // Montserrat_600SemiBold,
-  // Montserrat_700Bold,
-  body: 'OpenSans_400Regular',
-  regulaOpensans: 'OpenSans_400Regular',
-  heading: 'Lato_400Regular',
-  monospace: 'Oswald_400Regular',
+
+  heading: 'OpenSans_700Bold',
+  subHeading: 'OpenSans_600SemiBold',
+  body: 'Montserrat_400Regular',
+  bodyBold: 'Montserrat_700Bold',
+  light: 'Montserrat_300Light'
+
 };
 
 export const fontWeights = {

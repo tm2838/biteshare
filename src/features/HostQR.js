@@ -1,49 +1,50 @@
 import React, { useContext } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { colors } from '../infrastructure/colors.js';
+import { fonts } from '../infrastructure/fonts.js';
 import QRCode from 'react-native-qrcode-svg';
-
+import { BiteShareContext } from '../BiteShareContext.js';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(243,225,210,0.4)',
+    backgroundColor: colors.brand.body,
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 200,
+    fontFamily: fonts.bodyBold,
+    fontSize: 20,
   },
   baseText: {
-    fontFamily: 'Montserrat_600SemiBold',
+    fontFamily: fonts.bodyBold,
     fontSize: 20,
-    paddingTop: 30,
-    color: '#0B113E'
+    paddingTop: 40,
+    color: colors.brand.darkBlue
   },
 
 });
 
 const HostQR = () => {
-
+  const { state: { sessionId, accountHolderName }, dispatch } = useContext(BiteShareContext);
+  const someString = `${sessionId}&${accountHolderName}`;
 
   return (
-    // eslint-disable-next-line no-use-before-define
+
     <View style={styles.container}>
+
       <QRCode
-        value='http://google.com'
-        color={'#0B113E'}
-        backgroundColor={'white'}
-        size={100}
-        // logo={{uri: base64logo}}
+        value={someString}
+        color={colors.brand.darkBlue}
+        size={200}
         //  logo={require('../../../embed_logo_file_path')} // or logo={{uri: base64logo}}
         logoMargin={2}
-        logoSize={40}
+        logoSize={80}
         logoBorderRadius={10}
         logoBackgroundColor={'transparent'}
       />
-      {/* <MaterialCommunityIcons name="qrcode-scan" size={90} color="black" /> */}
-      <Text style={styles.baseText} >
+      <Text style={styles.baseText}>
         Scan to join a session
       </Text>
-
-
     </View>
 
   );
@@ -52,48 +53,3 @@ const HostQR = () => {
 
 export default HostQR;
 
-
-/*
-
-import React, { useState } from "react";
-import { createStore, combineReducers } from "redux";
-import { Provider } from "react-redux";
-import { Font, AppLoading } from "expo";
-import productsReducer from "./store/reducers/products";
-import ShopNavigator from "./navigation/ShopNavigator";
-
-const rootReducer = combineReducers({
-  products: productsReducer
-});
-
-const store = createStore(rootReducer);
-
-const fetchFonts = () => {
-  return Font.loadAsync({
-    "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
-    "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf")
-  });
-};
-
-export default function App() {
-  const [fontLoaded, setFontLoaded] = useState(false);
-
-  if (!fontLoaded) {
-    return (
-      <AppLoading
-        startAsync={fetchFonts}
-        onFinish={() => {
-          setFontLoaded(true);
-        }}
-      />
-    );
-  }
-
-  return (
-    <Provider store={store}>
-      <ShopNavigator />
-    </Provider>
-  );
-}
-
-*/
