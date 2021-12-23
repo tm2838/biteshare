@@ -21,9 +21,10 @@ const styles = StyleSheet.create({
 });
 
 const DummyComponent = () => {
-  const { state: { role }, dispatch } = useContext(BiteShareContext);
+  const { state: { role, isEveryoneReady }, dispatch } = useContext(BiteShareContext);
   const handleButtonPress = () => {
     dispatch({ type: 'SET_ROLE', role: ['guest', 'host'].filter((r) => r !== role)[0]});
+    dispatch({ type: 'SET_ORDER_STATUS', isEveryoneReady: !isEveryoneReady });
   };
 
   return (

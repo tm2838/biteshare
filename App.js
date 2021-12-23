@@ -80,28 +80,28 @@ export default () => {
       console.log('Error: ', error);
     });
 
-  addNewDocument('users', {
-    firstName: 'Alan',
-    middleName: 'Mathison',
-    lastName: 'Turing',
-    born: 1912,
-  })
-    .then((docRef) => {
-      console.log('Document written with ID: ', docRef.id);
+  // addNewDocument('users', {
+  //   firstName: 'Alan',
+  //   middleName: 'Mathison',
+  //   lastName: 'Turing',
+  //   born: 1912,
+  // })
+  //   .then((docRef) => {
+  //     console.log('Document written with ID: ', docRef.id);
 
-      getAllDocuments('users')
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            console.log(`${doc.id} => ${doc.data()}`);
-          });
-        })
-        .catch((error) => {
-          console.log('Error reading document');
-        });
-    })
-    .catch((error) => {
-      console.error('Error adding document: ', e);
-    });
+  //     getAllDocuments('users')
+  //       .then((querySnapshot) => {
+  //         querySnapshot.forEach((doc) => {
+  //           console.log(`${doc.id} => ${doc.data()}`);
+  //         });
+  //       })
+  //       .catch((error) => {
+  //         console.log('Error reading document');
+  //       });
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error adding document: ', e);
+  //   });
 
 */
 
