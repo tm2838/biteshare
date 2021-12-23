@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Appbar, Avatar } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 import { StyleSheet, View, Text } from 'react-native';
 import { colors } from '../../infrastructure/colors';
-import { render } from 'react-dom';
+import { BiteShareContext } from '../../BiteShareContext';
 
 
 const styles = StyleSheet.create({
@@ -42,23 +42,25 @@ const styles = StyleSheet.create({
 });
 
 const CurrentSessionHeader = () => {
+  const {state: { restaurantName, accountHolderName, accountType }, dispatch } = useContext(BiteShareContext);
+  const profilePicturePath = '../../../assets/profilePicture.png';
   return (
     <Appbar.Header style = {styles.currentSessionHeader}>
       <View style = {styles.currentSessionContainer}>
         <View style = {styles.restaurant}>
           <Text style = {styles.restaurantName}>
-            BRAZILIAN RESTAURANT BREWING
+            {restaurantName}
           </Text>
         </View>
         <View style={styles.profile}>
           <View>
-            <Text style = {styles.accountTypeText}>HOST</Text>
+            <Text style = {styles.accountTypeText}>{accountType}</Text>
           </View>
           <View>
-            <Avatar.Image source={require('../../../assets/profilePicture.png')} />
+            <Avatar.Image source={require(profilePicturePath)} />
           </View>
           <View>
-            <Text style = {styles.accountHolderName}>Susan</Text>
+            <Text style = {styles.accountHolderName}>{accountHolderName}</Text>
           </View>
         </View>
       </View>

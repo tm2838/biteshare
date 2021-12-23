@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Appbar } from 'react-native-paper';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { colors } from '../../infrastructure/colors';
+import { BiteShareContext } from '../../BiteShareContext';
 
 const styles = StyleSheet.create({
   exploreHeader: {
@@ -19,12 +20,13 @@ const styles = StyleSheet.create({
 });
 
 const ExploreHeader = () => {
+  const {state: { accountHolderName }, dispatch} = useContext(BiteShareContext);
   const profileLogoPath = '../../../assets/profile-logo.png';
   return (
     <Appbar.Header style={styles.exploreHeader}>
       <View style={styles.exploreHeaderContainer}>
         <View>
-          <Text style={styles.headerText}>Welcome Susan</Text>
+          <Text style={styles.headerText}>Welcome {accountHolderName}</Text>
         </View>
         <View>
           <Image

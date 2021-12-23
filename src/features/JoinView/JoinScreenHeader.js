@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Appbar, Avatar } from 'react-native-paper';
 import { colors } from '../../infrastructure/colors';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
+import { BiteShareContext } from '../../BiteShareContext';
 
 const styles = StyleSheet.create({
   headerContainer: {
@@ -37,6 +38,7 @@ const styles = StyleSheet.create({
 });
 
 const JoinScreenHeader = () => {
+  const { state: { accountHolderName }, dispatch } = useContext(BiteShareContext);
   const navigation = useNavigation();
   const route = useRoute();
   const profilePicturePath = '../../../assets/profilePicture.png';
@@ -55,7 +57,7 @@ const JoinScreenHeader = () => {
               source = {require(profilePicturePath)}
               size = {40}
             />
-            <Text style={styles.profileName}>Susan</Text>
+            <Text style={styles.profileName}>{accountHolderName}</Text>
           </View>
           <View style={styles.profileLogo}>
             <Image
