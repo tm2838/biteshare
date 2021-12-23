@@ -30,7 +30,7 @@ const ExploreHeader = () => {
         </View>
         <View>
           <Image
-            source = {require('../../../assets/profile-logo.png')}
+            source = {require(profileLogoPath)}
           />
         </View>
       </View>
