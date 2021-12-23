@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { Text, View, StyleSheet, Image } from 'react-native';
 import { SwipeRow } from 'react-native-swipe-list-view';
-import { colors } from '../../infrastructure/colors.js';
-import BiteshareButton from '../BiteshareButton.js';
-import { BiteShareContext } from '../../BiteShareContext.js';
+import { colors } from '../../../infrastructure/colors.js';
+import BiteshareButton from '../../../components/BiteshareButton.js';
+import { BiteShareContext } from '../../../BiteShareContext.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 });
 
 const Guest = ({ guest }) => {
-  const { state: { currentUser, guests }, dispatch } = useContext(BiteShareContext);
+  const { state: { accountHolderName, guests }, dispatch } = useContext(BiteShareContext);
   const [status, setStatus] = useState('access'); // status: access/ready/not ready;
   // @TODO:
   // not ready -> ready status change should be triggered by clicking on 'I'm ready' in menu's tab
@@ -52,7 +52,8 @@ const Guest = ({ guest }) => {
   const allowButtonStyle = { margin: 0, marginRight: 10, backgroundColor: colors.brand.beachLight };
   const denyButtonStyle = { margin: 0, backgroundColor: colors.brand.kazanLight };
 
-  const swipeable = currentUser !== guest.item.name && status !== 'access';
+  const swipeable = accountHolderName !== guest.name && status !== 'access';
+  const profilePicturePath = '../../../../assets/femaleUser.png';
 
   const handleAllowGuest = () => {
     // @TODO: update DB to include user as guest in transaction
@@ -61,7 +62,7 @@ const Guest = ({ guest }) => {
 
   const handleDenyGuest = () => {
     // @TODO: update DB to set 'request pending' back to false?
-    const updatedGuests = guests.filter((g) => g.name !== guest.item.name);
+    const updatedGuests = guests.filter((g) => g.name !== guest.name);
     dispatch({ type: 'SET_GUESTS', guests: updatedGuests });
   };
 
@@ -75,10 +76,10 @@ const Guest = ({ guest }) => {
 
       <View style={styles.container}>
         <View style={styles.profileContainer}>
-          <Image source={require('../../../assets/femaleUser.png')} style={styles.profile}/>
-          <Text>{currentUser === guest.item.name ? 'You' : guest.item.name }</Text>
+          <Image source={require(profilePicturePath)} style={styles.profile}/>
+          <Text>{accountHolderName === guest.name ? 'You' : guest.name }</Text>
         </View>
-        {(status === 'access' && currentUser !== guest.item.name)
+        {(status === 'access' && accountHolderName !== guest.name)
           ?
           <View style={styles.buttonContainer}>
             <BiteshareButton size={70} title='Allow' buttonStyle={allowButtonStyle} onPress={handleAllowGuest} />

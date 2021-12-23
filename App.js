@@ -3,12 +3,13 @@ import React, { useReducer } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ThemeProvider } from 'styled-components/native';
 import { theme } from './src/infrastructure/index.js';
+import DummyComponent from './src/features/Dummy.js';
 import { BiteShareContext, biteShareReducer, biteShareState } from './src/BiteShareContext';
 import { signUpNewUser } from './firebase/helpers/authentication.firebase.js';
 import { addNewDocument, getAllDocuments } from './firebase/helpers/database.firebase.js';
+import { NavigationContainer } from '@react-navigation/native';
+import HomeScreen from './src/features/HomeView/Home.Screen.js';
 
-import DummyComponent from './src/features/Dummy.js';
-import CurrentSessionSummary from './src/features/CurrentSessionSummary.js';
 
 export default function App() {
   const [state, dispatch] = useReducer(biteShareReducer, biteShareState);
@@ -56,8 +57,10 @@ export default function App() {
   return (
     <BiteShareContext.Provider value={{ state, dispatch }}>
       <ThemeProvider theme={theme}>
+        <NavigationContainer>
+          <HomeScreen />
+        </NavigationContainer>
         {/* <DummyComponent /> */}
-        <CurrentSessionSummary />
       </ThemeProvider>
 
     </BiteShareContext.Provider>

@@ -1,20 +1,17 @@
 import React from 'react';
 
 export const biteShareState = {
-  currentUser: 'Susan',
-  role: 'host',
   isEveryoneReady: false,
   splitMethod: '',
   totalBill: 0,
   guests: [],
+  restaurantName: 'BRAZILIAN RESTAURANT BREWING',
+  accountHolderName: 'Susan',
+  accountType: 'HOST'
 };
 
 export const biteShareReducer = (state, action) => {
   switch (action.type) {
-  case 'SET_CURRENT_USER':
-    return {...state, currentUser: action.currentUser};
-  case 'SET_ROLE':
-    return {...state, role: action.role}; // dispatch({ type: 'SET_ROLE', role: 'guest' })
   case 'SET_ORDER_STATUS':
     return {...state, isEveryoneReady: action.isEveryoneReady};
   case 'SET_SPLIT_METHOD':
@@ -23,6 +20,12 @@ export const biteShareReducer = (state, action) => {
     return {...state, totalBill: action.totalBill};
   case 'SET_GUESTS':
     return {...state, guests: action.guests};
+  case 'SET_RESTAURANT_NAME':
+    return {...state, restaurantName: action.restaurantName};
+  case 'SET_ACCOUNT_HOLDER_NAME':
+    return {...state, accountHolderName: action.accountHolderName};
+  case 'SET_ACCOUNT_TYPE':
+    return {...state, accountType: action.accountType};
   default:
     return state;
   }
