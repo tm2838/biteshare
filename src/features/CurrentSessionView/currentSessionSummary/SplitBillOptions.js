@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import BiteshareButton from '../BiteshareButton.js';
-import { colors } from '../../infrastructure/colors.js';
-import { BiteShareContext } from '../../BiteShareContext.js';
+import BiteshareButton from '../../../components/BiteshareButton.js';
+import { colors } from '../../../infrastructure/colors.js';
+import { BiteShareContext } from '../../../BiteShareContext.js';
 
 const styles = StyleSheet.create({
   container: {
     flex: 0.5,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -15,9 +14,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: '#C4C4C4',
     padding: 15,
+    height: 50,
+    width: 400,
   },
   title: {
     fontSize: 20,
+    textAlign: 'center'
   },
   buttonContainer: {
     flexDirection: 'row',

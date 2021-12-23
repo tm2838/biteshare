@@ -1,15 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import GuestList from '../components/currentSessionSummary/GuestList.js';
-import SplitBillOptions from '../components/currentSessionSummary/SplitBillOptions.js';
+import GuestList from './GuestList.js';
+import SplitBillOptions from './SplitBillOptions.js';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 200,
+    height: 500
   },
 });
 
