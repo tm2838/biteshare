@@ -12,13 +12,15 @@ const styles = StyleSheet.create({
 });
 
 const GuestList = () => {
-  const { state: { guests }, dispatch } = useContext(BiteShareContext);
+  const { state: { guests, accountHolderName }, dispatch } = useContext(BiteShareContext);
 
   useEffect(() => {
     // @TODO:
     // replace mockGuests with real guests
     // pull from DB periodically - potentially with 'meal session id === current meal session id' and 'request pending === true'?
-    dispatch({ type: 'SET_GUESTS', guests: mockGuests });
+    const currentAccount = mockGuests.filter((guest) => guest.name === accountHolderName);
+    const otherAccounts = mockGuests.filter((guest) => guest.name !== accountHolderName);
+    dispatch({ type: 'SET_GUESTS', guests: [...currentAccount, ...otherAccounts] }); // make sure accountHolder always shows up on top
   }, [mockGuests]);
 
   const renderGuest = (guest) => (<Guest guest={guest.item} />);

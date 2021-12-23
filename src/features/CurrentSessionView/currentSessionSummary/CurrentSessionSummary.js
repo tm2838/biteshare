@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { BiteShareContext } from '../../../BiteShareContext.js';
 
 import GuestList from './GuestList.js';
 import SplitBillOptions from './SplitBillOptions.js';
@@ -21,11 +22,12 @@ const styles = StyleSheet.create({
 });
 
 const CurrentSessionSummary = () => {
+  const { state: { accountType } } = useContext(BiteShareContext);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Summary</Text>
       <GuestList />
-      <SplitBillOptions />
+      {accountType === 'HOST' && <SplitBillOptions />}
     </View>
   );
 };

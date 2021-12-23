@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Text, View, StyleSheet, Image } from 'react-native';
 import { SwipeRow } from 'react-native-swipe-list-view';
 import { colors } from '../../../infrastructure/colors.js';
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  hiddernView: {
+  hiddenView: {
     padding: 10,
     flexDirection: 'row',
     backgroundColor: colors.brand.rausch,
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 });
 
 const Guest = ({ guest }) => {
-  const { state: { accountHolderName, guests }, dispatch } = useContext(BiteShareContext);
+  const { state: { accountHolderName, accountType, guests }, dispatch } = useContext(BiteShareContext);
   const [status, setStatus] = useState('access'); // status: access/ready/not ready;
   // @TODO:
   // not ready -> ready status change should be triggered by clicking on 'I'm ready' in menu's tab
@@ -52,8 +52,18 @@ const Guest = ({ guest }) => {
   const allowButtonStyle = { margin: 0, marginRight: 10, backgroundColor: colors.brand.beachLight };
   const denyButtonStyle = { margin: 0, backgroundColor: colors.brand.kazanLight };
 
-  const swipeable = accountHolderName !== guest.name && status !== 'access';
+  const swipeable = accountHolderName !== guest.name && status !== 'access' && accountType !== 'GUEST';
   const profilePicturePath = '../../../../assets/femaleUser.png';
+
+  const hostViewAccessStage = status === 'access' && accountHolderName !== guest.name && accountType === 'HOST';
+  const accountHolderOrderStage = status !== 'access' && accountType === 'HOST';
+  const guestView = accountType === 'GUEST' && accountHolderName === guest.name;
+
+  useEffect(() => {
+    if (accountType === 'HOST' && accountHolderName === guest.name) {
+      setStatus('not ready');
+    }
+  }, [accountType, accountHolderName]);
 
   const handleAllowGuest = () => {
     // @TODO: update DB to include user as guest in transaction
@@ -69,7 +79,7 @@ const Guest = ({ guest }) => {
   return (
     <SwipeRow rightOpenValue={-80} disableRightSwipe disableLeftSwipe={!swipeable}>
 
-      <View style={styles.hiddernView} >
+      <View style={styles.hiddenView} >
         <Text></Text>
         <Text onPress={handleDenyGuest}>Remove</Text>
       </View>
@@ -79,13 +89,21 @@ const Guest = ({ guest }) => {
           <Image source={require(profilePicturePath)} style={styles.profile}/>
           <Text>{accountHolderName === guest.name ? 'You' : guest.name }</Text>
         </View>
-        {(status === 'access' && accountHolderName !== guest.name)
-          ?
+        {hostViewAccessStage
+          &&
           <View style={styles.buttonContainer}>
             <BiteshareButton size={70} title='Allow' buttonStyle={allowButtonStyle} onPress={handleAllowGuest} />
             <BiteshareButton size={70} title='Deny' buttonStyle={denyButtonStyle} onPress={handleDenyGuest} />
           </View>
-          :
+        }
+        {accountHolderOrderStage
+          &&
+          <View style={styles.buttonContainer}>
+            <BiteshareButton size={70} title='Not Ready' buttonStyle={{ margin: 0 }} disabled={true} />
+          </View>
+        }
+        {guestView
+          &&
           <View style={styles.buttonContainer}>
             <BiteshareButton size={70} title='Not Ready' buttonStyle={{ margin: 0 }} disabled={true} />
           </View>
