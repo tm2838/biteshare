@@ -6,9 +6,8 @@ import { BiteShareContext } from '../../../BiteShareContext.js';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.5,
     alignItems: 'center',
-    justifyContent: 'center',
+    marginTop: 50,
   },
   titleContainer: {
     borderRadius: 5,

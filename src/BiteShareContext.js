@@ -4,6 +4,7 @@ export const biteShareState = {
   isEveryoneReady: false,
   splitMethod: '',
   totalBill: 0,
+  guests: [],
   restaurantName: 'BRAZILIAN RESTAURANT BREWING',
   accountHolderName: 'Susan',
   accountType: 'HOST'
@@ -17,6 +18,8 @@ export const biteShareReducer = (state, action) => {
     return {...state, splitMethod: action.splitMethod};
   case 'SET_TOTAL_BILL':
     return {...state, totalBill: action.totalBill};
+  case 'SET_GUESTS':
+    return {...state, guests: action.guests};
   case 'SET_RESTAURANT_NAME':
     return {...state, restaurantName: action.restaurantName};
   case 'SET_ACCOUNT_HOLDER_NAME':

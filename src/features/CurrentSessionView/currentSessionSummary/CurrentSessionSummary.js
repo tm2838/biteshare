@@ -10,13 +10,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 200,
-    height: 500
   },
+  title: {
+    marginTop: 20,
+    fontSize: 25,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    height: 50,
+  }
 });
 
 const CurrentSessionSummary = () => {
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Summary</Text>
       <GuestList />
       <SplitBillOptions />
     </View>
