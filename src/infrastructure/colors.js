@@ -3,6 +3,7 @@ export const colors = {
     rausch: '#F06868',
     ebisu: '#F3E1D2',
     ebisuLight: 'rgba(243, 225, 210, 0.6)', // transferred to rgba to set background opacity without affecting text
+    body: 'rgba(243,225,210,0.4)',
     kazan: '#1C4561',
     kazanLight: 'rgba(28, 69, 97, 0.6)',
     kazanLight2: 'rgba(138, 181, 187, 0.3)',

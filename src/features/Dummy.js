@@ -14,7 +14,7 @@ const Title2 = styled.Text`
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(243,225,210,0.4)',
+    backgroundColor: colors.brand.ebisuLight,
     alignItems: 'center',
     justifyContent: 'center',
   },

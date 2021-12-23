@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   baseText: {
-
     fontFamily: 'Montserrat_600SemiBold',
     fontSize: 20,
     paddingTop: 30,
@@ -28,7 +27,7 @@ const HostQR = () => {
     // eslint-disable-next-line no-use-before-define
     <View style={styles.container}>
       <QRCode
-        value='some string value'
+        value='http://google.com'
         color={'#0B113E'}
         backgroundColor={'white'}
         size={100}
