@@ -52,7 +52,7 @@ const Guest = ({ guest }) => {
   const allowButtonStyle = { margin: 0, marginRight: 10, backgroundColor: colors.brand.beachLight };
   const denyButtonStyle = { margin: 0, backgroundColor: colors.brand.kazanLight };
 
-  const swipeable = currentUser !== guest.item.name && status === 'access';
+  const swipeable = currentUser !== guest.item.name && status !== 'access';
 
   const handleAllowGuest = () => {
     // @TODO: update DB to include user as guest in transaction
