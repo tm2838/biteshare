@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import SafeArea from '../../components/SafeArea';
 import CurrentSessionHeader from './CurrentSessionHeader';
-import CurrentSessionSummary from './currentSessionSummary/CurrentSessionSummary';
+import CurrentSessionSummary from './currentSessionSummary/CurrentSessionSummary.Screen';
 import CurrentSessionTopNavBar from './CurrentSessionNavBar';
 import CurrentSessionBills from './currentSessionBills/CurrentSessionBills.Screen';
 import CurrentSessionQRCode from './currentSessionQRCode/currentSessionQRCode.Screen';
