@@ -1,9 +1,11 @@
 [
   {
-    "name": "Susan"
+    "name": "Susan",
+    "orderStatus": "Not Ready"
   },
   {
     "name": "Greg",
+    "orderStatus": "Ready",
     "orderedItems": [
       {
         "name": "1 Large 2 Topping Pizza Special",
@@ -32,18 +34,23 @@
     ]
   },
   {
-    "name": "Ava"
+    "name": "Ava",
+    "orderStatus": "Not Ready"
   },
   {
-    "name": "Alex"
+    "name": "Alex",
+    "orderStatus": "Not Ready"
   },
   {
-    "name": "Ali"
+    "name": "Ali",
+    "orderStatus": "Not Ready"
   },
   {
-    "name": "Linda"
+    "name": "Linda",
+    "orderStatus": "Not Ready"
   },
   {
-    "name": "Peep"
+    "name": "Jennie",
+    "orderStatus": "Not Ready"
   }
 ]

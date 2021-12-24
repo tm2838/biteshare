@@ -47,7 +47,9 @@ const styles = StyleSheet.create({
 });
 
 const Guest = ({ guest }) => {
+  const profilePicturePath = '../../../../assets/femaleUser.png';
   const { state: { accountHolderName, accountType, guests }, dispatch } = useContext(BiteShareContext);
+  const [itemPrice, setItemPrice] = useState(0);
   const [rowDisabled, setRowDisabled] = useState(false);
   const [showOrderedItem, setShowOrderedItem] = useState(false);
   const [status, setStatus] = useState('access'); // status: access/ready/not ready;
@@ -55,25 +57,45 @@ const Guest = ({ guest }) => {
   // not ready -> ready status change should be triggered by clicking on 'I'm ready' in menu's tab
   // DB should be updated on click
   // the summary page should pull from DB periodically to see whether that status has changed?
+  // or socket.io?
   const allowButtonStyle = { margin: 0, marginRight: 10, backgroundColor: colors.brand.beachLight };
   const denyButtonStyle = { margin: 0, backgroundColor: colors.brand.kazanLight };
 
+  // 'swipe to remove guest' only when current user is host and the guest is granted access to the session
   const swipeable = accountHolderName !== guest.name && status !== 'access' && accountType !== 'GUEST';
-  const profilePicturePath = '../../../../assets/femaleUser.png';
 
+  // host: access stage, should see allow/deny for everyone else
   const hostViewAccessStage = status === 'access' && accountHolderName !== guest.name && accountType === 'HOST';
-  const accountHolderOrderStage = status !== 'access' && accountType === 'HOST';
+
+  // host: order stage, should see status indicator for everyone
+  const hostViewOrderStageNotReady = status === 'not ready' && accountType === 'HOST';
+  const hostViewOrderStageReady = status === 'ready' && accountType === 'HOST';
+
+  // guest: order stage, should see status indicator for self and not anyone else
   const guestView = accountType === 'GUEST' && accountHolderName === guest.name;
 
   useEffect(() => {
-    if (accountType === 'HOST' && accountHolderName === guest.name) {
+    if (accountHolderName === guest.name && guest.orderStatus === 'Not Ready') {
       setStatus('not ready');
+    } else if (accountHolderName === guest.name && guest.orderStatus === 'Ready') {
+      setStatus('ready');
     }
   }, [accountType, accountHolderName]);
 
+  useEffect(() => {
+    if (status === 'ready' && guest.orderedItems) {
+      const currentPrice = guest.orderedItems.reduce((totalPrice, item) => totalPrice + item.price, 0);
+      setItemPrice(currentPrice);
+    }
+  }, [status]);
+
   const handleAllowGuest = () => {
     // @TODO: update DB to include user as guest in transaction
-    setStatus('not ready');
+    if (guest.orderStatus === 'Not Ready') {
+      setStatus('not ready');
+    } else if (guest.orderStatus === 'Ready') {
+      setStatus('ready');
+    }
   };
 
   const handleDenyGuest = () => {
@@ -123,10 +145,18 @@ const Guest = ({ guest }) => {
             </View>
           }
 
-          {accountHolderOrderStage
+          {hostViewOrderStageNotReady
             &&
             <View style={styles.buttonContainer}>
               <BiteshareButton size={70} title='Not Ready' buttonStyle={{ margin: 0 }} disabled={true} />
+            </View>
+          }
+
+          {hostViewOrderStageReady
+            &&
+            <View style={styles.buttonContainer}>
+              <BiteshareButton size={70} title='Ready' buttonStyle={allowButtonStyle} disabled={true} />
+              <Text style={{ marginLeft: 100 }}>{`$${itemPrice}`}</Text>
             </View>
           }
 

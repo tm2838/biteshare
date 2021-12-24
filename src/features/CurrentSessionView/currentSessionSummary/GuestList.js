@@ -23,6 +23,12 @@ const GuestList = () => {
     dispatch({ type: 'SET_GUESTS', guests: [...currentAccount, ...otherAccounts] }); // make sure accountHolder always shows up on top
   }, [mockGuests]);
 
+  useEffect(() => {
+    if (guests.length && guests.every((guest) => guest.orderStatus === 'Ready')) {
+      dispatch({ type: 'SET_ORDER_STATUS', isEveryoneReady: true });
+    }
+  }, [guests]);
+
   const renderGuest = (guest) => (<Guest guest={guest.item} />);
 
   return (
