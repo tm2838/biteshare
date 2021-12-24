@@ -12,14 +12,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 250,
   },
   title: {
-    marginTop: 20,
+    marginTop: '5%',
     fontSize: 25,
     fontWeight: 'bold',
     textAlign: 'center',
-    height: 50,
+    height: '10%',
   }
 });
 
