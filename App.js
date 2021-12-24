@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { StatusBar } from 'expo-status-bar';
 import React, { useReducer } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
@@ -9,10 +10,42 @@ import { signUpNewUser } from './firebase/helpers/authentication.firebase.js';
 import { addNewDocument, getAllDocuments } from './firebase/helpers/database.firebase.js';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './src/features/HomeView/Home.Screen.js';
+import AppLoading from 'expo-app-loading';
+
+
+import {
+  useFonts,
+  OpenSans_300Light,
+  OpenSans_400Regular,
+  OpenSans_600SemiBold,
+  OpenSans_700Bold,
+
+} from '@expo-google-fonts/open-sans';
+import {
+
+  Montserrat_300Light,
+  Montserrat_400Regular,
+  Montserrat_500Medium,
+  Montserrat_600SemiBold,
+  Montserrat_700Bold,
+
+} from '@expo-google-fonts/montserrat';
+
 
 
 export default function App() {
   const [state, dispatch] = useReducer(biteShareReducer, biteShareState);
+  let [fontsLoaded] = useFonts({
+    OpenSans_300Light,
+    OpenSans_400Regular,
+    OpenSans_600SemiBold,
+    OpenSans_700Bold,
+    Montserrat_300Light,
+    Montserrat_400Regular,
+    Montserrat_500Medium,
+    Montserrat_600SemiBold,
+    Montserrat_700Bold,
+  });
   // The following methods is a test/example code.
   // Please delete it when someone starts working on authentication
   // signUpNewUser('jane.doe@gmail.com', 'test123')
@@ -56,12 +89,15 @@ export default function App() {
   });
   return (
     <BiteShareContext.Provider value={{ state, dispatch }}>
-      <ThemeProvider theme={theme}>
-        <NavigationContainer>
-          <HomeScreen />
-        </NavigationContainer>
-        {/* <DummyComponent /> */}
-      </ThemeProvider>
+      { !fontsLoaded
+        ? <AppLoading />
+        : (<ThemeProvider theme={theme}>
+          <NavigationContainer>
+            <HomeScreen />
+          </NavigationContainer>
+          {/* <DummyComponent /> */}
+        </ThemeProvider>)
+      }
 
     </BiteShareContext.Provider>
   );
