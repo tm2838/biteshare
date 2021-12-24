@@ -23,7 +23,7 @@ const CurrentSessionScreen = () => {
     <SafeArea>
       <View style = {styles.container}>
         <CurrentSessionHeader />
-        <CurrentSessionTopNavBar changeTab = {setCurrentTab} />
+        <CurrentSessionTopNavBar changeTab = {setCurrentTab} currentTab = {currentTab} />
         {currentTab === 'Menu' && <CurrentSessionMenu changeTab = {setCurrentTab} />}
         {currentTab === 'Bills' && <CurrentSessionBills changeTab = {setCurrentTab} />}
         {currentTab === 'QR Code' && <CurrentSessionQRCode changeTab = {setCurrentTab} />}

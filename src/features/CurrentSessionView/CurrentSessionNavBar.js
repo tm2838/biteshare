@@ -14,8 +14,14 @@ const styles = StyleSheet.create({
     maxHeight: 60
   },
   images: {
-    height: 30,
-    width: 30,
+    height: 40,
+    width: 40,
+  },
+  activeImages: {
+    height: 40,
+    width: 40,
+    backgroundColor: 'white',
+    borderRadius: 50,
   },
   tabs: {
     flex: 1,
@@ -33,7 +39,7 @@ const styles = StyleSheet.create({
 
 
 
-const CurrentSessionTopNavBar = ({ changeTab }) => {
+const CurrentSessionTopNavBar = ({ changeTab, currentTab }) => {
   const { state: {accountType}, dispatch } = useContext(BiteShareContext);
   const [bills, setBills] = useState('Bills');
   const [menu, setMenu] = useState('Menu');
@@ -52,25 +58,25 @@ const CurrentSessionTopNavBar = ({ changeTab }) => {
       <View style = {styles.tabs}>
         <View>
           <TouchableOpacity onPress={() => handleTabRouting(bills)} style={styles.tabsImages} >
-            <Image style = {styles.images} source={require('../../../assets/bill-image.png')}/>
+            <Image style = {currentTab === 'Bills' ? styles.activeImages : styles.images} source={require('../../../assets/bill-image.png')}/>
             <Text>{bills}</Text>
           </TouchableOpacity>
         </View>
         <View>
           <TouchableOpacity onPress={() => handleTabRouting(menu)} style={styles.tabsImages}>
-            <Image style = {styles.images} source={require('../../../assets/menu-image.png')}/>
+            <Image style = {currentTab === 'Menu' ? styles.activeImages : styles.images} source={require('../../../assets/menu-image.png')}/>
             <Text>{menu}</Text>
           </TouchableOpacity>
         </View>
         {accountType === 'HOST' && <View>
           <TouchableOpacity onPress={() => handleTabRouting(qrCode)} style={styles.tabsImages}>
-            <Image style = {styles.images} source={require('../../../assets/qr-code-image.png')}/>
+            <Image style = {currentTab === 'QR Code' ? styles.activeImages : styles.images} source={require('../../../assets/qr-code-image.png')}/>
             <Text>{qrCode}</Text>
           </TouchableOpacity>
         </View>}
         <View>
           <TouchableOpacity onPress={() => handleTabRouting(summary)} style={styles.tabsImages}>
-            <Image style = {styles.images} source={require('../../../assets/summary-image.png')}/>
+            <Image style = {currentTab === 'Summary' ? styles.activeImages : styles.images} source={require('../../../assets/summary-image.png')}/>
             <Text>{summary}</Text>
           </TouchableOpacity>
         </View>
