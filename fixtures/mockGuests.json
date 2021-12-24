@@ -1,30 +1,56 @@
 [
   {
     "name": "Susan",
-    "orderedItem": [
+    "orderStatus": "Not Ready"
+  },
+  {
+    "name": "Greg",
+    "orderStatus": "Ready",
+    "orderedItems": [
       {
-        "name": "pizza",
-        "description": "A very delicious pizza",
-        "price": "$11.25"
+        "name": "1 Large 2 Topping Pizza Special",
+        "description": "Includes 2-liter and full order breadsticks.",
+        "pricing": [
+          {
+            "price": 15.99,
+            "currency": "USD",
+            "priceString": "$15.99"
+          }
+        ],
+        "price": 15.99
+      },
+      {
+        "name": "Pizza Special",
+        "description": "Includes 2-liter and full order breadsticks.",
+        "pricing": [
+          {
+            "price": 15.99,
+            "currency": "USD",
+            "priceString": "$15.99"
+          }
+        ],
+        "price": 15.99
       }
     ]
   },
   {
-    "name": "Greg"
+    "name": "Ava",
+    "orderStatus": "Not Ready"
   },
   {
-    "name": "Ava"
+    "name": "Alex",
+    "orderStatus": "Not Ready"
   },
   {
-    "name": "Alex"
+    "name": "Ali",
+    "orderStatus": "Not Ready"
   },
   {
-    "name": "Ali"
+    "name": "Linda",
+    "orderStatus": "Not Ready"
   },
   {
-    "name": "Linda"
-  },
-  {
-    "name": "Peep"
+    "name": "Jennie",
+    "orderStatus": "Not Ready"
   }
 ]
