@@ -8,7 +8,7 @@ export const biteShareState = {
   restaurantName: 'BRAZILIAN RESTAURANT BREWING',
   accountHolderName: 'Susan',
   accountType: 'HOST',
-  sessionId: 1234
+  accountId: 1234
 };
 
 export const biteShareReducer = (state, action) => {
@@ -27,8 +27,8 @@ export const biteShareReducer = (state, action) => {
     return {...state, accountHolderName: action.accountHolderName};
   case 'SET_ACCOUNT_TYPE':
     return {...state, accountType: action.accountType};
-  case 'SET_SESSION_ID':
-    return {...state, sessionId: action.sessionId};
+  case 'SET_ACCOUNT_ID':
+    return {...state, accountId: action.accountId};
   default:
     return state;
   }

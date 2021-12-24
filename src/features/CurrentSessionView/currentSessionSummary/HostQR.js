@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { colors } from '../infrastructure/colors.js';
-import { fonts } from '../infrastructure/fonts.js';
 import QRCode from 'react-native-qrcode-svg';
-import { BiteShareContext } from '../BiteShareContext.js';
+import { BiteShareContext } from '../../../BiteShareContext.js';
+import { colors } from '../../../infrastructure/colors.js';
+import { fonts } from '../../../infrastructure/fonts.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
   },
   baseText: {
     fontFamily: fonts.bodyBold,
+    height: 50,
     fontSize: 20,
     paddingTop: 40,
     color: colors.brand.darkBlue
@@ -25,8 +26,9 @@ const styles = StyleSheet.create({
 });
 
 const HostQR = () => {
-  const { state: { sessionId, accountHolderName }, dispatch } = useContext(BiteShareContext);
-  const someString = `${sessionId}&${accountHolderName}`;
+  const { state: { accountId, accountHolderName, restaurantName }, dispatch } = useContext(BiteShareContext);
+  //also pass in resturant name
+  const someString = `${accountId}&${accountHolderName}&${restaurantName}`;
 
   return (
 
