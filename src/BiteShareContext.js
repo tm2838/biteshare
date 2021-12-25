@@ -6,6 +6,7 @@ export const biteShareState = {
   totalBill: 0,
   guests: [],
   restaurantName: 'BRAZILIAN RESTAURANT BREWING',
+  resturantAddress: '3316 17th St, San Francisco, CA 94110',
   accountHolderName: 'Susan',
   accountType: 'HOST',
   accountId: 1234
@@ -23,6 +24,8 @@ export const biteShareReducer = (state, action) => {
     return {...state, guests: action.guests};
   case 'SET_RESTAURANT_NAME':
     return {...state, restaurantName: action.restaurantName};
+  case 'SET_RESTAURANT_ADDRESS':
+    return {...state, resturantAddress: action.resturantAddress};
   case 'SET_ACCOUNT_HOLDER_NAME':
     return {...state, accountHolderName: action.accountHolderName};
   case 'SET_ACCOUNT_TYPE':
