@@ -12,10 +12,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 300,
+    backgroundColor: colors.brand.body,
+    marginTop: 200,
   },
   baseText: {
-    marginTop: 250,
+    marginTop: 50,
     fontSize: 25,
     textAlign: 'center',
     height: 50,
@@ -26,17 +27,9 @@ const styles = StyleSheet.create({
 
 
 
-
-//   //button allow user to click {on press} - useBiteshare button
-//   //go to this QRScan function to scan the bar code
-//   //
-//   //tab navaigt
-// };
-
-
 const GuestQR = () => {
   const scanQR = '../../../assets/scanQR.png';
-  const { state: { accountId, accountHolderName, restaurantName}, dispatch } = useContext(BiteShareContext);
+  const { state: { accountId, accountHolderName, restaurantName, accountType}, dispatch } = useContext(BiteShareContext);
 
 
 
@@ -97,16 +90,33 @@ const GuestQR = () => {
 
   };
 
+ 
   return (
+
+  //Logic as follows:
+  // susan is HOST as default, therefore QR code is not shown.
+  //only the guest will shown QR code
+
     <View style={styles.container}>
-      <TouchableOpacity activeOpacity = { .5 } onPress={ QRScan }>
-        <Image
-          source = {require(scanQR)}
-        />
-      </TouchableOpacity>
-      <Text style={styles.baseText}>Scan QR code to join</Text>
+      {
+        accountType === 'HOST' //temporary change to HOST to display QR code (Need to change back to GUEST when implementing)
+          ? <TouchableOpacity activeOpacity = { .5 } onPress={ QRScan }>
+            <Image
+              source = {require(scanQR)}
+            />
+            <Text style={styles.baseText}>Scan QR code to join</Text>
+          </TouchableOpacity>
+
+          : <Text style={styles.baseText} > You are currently in a session</Text>
+
+      }
 
     </View>
+
+
+
+
+
   );
 };
 

@@ -11,14 +11,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.brand.body,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 200,
-    fontFamily: fonts.bodyBold,
-    fontSize: 20,
+    marginTop: 20,
+    
   },
   baseText: {
-    fontFamily: fonts.bodyBold,
-    height: 50,
-    fontSize: 20,
+    fontFamily: fonts.body,
+    height: 80,
+    fontSize: 25,
     paddingTop: 40,
     color: colors.brand.darkBlue
   },
@@ -37,7 +36,7 @@ const HostQR = () => {
       <QRCode
         value={someString}
         color={colors.brand.darkBlue}
-        size={200}
+        size={150}
         //  logo={require('../../../embed_logo_file_path')} // or logo={{uri: base64logo}}
         logoMargin={2}
         logoSize={80}
