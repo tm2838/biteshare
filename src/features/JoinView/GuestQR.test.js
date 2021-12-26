@@ -29,13 +29,13 @@ const styles = StyleSheet.create({
 
 const GuestQR = () => {
   const scanQR = '../../../assets/scanQR.png';
-  const { state: { accountId, accountHolderName, restaurantName, accountType}, dispatch } = useContext(BiteShareContext);
+  const { state: { sessionId, accountHolderName, restaurantName, accountType}, dispatch } = useContext(BiteShareContext);
 
 
 
   const QRScan = () => {
     console.log('hello Ready to scan');
-    alert(`Acccount Id: ${accountId} \n HostName:${accountHolderName} \n restaurant Name: ${restaurantName}`);
+    alert(`Acccount Id: ${sessionId} \n HostName:${accountHolderName} \n restaurant Name: ${restaurantName}`);
 
     /*****  https://snack.expo.dev/@sugarexpo/380485
     * This following code works while using on expo.
@@ -90,7 +90,7 @@ const GuestQR = () => {
 
   };
 
- 
+
   return (
 
   //Logic as follows:
