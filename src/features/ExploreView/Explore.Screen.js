@@ -4,7 +4,7 @@ import ExploreHeader from './ExploreHeader';
 import SafeArea from '../../components/SafeArea';
 import ExploreMenu from './ExploreMenu';
 
-const ExploreScreen = () => {
+const ExploreScreen = ({navigation}) => {
   return (
     <SafeArea>
       <View>

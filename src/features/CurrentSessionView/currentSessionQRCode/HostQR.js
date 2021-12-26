@@ -11,8 +11,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.brand.body,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
-    
+  
   },
   baseText: {
     fontFamily: fonts.body,
