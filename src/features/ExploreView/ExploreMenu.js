@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
 
-    backgroundColor: colors.brand.body,
+    // backgroundColor: colors.brand.body,
     height: '76%',
     marginHorizontal: 20,
 
