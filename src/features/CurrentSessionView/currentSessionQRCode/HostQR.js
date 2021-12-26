@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.brand.body,
     alignItems: 'center',
     justifyContent: 'center',
-  
+
   },
   baseText: {
     fontFamily: fonts.body,
@@ -24,9 +24,9 @@ const styles = StyleSheet.create({
 });
 
 const HostQR = () => {
-  const { state: { accountId, accountHolderName, restaurantName }, dispatch } = useContext(BiteShareContext);
+  const { state: { sessionId, accountHolderName, restaurantName }, dispatch } = useContext(BiteShareContext);
   //also pass in resturant name
-  const someString = `${accountId}&${accountHolderName}&${restaurantName}`;
+  const someString = `${sessionId}&${accountHolderName}&${restaurantName}`;
 
   return (
 
