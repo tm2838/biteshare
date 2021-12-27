@@ -1,32 +1,36 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useContext, useState, useEffect} from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { colors } from '../../../infrastructure/colors.js';
 import { fonts } from '../../../infrastructure/fonts.js';
 import BiteshareButton from '../../../components/BiteshareButton.js';
+import { BiteShareContext } from '../../../BiteShareContext';
+
+import SessionMenu from './SessionMenu';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.brand.body,
-    marginTop: 200,
   },
-  baseText: {
-    marginTop: 50,
+  title: {
+    marginTop: '5%',
     fontSize: 25,
+    fontWeight: 'bold',
     textAlign: 'center',
-    height: 50,
-    fontFamily: fonts.body,
-    color: colors.brand.darkBlue
+    height: '10%',
   }
+
 });
 
-
 const CurrentSessionMenu = ({ changeTab }) => {
+  const {state: { restaurantName, restaurantId, restaurantMenus}, dispatch } = useContext(BiteShareContext);
+
+
   return (
-    <View style = {styles.menuContainer}>
-      <Text>This is Menu Screen.</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Menu</Text>
+      <SessionMenu />
     </View>
   );
 };

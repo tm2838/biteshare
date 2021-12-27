@@ -41,13 +41,11 @@ const styles = StyleSheet.create({
 
 const ExploreMenu = () => {
   const navigation = useNavigation();
-  const API_KEY = '157f194895a9ab68497ab203e9092656';
+  const API_KEY = 'EEEEEE157f194895a9ab68497ab203e9092656EEEEE';
   const {state: { restaurantName, restaurantId, restaurantMenus}, dispatch } = useContext(BiteShareContext);
-  // console.log('MENU---------------------->', restaurantMenus);
   const [isLoading, setLoading] = useState(true);
   const [restaurantAddress, setRestaurantAddress] = useState('');
-  // const [menus, setMenus] = useState([]);
-  // console.log(menus);
+
 
   const parseJsonMenu = (data) => {
     let prettyMenu = [];
@@ -60,7 +58,7 @@ const ExploreMenu = () => {
         menuId ++; //to remove the warning sign of providing KEY for each component
       }
     }
-    // setMenus(prettyMenu);
+
     dispatch({ type: 'SET_RESTAURANT_MENU', restaurantMenus: prettyMenu });
   };
 
@@ -68,7 +66,7 @@ const ExploreMenu = () => {
     fetch(`https://api.documenu.com/v2/restaurant/${restaurantId}?key=${API_KEY}`)
       .then((response) => response.json())
       .then((json) => {
-        // console.log('json Data-->', json);
+
         setRestaurantAddress(json.result.address.formatted);
         parseJsonMenu(json.result.menus[0].menu_sections);
 
