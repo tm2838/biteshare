@@ -1,0 +1,56 @@
+[
+  {
+    "name": "Susan",
+    "orderStatus": "Not Ready"
+  },
+  {
+    "name": "Greg",
+    "orderStatus": "Ready",
+    "orderedItems": [
+      {
+        "name": "1 Large 2 Topping Pizza Special",
+        "description": "Includes 2-liter and full order breadsticks.",
+        "pricing": [
+          {
+            "price": 15.99,
+            "currency": "USD",
+            "priceString": "$15.99"
+          }
+        ],
+        "price": 15.99
+      },
+      {
+        "name": "Pizza Special",
+        "description": "Includes 2-liter and full order breadsticks.",
+        "pricing": [
+          {
+            "price": 15.99,
+            "currency": "USD",
+            "priceString": "$15.99"
+          }
+        ],
+        "price": 15.99
+      }
+    ]
+  },
+  {
+    "name": "Ava",
+    "orderStatus": "Not Ready"
+  },
+  {
+    "name": "Alex",
+    "orderStatus": "Not Ready"
+  },
+  {
+    "name": "Ali",
+    "orderStatus": "Not Ready"
+  },
+  {
+    "name": "Linda",
+    "orderStatus": "Not Ready"
+  },
+  {
+    "name": "Jennie",
+    "orderStatus": "Not Ready"
+  }
+]

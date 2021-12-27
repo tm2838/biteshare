@@ -6,8 +6,7 @@ import BiteshareButton from '../components/BiteshareButton.js';
 import { colors } from '../infrastructure/colors.js';
 
 const Title1 = styled.Text`
-color: ${(props) => props.theme.colors.brand.rausch}
-`;
+color: ${(props) => props.theme.colors.brand.rausch}`;
 const Title2 = styled.Text`
   color: ${(props) => props.theme.colors.brand.beach}
 `;
@@ -15,16 +14,17 @@ const Title2 = styled.Text`
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.brand.ebisuLight,
     alignItems: 'center',
     justifyContent: 'center',
   },
 });
 
 const DummyComponent = () => {
-  const { state: { role }, dispatch } = useContext(BiteShareContext);
+  const { state: { role, isEveryoneReady }, dispatch } = useContext(BiteShareContext);
   const handleButtonPress = () => {
     dispatch({ type: 'SET_ROLE', role: ['guest', 'host'].filter((r) => r !== role)[0]});
+    dispatch({ type: 'SET_ORDER_STATUS', isEveryoneReady: !isEveryoneReady });
   };
 
   return (
