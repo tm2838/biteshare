@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Text, View, Image } from 'react-native';
 import SafeArea from '../../components/SafeArea';
-import GuestQR from '../GuestQR.js';
+// import GuestQR from '../GuestQR.js';
 import JoinScreenHeader from './JoinScreenHeader';
 import { colors } from '../../infrastructure/colors';
 

@@ -6,9 +6,12 @@ export const biteShareState = {
   totalBill: 0,
   guests: [],
   restaurantName: 'BRAZILIAN RESTAURANT BREWING',
+  restaurantId: 4073425073993580,
+  restaurantMenus: [],
   accountHolderName: 'Susan',
   accountType: 'HOST',
-  sessionId: 1234
+  sessionId: 1234,
+
 };
 
 export const biteShareReducer = (state, action) => {
@@ -23,6 +26,10 @@ export const biteShareReducer = (state, action) => {
     return {...state, guests: action.guests};
   case 'SET_RESTAURANT_NAME':
     return {...state, restaurantName: action.restaurantName};
+  case 'SET_RESTAURANT_ID':
+    return {...state, restaurantId: action.restaurantId};
+  case 'SET_RESTAURANT_MENU':
+    return {...state, restaurantMenus: action.restaurantMenus};
   case 'SET_ACCOUNT_HOLDER_NAME':
     return {...state, accountHolderName: action.accountHolderName};
   case 'SET_ACCOUNT_TYPE':
