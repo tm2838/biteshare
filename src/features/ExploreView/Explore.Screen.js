@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import ExploreHeader from './ExploreHeader';
 import SafeArea from '../../components/SafeArea';
-import ExploreMenu from './ExploreMenu';
+// import ExploreMenu from './ExploreMenu';
 import { colors } from '../../infrastructure/colors';
 
 
@@ -24,7 +24,7 @@ const ExploreScreen = ({navigation}) => {
     <SafeArea>
       <View>
         <ExploreHeader />
-        <ExploreMenu />
+        {/* <ExploreMenu /> */}
         <View style={styles.exploreTitleContainer}>
           <Text style={styles.exploreTitle}>Testing</Text>
         </View>

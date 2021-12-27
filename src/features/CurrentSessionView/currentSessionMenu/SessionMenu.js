@@ -1,95 +1,51 @@
 import React, { useContext, useState, useEffect} from 'react';
-import { Appbar, List, Button} from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, View, Text, SafeAreaView, ScrollView, StatusBar} from 'react-native';
+import { ActivityIndicator, StyleSheet, View, Text, SafeAreaView, FlatList} from 'react-native';
+// import { Appbar, List, Button} from 'react-native-paper';
+// import { useNavigation } from '@react-navigation/native';
 import { colors } from '../../../infrastructure/colors';
 import { fonts } from '../../../infrastructure/fonts';
 import { BiteShareContext } from '../../../BiteShareContext';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+// import Icon from 'react-native-vector-icons/FontAwesome5';
+import mockParseMenu from '../../../../fixtures/mockParseMenu.json';
+import Menu from './Menu';
 
 const styles = StyleSheet.create({
+
   container: {
-   
-    backgroundColor: colors.brand.body,
-  },
-  scrollView: {
-
-    // backgroundColor: colors.brand.body,
+    // width: 400,
     height: '75%',
-    marginHorizontal: 20,
-    width: '100%'
-
+    margin: 5
+    // backgroundColor: colors.brand.body,
   },
-  button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    fontSize: 20,
-    fontFamily: fonts.subHeading
-  },
-
 
 });
 
 const SessionMenu = () => {
-  // const navigation = useNavigation();
+
   const {state: { restaurantName, restaurantId, restaurantMenus}, dispatch } = useContext(BiteShareContext);
+  // console.log('-------restaurantMenus--------', restaurantMenus);
 
+  useEffect(() => {
+    dispatch({ type: 'SET_RESTAURANT_MENU', restaurantMenus: mockParseMenu });
+  }, [mockParseMenu]);
 
-  // const parseJsonMenu = (data) => {
-  //   let prettyMenu = [];
-  //   let menuId = 1;
-  //   for ( let i = 0; i < data.length; i++) {
-  //     let section = data[i].menu_items;
-  //     for (let j = 0; j < section.length; j++) {
-  //       let item = section[j];
-  //       prettyMenu.push({key: menuId, name: item.name, description: item.description, price: item.price});
-  //       menuId ++; //to remove the warning sign of providing KEY for each component
-  //     }
-  //   }
-
-  //   dispatch({ type: 'SET_RESTAURANT_MENU', restaurantMenus: prettyMenu });
-  // };
-
-  // useEffect(()=>{
-  //   fetch(`https://api.documenu.com/v2/restaurant/${restaurantId}?key=${API_KEY}`)
-  //     .then((response) => response.json())
-  //     .then((json) => {
-
-  //       setRestaurantAddress(json.result.address.formatted);
-  //       parseJsonMenu(json.result.menus[0].menu_sections);
-
-  //     })
-  //     .catch((error => console.error(error)))
-  //     .finally(()=>setLoading(false));
-  // }, []);
-
+  const renderMenus = (menu) => {
+    // console.log('---------------', menu);
+    return (<Menu menu={menu} />);
+  };
   return (
-
-
-    <View >
-
-
-      <ScrollView style={styles.scrollView}>
-
-        {restaurantMenus.map((one) => {
-          return (<List.Item
-            key={one.key}
-            title={one.name}
-            description={one.description}
-            right={()=>(<Text> $ {one.price}</Text>)}
-          />);
-        })}
-
-
-
-      </ScrollView>
-
-    </View>
-
+    <SafeAreaView style={styles.container}>
+      {/* <ActivityIndicator size="small" color={colors.brand.darkBlue} /> */}
+      {/* <Text> Render Menu</Text> */}
+      <FlatList
+        data={restaurantMenus}
+        renderItem={renderMenus}
+        keyExtractor={menu => menu.id}
+        // horizontal={false}
+        // numColumns={2}
+      />
+    </SafeAreaView>
   );
-
 
 
 };

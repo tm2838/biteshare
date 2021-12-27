@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
 
 const ExploreMenu = () => {
   const navigation = useNavigation();
-  const API_KEY = 'EEEEEE157f194895a9ab68497ab203e9092656EEEEE';
+  const API_KEY = 'EEEEEEEEEEEEEEEEEEE157f194895a9ab68497ab203e9092656EEEEEEEEEEEEEEEEE';
   const {state: { restaurantName, restaurantId, restaurantMenus}, dispatch } = useContext(BiteShareContext);
   const [isLoading, setLoading] = useState(true);
   const [restaurantAddress, setRestaurantAddress] = useState('');
@@ -55,7 +55,7 @@ const ExploreMenu = () => {
       for (let j = 0; j < section.length; j++) {
         let item = section[j];
         prettyMenu.push({key: menuId, name: item.name, description: item.description, price: item.price});
-        menuId ++; //to remove the warning sign of providing KEY for each component
+        menuId ++; //to remove the warning from react console - providing KEY for each component
       }
     }
 
@@ -88,7 +88,7 @@ const ExploreMenu = () => {
 
               <ScrollView style={styles.scrollView}>
                 <List.Subheader>
-                  <Text style={styles.text}>Menus</Text>
+                  <Text style={styles.text}>Menu</Text>
                 </List.Subheader>
                 {restaurantMenus.map((one) => {
                   return (<List.Item

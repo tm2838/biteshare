@@ -6,6 +6,7 @@ import BiteshareButton from '../../../components/BiteshareButton.js';
 import { BiteShareContext } from '../../../BiteShareContext';
 
 import SessionMenu from './SessionMenu';
+import ReadyButton from './ReadyButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -31,6 +32,7 @@ const CurrentSessionMenu = ({ changeTab }) => {
     <View style={styles.container}>
       <Text style={styles.title}>Menu</Text>
       <SessionMenu />
+      <ReadyButton />
     </View>
   );
 };
