@@ -8,7 +8,7 @@ import { colors } from '../../infrastructure/colors';
 
 const styles = StyleSheet.create({
   exploreTitle: {
-    color: colors.brgiand.kazan,
+    color: colors.brand.kazan,
     fontSize: 24,
   },
 
