@@ -7,7 +7,7 @@ import { theme } from './src/infrastructure/index.js';
 import DummyComponent from './src/features/Dummy.js';
 import { BiteShareContext, biteShareReducer, biteShareState } from './src/BiteShareContext';
 import { signUpNewUser } from './firebase/helpers/authentication.firebase.js';
-import { addNewDocument, getAllDocuments } from './firebase/helpers/database.firebase.js';
+import { addANewAnonymousDocument, getAllDocuments, readDocSnapshotListener, readQuerySnapshotListener } from './firebase/helpers/database.firebase.js';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './src/features/HomeView/Home.Screen.js';
 import AppLoading from 'expo-app-loading';
@@ -31,7 +31,48 @@ import {
 
 } from '@expo-google-fonts/montserrat';
 
+// ........Testing.........
+// addANewNamedDocument('cities', 'SF', {
+//   name: 'San Fransisco',
+//   state: 'CA',
+//   country: 'USA',
+//   capital: false,
+//   population: 860000,
+//   regions: ['west_coast', 'norcal']
+// });
+// addANewNamedDocument('cities', 'LA', {
+//   name: 'Los Angeles',
+//   state: 'CA',
+//   country: 'USA',
+//   capital: false,
+//   population: 390000,
+//   regions: ['west_coast', 'socal']
+// });
+// addANewNamedDocument('cities', 'DC', {
+//   name: 'Washington D.C',
+//   state: null,
+//   country: 'USA',
+//   capital: true,
+//   population: 680000,
+//   regions: ['east_coast']
+// });
+// addANewNamedDocument('cities', 'TOK', {
+//   name: 'Tokyo',
+//   state: null,
+//   country: 'Japan',
+//   capital: true,
+//   population: 900000,
+//   regions: ['kanto', 'honshu']
+// });
+readQuerySnapshotListener('cities', 'state', '==', 'CA', (querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+    console.log('Size: ', querySnapshot.length);
+    console.log('Snapshot results: ', doc.data());
+  });
+  console.log('=======================================');
+});
 
+// .........Testing.............
 
 export default function App() {
   const [state, dispatch] = useReducer(biteShareReducer, biteShareState);
@@ -46,38 +87,6 @@ export default function App() {
     Montserrat_600SemiBold,
     Montserrat_700Bold,
   });
-  // The following methods is a test/example code.
-  // Please delete it when someone starts working on authentication
-  // signUpNewUser('jane.doe@gmail.com', 'test123')
-  //   .then((userCredentails) => {
-  //     console.log('User Credentials: ', userCredentails);
-  //   })
-  //   .catch((error) => {
-  //     console.log('Error: ', error);
-  //   });
-
-  // addNewDocument('users', {
-  //   firstName: 'Alan',
-  //   middleName: 'Mathison',
-  //   lastName: 'Turing',
-  //   born: 1912,
-  // })
-  //   .then((docRef) => {
-  //     console.log('Document written with ID: ', docRef.id);
-
-  //     getAllDocuments('users')
-  //       .then((querySnapshot) => {
-  //         querySnapshot.forEach((doc) => {
-  //           console.log(`${doc.id} => ${doc.data()}`);
-  //         });
-  //       })
-  //       .catch((error) => {
-  //         console.log('Error reading document');
-  //       });
-  //   })
-  //   .catch((error) => {
-  //     console.error('Error adding document: ', e);
-  //   });
 
   const styles = StyleSheet.create({
     container: {
