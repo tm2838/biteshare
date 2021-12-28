@@ -12,16 +12,10 @@ const styles = StyleSheet.create({
   },
 
   restaurantContainer: {
-    // flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
     padding: 20
-  },
-
-  // button: {
-  //   color: colors.brand.kazan,
-  //   fontSize: 24
-  // }
+  }
 });
 
 const RestaurantInfo = (restaurant = {}) => {

@@ -1,6 +1,7 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import { Searchbar } from 'react-native-paper';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList } from 'react-native';
 import ExploreHeader from './ExploreHeader';
 import SafeArea from '../../components/SafeArea';
 import ExploreMenu from './ExploreMenu';
@@ -13,6 +14,24 @@ const styles = StyleSheet.create({
     padding: 30
   }
 });
+
+const DATA = [
+  {
+    restaurant_name: 'Testing',
+    restaurant_phone: '909999892389',
+    price_range: '$$$',
+    cuisines: ['American'],
+    address: { street: 'some street' }
+  },
+  {
+    restaurant_name: 'Testing',
+    restaurant_phone: '909999892389',
+    price_range: '$$$',
+    cuisines: ['American'],
+    address: { street: 'some street' }
+  }
+];
+
 
 const ExploreScreen = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = React.useState('');
@@ -34,7 +53,11 @@ const ExploreScreen = ({ navigation }) => {
           />
         </View>
 
-        <RestaurantInfo />
+        <FlatList
+          data={DATA}
+          renderItem={RestaurantInfo}
+          keyExtractor={item => item.restaurant_name}
+        />
 
       </View>
     </SafeArea>
