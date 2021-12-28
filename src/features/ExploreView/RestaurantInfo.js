@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useEffect, useContext } from 'react';
+import { BiteShareContext } from '../../BiteShareContext.js';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button, Card } from 'react-native-paper';
 import { colors } from '../../infrastructure/colors';
 
@@ -14,22 +15,35 @@ const styles = StyleSheet.create({
   restaurantContainer: {
     flexDirection: 'column',
     justifyContent: 'center',
-    padding: 20
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 15
+  },
+
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '45%',
+    height: 40,
+    margin: 7,
+    padding: 10,
+    borderRadius: 50,
+    backgroundColor: colors.brand.ebisuLight,
+    color: colors.brand.rausch
   }
 });
 
 const RestaurantInfo = ({ restaurant }) => {
-  // const {
-  //   restaurant_name,
-  //   photo = 'https://www.foodiesfeed.com/free-food-photo/noodles-with-egg-and-vegetables/',
-  //   restaurant_phone,
-  //   price_range,
-  //   restaurant_id,
-  //   cuisines = [],
-  //   address = { street: '111 Made up Street' }
-  // } = restaurant;
-  const seeFullMenuButtonPress = (restaurantId) => {
-    alert(`restaurantId: ${restaurantId}`);
+  const { state: { restaurantId }, dispatch } = useContext(BiteShareContext);
+
+  const seeFullMenuButtonPress = (restaurant_id) => {
+    //@TODO: trying to update state, but need to find a different method.
+    // useEffect(() => {
+    //   dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: restaurant_id });
+    // }, []);
+    // console.log(restaurantId);
+
+    alert(`restaurant_id: ${restaurant_id}`);
   };
 
   // console.log('RESTAURANT: ', restaurant);
@@ -37,21 +51,24 @@ const RestaurantInfo = ({ restaurant }) => {
     <View style={styles.restaurantContainer}>
       <Card style={styles.card} elevation={2}>
         <Card.Cover key={restaurant.restaurant_name} source={{ uri: 'https://picsum.photos/700' }} />
-        <Card.Title title={restaurant.restaurant_name} subtitle={restaurant.price_range || 'price range'} />
+        <Card.Title
+          title={restaurant.restaurant_name}
+          subtitle={restaurant.price_range || '$$'}
+          subtitleStyle={{ color: colors.brand.rausch }} />
         <Card.Content>
-          {restaurant.cuisines.length && <Text>{restaurant.cuisines.join(', ')}</Text>}
+          {restaurant.cuisines.length > 1 && <Text>{restaurant.cuisines.join(', ')}</Text>}
           <Text>{restaurant.restaurant_phone}</Text>
           <Text>{restaurant.address.street}</Text>
           {/* <Text>{restaurant.restaurant_id}</Text> */}
         </Card.Content>
-        <Card.Actions>
-          <Button
-            onPress={() => seeFullMenuButtonPress(restaurant.restaurant_id)}
-            color={colors.brand.body}
-            mode={'contained'}>
-            See Full Menu
-          </Button>
-        </Card.Actions>
+        <View style={{ alignItems: 'center' }}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => seeFullMenuButtonPress(restaurant.restaurant_id)}>
+            <Text style={{ color: colors.brand.kazan, fontWeight: '600' }}>See Full Menu</Text>
+          </TouchableOpacity>
+
+        </View>
       </Card>
     </View>
   );

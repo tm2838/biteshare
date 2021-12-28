@@ -13,7 +13,8 @@ import { colors } from '../../infrastructure/colors';
 
 const styles = StyleSheet.create({
   search: {
-    padding: 30
+    padding: 30,
+    paddingBottom: 10
   }
 });
 
@@ -45,7 +46,7 @@ const ExploreScreen = ({ navigation }) => {
             placeholder="Zipcode: 48103"
             onChangeText={onChangeSearch}
             value={searchQuery}
-            iconColor={colors.brand.kazan}
+            iconColor={colors.brand.rausch}
             onIconPress={() => alert('Icon pressed!')}
           />
         </View>
