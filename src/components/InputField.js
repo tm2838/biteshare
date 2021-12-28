@@ -8,12 +8,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   container: {
+    width: '90%',
     padding: 5
   }
 });
 
-export default function InputField({ placeholder, secureText }) {
-  const [inputValue, setInputValue] = useState(null);
+export default function InputField({ placeholder, secureText, inputValue, setInputValue }) {
+  // const [inputValue, setInputValue] = useState(null);
 
   return (
     <View style={styles.container}>

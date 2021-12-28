@@ -11,8 +11,10 @@ import { addNewDocument, getAllDocuments } from './firebase/helpers/database.fir
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './src/features/HomeView/Home.Screen.js';
 import AppLoading from 'expo-app-loading';
-import LoginView from './src/features/LoginView/Login.Screen';
+import LoginScreen from './src/features/LoginView/Login.Screen';
 
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+const Stack = createNativeStackNavigator();
 
 import {
   useFonts,
@@ -95,7 +97,10 @@ export default function App() {
         ? <AppLoading />
         : (<ThemeProvider theme={theme}>
           <NavigationContainer>
-            <LoginView />
+            <Stack.Navigator>
+              <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
+              <Stack.Screen options={{ headerShown: false }} name="Home" component={HomeScreen} />
+            </Stack.Navigator>
           </NavigationContainer>
           {/* <DummyComponent /> */}
         </ThemeProvider>)
