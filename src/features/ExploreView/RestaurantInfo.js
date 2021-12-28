@@ -32,14 +32,14 @@ const RestaurantInfo = ({ restaurant }) => {
     alert(`restaurantId: ${restaurantId}`);
   };
 
-  console.log('RESTAURANT: ', restaurant);
+  // console.log('RESTAURANT: ', restaurant);
   return (
     <View style={styles.restaurantContainer}>
       <Card style={styles.card} elevation={2}>
         <Card.Cover key={restaurant.restaurant_name} source={{ uri: 'https://picsum.photos/700' }} />
-        <Card.Title title={restaurant.restaurant_name} subtitle={restaurant.price_range || 'price'} />
+        <Card.Title title={restaurant.restaurant_name} subtitle={restaurant.price_range || 'price range'} />
         <Card.Content>
-          <Text>{restaurant.cuisines[0] || 'cuisine'}</Text>
+          {restaurant.cuisines.length && <Text>{restaurant.cuisines.join(', ')}</Text>}
           <Text>{restaurant.restaurant_phone}</Text>
           <Text>{restaurant.address.street}</Text>
           {/* <Text>{restaurant.restaurant_id}</Text> */}
