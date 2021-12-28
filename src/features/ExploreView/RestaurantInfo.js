@@ -37,15 +37,11 @@ const RestaurantInfo = ({ restaurant }) => {
   const { state: { restaurantId }, dispatch } = useContext(BiteShareContext);
 
   const seeFullMenuButtonPress = (restaurant_id) => {
-    //@TODO: trying to update state, but need to find a different method.
-    // useEffect(() => {
-    //   dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: restaurant_id });
-    // }, []);
-    // console.log(restaurantId);
-
+    dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: restaurant_id });
     alert(`restaurant_id: ${restaurant_id}`);
   };
 
+  // console.log('afterbuttonclick: ' + restaurantId);
   // console.log('RESTAURANT: ', restaurant);
   return (
     <View style={styles.restaurantContainer}>

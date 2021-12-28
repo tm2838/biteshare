@@ -6,9 +6,9 @@ export const biteShareState = {
   splitMethod: '',
   totalBill: 0,
   guests: [],
-  restaurants: [],
+  restaurants: [], //restaurants displayed in ExplorePage
   restaurantName: 'BRAZILIAN RESTAURANT BREWING',
-  restaurantId: 4073425073993580,
+  restaurantId: null, //updates when user clicks See Full Menu from ExplorePage
   restaurantMenus: [],
   accountHolderName: 'Susan',
   accountType: 'HOST',
