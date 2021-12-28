@@ -41,22 +41,26 @@ const ExploreScreen = ({ navigation }) => {
     <SafeArea>
       <View>
         <ExploreHeader />
-        {/* <ExploreMenu /> */}
-        <View style={styles.search}>
-          <Searchbar
-            placeholder="Zipcode: 48103"
-            onChangeText={onChangeSearch}
-            value={searchQuery}
-            iconColor={colors.brand.rausch}
-            onIconPress={() => alert('Icon pressed!')}
-          />
-        </View>
+        {
+          restaurantId ? <ExploreMenu /> :
+            <>
+              <View style={styles.search}>
+                <Searchbar
+                  placeholder="Zipcode: 48103"
+                  onChangeText={onChangeSearch}
+                  value={searchQuery}
+                  iconColor={colors.brand.rausch}
+                  onIconPress={() => alert('Icon pressed!')}
+                />
+              </View>
 
-        <FlatList
-          data={restaurants}
-          renderItem={renderRestaurant}
-          keyExtractor={restaurant => restaurant.restaurant_name}
-        />
+              <FlatList
+                data={restaurants}
+                renderItem={renderRestaurant}
+                keyExtractor={restaurant => restaurant.restaurant_name}
+              />
+            </>
+        }
 
       </View>
     </SafeArea>
