@@ -50,6 +50,16 @@ const RestaurantInfo = ({ restaurant }) => {
         </Card.Actions>
       </Card> */}
       <Text>{restaurant.address.street}</Text>
+      <Text>{restaurant.restaurant_name}</Text>
+      <Text>{restaurant.restaurant_phone}</Text>
+      <Text>{restaurant.price_range || 'price'}</Text>
+      <Text>{restaurant.cuisines[0] || 'cuisine'}</Text>
+      <Text>{restaurant.restaurant_id}</Text>
+
+
+
+
+
     </View>
   );
 };
