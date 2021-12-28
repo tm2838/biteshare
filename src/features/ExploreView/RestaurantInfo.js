@@ -50,7 +50,7 @@ const RestaurantInfo = ({ restaurant }) => {
   return (
     <View style={styles.restaurantContainer}>
       <Card style={styles.card} elevation={2}>
-        <Card.Cover key={restaurant.restaurant_name} source={{ uri: 'https://picsum.photos/700' }} />
+        <Card.Cover key={restaurant.restaurant_name} source={{ uri: 'https://loremflickr.com/320/240/food' }} />
         <Card.Title
           title={restaurant.restaurant_name}
           subtitle={restaurant.price_range || '$$'}

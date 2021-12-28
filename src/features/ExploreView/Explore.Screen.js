@@ -26,6 +26,7 @@ const ExploreScreen = ({ navigation }) => {
 
   const { state: { restaurants, restaurantId }, dispatch } = useContext(BiteShareContext);
 
+  //@TODO: update to use real data
   useEffect(() => {
     const restaurantsData = mockRestaurants.data;
     dispatch({ type: 'SET_RESTAURANTS', restaurants: restaurantsData });
