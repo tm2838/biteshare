@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import SafeArea from '../../components/SafeArea';
 import CurrentSessionHeader from './CurrentSessionHeader';
@@ -17,8 +17,15 @@ const styles = StyleSheet.create({
   }
 });
 
-const CurrentSessionScreen = () => {
+const CurrentSessionScreen = ({ route }) => {
+
   const [currentTab, setCurrentTab] = useState('Menu');
+  // useEffect(()=>{
+  //   // console.log('route-->', route);
+  //   if (route.params.previous === 'create a session') {
+  //     setCurrentTab('QR Code');
+  //   }
+  // }, []);
   return (
     <SafeArea>
       <View style={styles.container}>
