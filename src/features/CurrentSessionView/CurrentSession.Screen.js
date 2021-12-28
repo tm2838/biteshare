@@ -21,13 +21,13 @@ const CurrentSessionScreen = () => {
   const [currentTab, setCurrentTab] = useState('Menu');
   return (
     <SafeArea>
-      <View style = {styles.container}>
+      <View style={styles.container}>
         <CurrentSessionHeader />
-        <CurrentSessionTopNavBar changeTab = {setCurrentTab} currentTab = {currentTab} />
-        {currentTab === 'Menu' && <CurrentSessionMenu changeTab = {setCurrentTab} />}
-        {currentTab === 'Bills' && <CurrentSessionBills changeTab = {setCurrentTab} />}
-        {currentTab === 'QR Code' && <CurrentSessionQRCode changeTab = {setCurrentTab} />}
-        {currentTab === 'Summary' && <CurrentSessionSummary changeTab = {setCurrentTab} />}
+        <CurrentSessionTopNavBar changeTab={setCurrentTab} currentTab={currentTab} />
+        {currentTab === 'Menu' && <CurrentSessionMenu changeTab={setCurrentTab} />}
+        {currentTab === 'Bills' && <CurrentSessionBills changeTab={setCurrentTab} />}
+        {currentTab === 'QR Code' && <CurrentSessionQRCode changeTab={setCurrentTab} />}
+        {currentTab === 'Summary' && <CurrentSessionSummary changeTab={setCurrentTab} />}
       </View>
     </SafeArea>
   );

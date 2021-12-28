@@ -21,14 +21,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: theme.fonts.heading,
     fontSize: 64,
-    marginTop: 100
+    marginTop: 70
   },
   loginEntries: {
     flex: 2.5,
-    padding: 20,
+    margin: 20,
     alignItems: 'center',
   },
   signUp: {
+    margin: 0,
+    padding: 0,
     // flex: 0.1,
     // textAlign: 'center',
     fontFamily: theme.fonts.heading,
@@ -36,35 +38,19 @@ const styles = StyleSheet.create({
   }
 });
 
-export default function LoginScreen() {
+const LoginScreen = () => {
   //useEffect => onAuthStateChanged
   const navigation = useNavigation();
-  const { state: { auth }, dispatch } = useContext(BiteShareContext);
+  const { state: { authenticated }, dispatch } = useContext(BiteShareContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // useEffect(() => {
-  //   const loginListener = () => {
-  //     if (auth) {
-  //       navigation.navigate('Home');
-  //     }
-  //   };
-  //   return loginListener;
-  // }, []);
-
-
-  // const handleButtonPress = () => {
-  //   dispatch({ type: 'SET_EMAIL', email });
-  //   dispatch({ type: 'SET_ORDER_STATUS', password });
-  // };
   const handleLogin = () => {
     //isloading?
-    console.log('login press');
     loginUser(email, password)
       .then(userCredentials => {
-        console.log('user is:', userCredentials.user.email);
-        dispatch({ type: 'SET_AUTH', true });
-        navigation.navigate('Home');
+        // console.log('user is:', userCredentials.user.email);
+        dispatch({ type: 'SET_AUTH', authenticated: true });
       })
       .catch(err => {
         console.log(err);
@@ -75,7 +61,8 @@ export default function LoginScreen() {
     <SafeArea>
       <View style={styles.loginContainer}>
         <Text style={styles.biteshareTitle}>BITESHARE</Text>
-        <KeyboardAvoidingView style={styles.loginEntries}>
+        <KeyboardAvoidingView
+          style={styles.loginEntries}>
           <InputField
             placeholder={'Email'}
             secureText={false}
@@ -94,4 +81,6 @@ export default function LoginScreen() {
       </View>
     </SafeArea >
   );
-}
+};
+
+export default LoginScreen;

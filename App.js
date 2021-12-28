@@ -97,10 +97,9 @@ export default function App() {
         ? <AppLoading />
         : (<ThemeProvider theme={theme}>
           <NavigationContainer>
-            <Stack.Navigator>
-              <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
-              <Stack.Screen options={{ headerShown: false }} name="Home" component={HomeScreen} />
-            </Stack.Navigator>
+            {state.authenticated
+              ? <HomeScreen name='Home' />
+              : <LoginScreen name='Login' />}
           </NavigationContainer>
           {/* <DummyComponent /> */}
         </ThemeProvider>)

@@ -13,9 +13,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default function InputField({ placeholder, secureText, inputValue, setInputValue }) {
-  // const [inputValue, setInputValue] = useState(null);
-
+const InputField = ({ placeholder, secureText, inputValue, setInputValue }) => {
   return (
     <View style={styles.container}>
       <TextInput
@@ -28,7 +26,7 @@ export default function InputField({ placeholder, secureText, inputValue, setInp
       />
     </View>
   );
-}
+};
 
 
-// export default InputField;
+export default InputField;
