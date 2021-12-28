@@ -18,25 +18,25 @@ const styles = StyleSheet.create({
   }
 });
 
-const RestaurantInfo = (restaurant = {}) => {
-  const {
-    restaurant_name = 'Asian Restaurant',
-    photo = 'https://www.foodiesfeed.com/free-food-photo/noodles-with-egg-and-vegetables/',
-    restaurant_phone = '000 000 000',
-    price_range = '$$',
-    restaurant_id,
-    cuisines = ['Asian'],
-    address = { street: '111 Made up Street' }
-  } = restaurant;
+const RestaurantInfo = ({ restaurant }) => {
+  // const {
+  //   restaurant_name,
+  //   photo = 'https://www.foodiesfeed.com/free-food-photo/noodles-with-egg-and-vegetables/',
+  //   restaurant_phone,
+  //   price_range,
+  //   restaurant_id,
+  //   cuisines = [],
+  //   address = { street: '111 Made up Street' }
+  // } = restaurant;
 
-
+  console.log('RESTAURANT: ', restaurant);
   return (
     <View style={styles.restaurantContainer}>
-      <Card style={styles.card} elevation={2}>
+      {/* <Card style={styles.card} elevation={2}>
         <Card.Cover key={restaurant_name} source={{ uri: 'https://picsum.photos/700' }} />
         <Card.Title title={restaurant_name} subtitle={price_range} />
         <Card.Content>
-          <Text>{cuisines[0]}</Text>
+          <Text>{cuisines[0] || '----'}</Text>
           <Text>{restaurant_phone}</Text>
           <Text>{address.street}</Text>
         </Card.Content>
@@ -48,7 +48,8 @@ const RestaurantInfo = (restaurant = {}) => {
             See Full Menu
           </Button>
         </Card.Actions>
-      </Card>
+      </Card> */}
+      <Text>{restaurant.address.street}</Text>
     </View>
   );
 };
