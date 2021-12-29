@@ -14,6 +14,8 @@ export const biteShareState = {
   accountType: 'HOST',
   sessionId: 1234,
   orderedItems: [], //matching the name with TJ's code in Guest.js (will updated as needed after checking with TJ)
+  email: '',
+  authenticated: false
 };
 
 export const biteShareReducer = (state, action) => {
@@ -43,7 +45,10 @@ export const biteShareReducer = (state, action) => {
       return { ...state, sessionId: action.sessionId };
     case 'SET_ORDERED_ITEMS':
       return { ...state, orderedItems: action.orderedItems };
-
+    case 'SET_EMAIL':
+      return { ...state, email: action.email };
+    case 'SET_AUTH':
+      return { ...state, authenticated: action.authenticated };
     default:
       return state;
   }
