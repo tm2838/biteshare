@@ -1,5 +1,5 @@
 import { db } from '../firebase.config.js';
-import { collection, addDoc, getDocs, doc, setDoc, updateDoc, deleteDoc, deleteField, onSnapshot, query, where } from 'firebase/firestore';
+import { collection, addDoc, getDocs, doc, setDoc, getDoc, updateDoc, deleteDoc, deleteField, onSnapshot, query, where } from 'firebase/firestore';
 /**
   Use this file to create helper functions for firestore database
  An example is provided here for creating a new collection
@@ -19,6 +19,11 @@ const addANewAnonymousDocument = (collectionName, data) => {
 
 const getAllDocuments = (collectionName) => {
   return getDocs(collection(db, collectionName));
+};
+
+const readASingleDocument = (collectionName, documentName) => {
+  const docRef = doc(db, collectionName, documentName);
+  return getDoc(docRef);
 };
 
 const updateADocument = (collectionName, documentName, updatedData) => {
@@ -59,6 +64,7 @@ export {
   addANewNamedDocument,
   updateADocument,
   deleteADocument,
+  readASingleDocument,
   deleteASpecificFieldInADocument,
   readDocSnapshotListener,
   readQuerySnapshotListener,

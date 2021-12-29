@@ -5,6 +5,7 @@ import { colors } from '../../../infrastructure/colors.js';
 import BiteshareButton from '../../../components/BiteshareButton.js';
 import { BiteShareContext } from '../../../BiteShareContext.js';
 import MenuItemCard from '../../../components/MenuItemCard.js';
+import { updateADocument } from '../../../../firebase/helpers/database.firebase.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -91,6 +92,7 @@ const Guest = ({ guest }) => {
 
   const handleAllowGuest = () => {
     // @TODO: update DB to include user as guest in transaction
+    updateADocument('transactions', 'Rg0KxKCcc6mVOBQClhbi', {orderStatus: 'Not Ready'});
     if (guest.orderStatus === 'Not Ready') {
       setStatus('not ready');
     } else if (guest.orderStatus === 'Ready') {
@@ -115,7 +117,7 @@ const Guest = ({ guest }) => {
   const handleShowOrderedItem = () => {
     setShowOrderedItem(!showOrderedItem);
   };
-
+  console.log('Guest is: ', guest);
   return (
     <View style={styles.container}>
       <SwipeRow
