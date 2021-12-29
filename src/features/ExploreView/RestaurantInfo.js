@@ -38,7 +38,7 @@ const RestaurantInfo = ({ restaurant }) => {
 
   const seeFullMenuButtonPress = (restaurant_id) => {
     dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: restaurant_id });
-    alert(`restaurant_id: ${restaurant_id}`);
+    // alert(`restaurant_id: ${restaurant_id}`);
   };
 
   // console.log('afterbuttonclick: ' + restaurantId);
@@ -63,7 +63,6 @@ const RestaurantInfo = ({ restaurant }) => {
             onPress={() => seeFullMenuButtonPress(restaurant.restaurant_id)}>
             <Text style={{ color: colors.brand.kazan, fontWeight: '600' }}>See Full Menu</Text>
           </TouchableOpacity>
-
         </View>
       </Card>
     </View>

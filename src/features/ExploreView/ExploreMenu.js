@@ -8,6 +8,7 @@ import { fonts } from '../../infrastructure/fonts';
 import { BiteShareContext } from '../../BiteShareContext';
 // import mockMenu from '../../../fixtures/mockMenu.json';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import BackButton from '../../components/BackButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -15,7 +16,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.brand.body,
   },
   scrollView: {
-
     // backgroundColor: colors.brand.body,
     height: '75%',
     marginHorizontal: 20,
@@ -84,6 +84,7 @@ const ExploreMenu = () => {
           ? <Text>Loading...</Text>
           : (
             <View >
+              {/* <BackButton screenName='Explore' /> */}
               <Appbar.Header style = {styles.restaurantHeader} >
                 <Appbar.Content title={restaurantName} subtitle={restaurantAddress} style = {styles.restaurantHeading}/>
               </Appbar.Header>
@@ -101,8 +102,6 @@ const ExploreMenu = () => {
                   />);
                 })}
 
-
-
               </ScrollView>
               {/* onPress 'create a session', it will direct to the QR code -  */}
               <View>
@@ -111,7 +110,6 @@ const ExploreMenu = () => {
                 </Button>
               </View>
             </View>
-
           )
       }
     </View>

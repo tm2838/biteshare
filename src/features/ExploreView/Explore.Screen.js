@@ -42,8 +42,9 @@ const ExploreScreen = ({ navigation }) => {
       <View>
         <ExploreHeader />
         {
-          restaurantId ? <ExploreMenu /> :
-            <>
+          restaurantId
+            ? <ExploreMenu />
+            : <>
               <View style={styles.search}>
                 <Searchbar
                   placeholder="Zipcode: 48103"
