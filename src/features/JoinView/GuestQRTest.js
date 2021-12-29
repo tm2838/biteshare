@@ -24,58 +24,103 @@ const styles = StyleSheet.create({
     color: colors.brand.darkBlue
   }
 });
+const QRScan = () => {
+  console.log('hello Ready to scan');
+  // alert(`Acccount Id: ${sessionId} \n HostName:${accountHolderName} \n restaurant Name: ${restaurantName}`);
+
+  /*****  https://snack.expo.dev/@sugarexpo/380485
+  * This following code works while using on expo.
+  * Will need to revisit again during the implementation
+  *
+  */
+  const [hasPermission, setHasPermission] = useState(null);
+  const [scanned, setScanned] = useState(false);
+  console.log('permission--->', hasPermission);
+
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const { status } = await BarCodeScanner.requestPermissionsAsync();
+  //     setHasPermission(status === 'granted');
+  //   })();
+  // }, []);
+
+  const handleBarCodeScanned = ({ type, data }) => {
+    setScanned(true);
+    let sampleData = data.split('&');
+    let sessionId = sampleData[0];
+    let hostName = sampleData[1];
+    let restaurantName = sampleData[2];
+
+    alert(`Session Id: ${sessionId} & Host Name: ${hostName} &  restaurant Name : ${restaurantName}`);
+
+    //***********@TODO----Once we get the  information----************
+    // HOST needs to be updated with guest name - in real time (websocket io?)
+    // HOST will get notification (current session -> summary )that someone wants to join the session?
+    // After HOST 'allow' the guest entry, update in real time (websocket io?), update conetxt api under guest[{name:Greg}]
+    // Guest get confirmation update ('waiting' -> 'allowed'), redirect to the (current -> menu)
+
+  };
+
+  if (hasPermission === null) {
+    return <Text>Requesting for camera permission</Text>;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
+
+  return (
+    <View style={styles.container}>
+      <BarCodeScanner
+        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        style={StyleSheet.absoluteFillObject}
+      />
+      {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+    </View>
+  );
+
+  /**/
+
+};
 
 
 
 const GuestQR = () => {
   const scanQR = '../../../assets/scanQR.png';
   const { state: { sessionId, accountHolderName, restaurantName, accountType}, dispatch } = useContext(BiteShareContext);
+  const [hasPermission, setHasPermission] = useState(null);
+  const [scanned, setScanned] = useState(false);
+  console.log('permission--->', hasPermission);
 
+  useEffect(() => {
+    (async () => {
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
+  }, []);
 
+  const handleBarCodeScanned = ({ type, data }) => {
+    setScanned(true);
+    let sampleData = data.split('&');
+    let sessionId = sampleData[0];
+    let hostName = sampleData[1];
+    let restaurantName = sampleData[2];
 
-  const QRScan = () => {
-    console.log('hello Ready to scan');
-    alert(`Acccount Id: ${sessionId} \n HostName:${accountHolderName} \n restaurant Name: ${restaurantName}`);
+    alert(`Session Id: ${sessionId} & Host Name: ${hostName} &  restaurant Name : ${restaurantName}`);
 
-    /*****  https://snack.expo.dev/@sugarexpo/380485
-    * This following code works while using on expo.
-    * Will need to revisit again during the implementation
-    *
-    *
-    const [hasPermission, setHasPermission] = useState(null);
-    const [scanned, setScanned] = useState(false);
+    //***********@TODO----Once we get the  information----************
+    // HOST needs to be updated with guest name - in real time (websocket io?)
+    // HOST will get notification (current session -> summary )that someone wants to join the session?
+    // After HOST 'allow' the guest entry, update in real time (websocket io?), update conetxt api under guest[{name:Greg}]
+    // Guest get confirmation update ('waiting' -> 'allowed'), redirect to the (current -> menu)
 
-    useEffect(() => {
-      (async () => {
-        const { status } = await BarCodeScanner.requestPermissionsAsync();
-        setHasPermission(status === 'granted');
-      })();
-    }, []);
+  };
 
-    const handleBarCodeScanned = ({ type, data }) => {
-      setScanned(true);
-      let sampleData = data.split('&');
-      let sessionId = sampleData[0];
-      let hostName = sampleData[1];
-      let restaurantName = sampleData[2];
-
-      alert(`Session Id: ${sessionId} & Host Name: ${hostName} &  restaurant Name : ${restaurantName}`);
-
-      //***********@TODO----Once we get the  information----************
-      // HOST needs to be updated with guest name - in real time (websocket io?)
-      // HOST will get notification (current session -> summary )that someone wants to join the session?
-      // After HOST 'allow' the guest entry, update in real time (websocket io?), update conetxt api under guest[{name:Greg}]
-      // Guest get confirmation update ('waiting' -> 'allowed'), redirect to the (current -> menu)
-
+  const QRTestScan = () => {
+    async () => {
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      setHasPermission(status === 'granted');
     };
-
-    if (hasPermission === null) {
-      return <Text>Requesting for camera permission</Text>;
-    }
-    if (hasPermission === false) {
-      return <Text>No access to camera</Text>;
-    }
-
     return (
       <View style={styles.container}>
         <BarCodeScanner
@@ -85,10 +130,8 @@ const GuestQR = () => {
         {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
       </View>
     );
-
-    */
-
   };
+
 
 
   return (
@@ -100,7 +143,7 @@ const GuestQR = () => {
     <View style={styles.container}>
       {
         accountType === 'HOST' //temporary change to HOST to display QR code (Need to change back to GUEST when implementing)
-          ? <TouchableOpacity activeOpacity = { .5 } onPress={ QRScan }>
+          ? <TouchableOpacity activeOpacity = { .5 } onPress={ QRTestScan }>
             <Image
               source = {require(scanQR)}
             />
@@ -112,9 +155,6 @@ const GuestQR = () => {
       }
 
     </View>
-
-
-
 
 
   );

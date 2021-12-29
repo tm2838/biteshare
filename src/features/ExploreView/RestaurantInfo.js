@@ -38,7 +38,12 @@ const RestaurantInfo = ({ restaurant }) => {
 
   const seeFullMenuButtonPress = (restaurant_id) => {
     dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: restaurant_id });
+<<<<<<< HEAD
     // alert(`restaurant_id: ${restaurant_id}`);
+=======
+    alert(`restaurant_id: ${restaurant_id}`);
+    
+>>>>>>> 28b18bd79064c85208107a8fb4f15f3177180c8c
   };
 
   // console.log('afterbuttonclick: ' + restaurantId);
