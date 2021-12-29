@@ -23,7 +23,7 @@ export default function GuestQR() {
     setScanned(true);
     let sampleData = data.split('&');
     let hostName = sampleData[1];
-    let sessionId = sampleData[0]
+    let sessionId = sampleData[0];
     alert(`Session Id: ${sessionId} & HostName:${hostName}`);
     // alert(`Bar code with type ${type} and \n data [ ${data} ] has been scanned!`);
   };
