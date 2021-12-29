@@ -18,12 +18,10 @@ const styles = StyleSheet.create({
 });
 
 const CurrentSessionScreen = ({route, navigation}) => {
-  console.log('route---->', route);
 
   const [currentTab, setCurrentTab] = useState('Menu');
-  console.log('Current Tab---->', currentTab);
+
   useEffect(()=>{
-    // console.log('route--************************************>', route);
 
     // ************  Crystal's notes:
     // The following code allows the navigation from 'create a session' to 'QR code'***

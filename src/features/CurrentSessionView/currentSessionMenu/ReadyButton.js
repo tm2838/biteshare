@@ -19,7 +19,7 @@ const ReadyButton = ({changeTab}) => {
 
   const navigation = useNavigation();
   const { state: { sessionId, orderedItems }, dispatch } = useContext(BiteShareContext);
-  console.log(orderedItems);
+  
   const [orderReady, SetOrderReady] = useState(false);
 
   const menuChoice = () => {

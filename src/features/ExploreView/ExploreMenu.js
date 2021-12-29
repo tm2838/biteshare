@@ -14,15 +14,11 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     backgroundColor: colors.brand.body,
   },
   scrollView: {
-
-    // backgroundColor: colors.brand.body,
-    height: '76%',
+    height: '75%',
     marginHorizontal: 20,
-
   },
   restaurantHeader: {
     backgroundColor: colors.brand.login,
@@ -33,6 +29,7 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
+    height: '15%',
     borderRadius: 20,
     width: 30
   },
@@ -40,7 +37,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: fonts.subHeading
   },
-
 
 });
 
@@ -50,10 +46,9 @@ const ExploreMenu = ({navigation}) => {
   const API_KEY = 'E3EE4E5EE5EEEEEE5E522EEEE5EfE0157f194895a9ab68497ab203e9092656EEEE4556678EEEEEEEEEEEEE';
 
   const {state: { restaurantName, restaurantId, restaurantMenus}, dispatch } = useContext(BiteShareContext);
-  console.log('restaurantName', restaurantName);
+
   const [isLoading, setLoading] = useState(true);
   const [restaurantAddress, setRestaurantAddress] = useState('');
-
 
   const parseJsonMenu = (data) => {
     let prettyMenu = [];
