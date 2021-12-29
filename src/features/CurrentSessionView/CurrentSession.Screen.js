@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
   }
 });
 
-<<<<<<< HEAD
 const CurrentSessionScreen = ({route}) => {
   console.log('route---->', route);
 
@@ -33,17 +32,6 @@ const CurrentSessionScreen = ({route}) => {
     }
   }, []);
 
-=======
-const CurrentSessionScreen = ({ route }) => {
-
-  const [currentTab, setCurrentTab] = useState('Menu');
-  // useEffect(()=>{
-  //   // console.log('route-->', route);
-  //   if (route.params.previous === 'create a session') {
-  //     setCurrentTab('QR Code');
-  //   }
-  // }, []);
->>>>>>> 1a526985b721e0cf2aefc5661d68109df1051649
   return (
     <SafeArea>
       <View style={styles.container}>

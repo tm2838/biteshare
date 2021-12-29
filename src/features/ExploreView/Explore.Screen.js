@@ -6,12 +6,8 @@ import { Searchbar } from 'react-native-paper';
 import { StyleSheet, Text, View, Image, FlatList } from 'react-native';
 import ExploreHeader from './ExploreHeader';
 import SafeArea from '../../components/SafeArea';
-<<<<<<< HEAD
-// import ExploreMenu from './ExploreMenu';
-=======
 import ExploreMenu from './ExploreMenu';
 import RestaurantInfo from './RestaurantInfo';
->>>>>>> 1a526985b721e0cf2aefc5661d68109df1051649
 import { colors } from '../../infrastructure/colors';
 
 
@@ -45,12 +41,6 @@ const ExploreScreen = ({ navigation }) => {
     <SafeArea>
       <View>
         <ExploreHeader />
-<<<<<<< HEAD
-        {/* <ExploreMenu /> */}
-        <View style={styles.exploreTitleContainer}>
-          <Text style={styles.exploreTitle}>Testing</Text>
-        </View>
-=======
         {
           restaurantId ? <ExploreMenu /> :
             <>
@@ -72,7 +62,6 @@ const ExploreScreen = ({ navigation }) => {
             </>
         }
 
->>>>>>> 1a526985b721e0cf2aefc5661d68109df1051649
       </View>
     </SafeArea>
   );
