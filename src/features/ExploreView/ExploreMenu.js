@@ -1,13 +1,16 @@
 import React, { useContext, useState, useEffect} from 'react';
-import { Appbar, List, Button} from 'react-native-paper';
+import { Appbar, List, Button, Avatar} from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-// import { useRoute } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 import { StyleSheet, View, Text, SafeAreaView, ScrollView, StatusBar} from 'react-native';
 import { colors } from '../../infrastructure/colors';
 import { fonts } from '../../infrastructure/fonts';
 import { BiteShareContext } from '../../BiteShareContext';
+// import { useNavigation } from '@react-navigation/native';
 // import mockMenu from '../../../fixtures/mockMenu.json';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+// import ExploreScreen from './Explore.Screen';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -17,7 +20,7 @@ const styles = StyleSheet.create({
   scrollView: {
 
     // backgroundColor: colors.brand.body,
-    height: '75%',
+    height: '76%',
     marginHorizontal: 20,
 
   },
@@ -30,6 +33,8 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 20,
+    width: 30
   },
   text: {
     fontSize: 20,
@@ -39,8 +44,21 @@ const styles = StyleSheet.create({
 
 });
 
-const ExploreMenu = () => {
-  const navigation = useNavigation();
+const ExploreMenu = ({navigation}) => {
+  console.log('Navigation-------------MENU------------', navigation);
+  //l-44-51 suppose to work on the ogic of going back to the Explore page. Currently it is not working
+  // const navigation = useNavigation();
+  const route = useRoute();
+
+  // console.log('route--', route);
+  // console.log(navigation);
+  // let previousScreen = route.name === 'Join' ? 'Explore' : 'Explore';
+  const handleBackButton = () => {
+    // console.log(navigation);
+    // navigation.navigate('Join', {previous: 'coming from back button'});
+    navigation.jumpTo('Explore');
+  };
+
   const API_KEY = 'E3EE4E5EE5EEEEEE5E522EEEE5EE0157f194895a9ab68497ab203e9092656EEEE4556678EEEEEEEEEEEEE';
   const {state: { restaurantName, restaurantId, restaurantMenus}, dispatch } = useContext(BiteShareContext);
   const [isLoading, setLoading] = useState(true);
@@ -83,6 +101,7 @@ const ExploreMenu = () => {
           : (
             <View >
               <Appbar.Header style = {styles.restaurantHeader} >
+                <Appbar.BackAction onPress={handleBackButton} color="black" />
                 <Appbar.Content title={restaurantName} subtitle={restaurantAddress} style = {styles.restaurantHeading}/>
               </Appbar.Header>
 
@@ -104,7 +123,11 @@ const ExploreMenu = () => {
               </ScrollView>
               {/* onPress 'create a session', it will direct to the QR code -  */}
               <View>
-                <Button icon='account-plus' mode="contained" color={colors.brand.beachLight} onPress={() => navigation.navigate('CurrentSession', {previous: 'create a session'})}>
+                <Button
+                  icon='account-plus'
+                  mode="contained"
+                  color={colors.brand.beachLight}
+                  onPress={() => navigation.navigate('CurrentSession', {previous: 'create a session'})}>
             Create a Session
                 </Button>
               </View>
