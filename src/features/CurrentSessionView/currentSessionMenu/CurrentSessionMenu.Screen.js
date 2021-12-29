@@ -32,7 +32,7 @@ const CurrentSessionMenu = ({ changeTab }) => {
     <View style={styles.container}>
       <Text style={styles.title}>Menu</Text>
       <SessionMenu />
-      <ReadyButton />
+      <ReadyButton changeTab={changeTab}/>
     </View>
   );
 };

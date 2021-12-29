@@ -26,9 +26,10 @@ const CurrentSessionScreen = ({route}) => {
     console.log('route--************************************>', route);
     // ************  Crystal's notes: The following code allows the navigation from 'create a session' to 'QR code'***
     //**** will revisit again after the explore page is implemented ****
-    // if (route.params.previous === 'create a session') {
-    //   setCurrentTab('QR Code');
-    // }
+    if (route.params?.previous === 'create a session') {
+      console.log('TEST----------------------');
+      setCurrentTab('QR Code');
+    }
   }, []);
 
   return (

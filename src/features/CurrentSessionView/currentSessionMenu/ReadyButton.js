@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import BiteshareButton from '../../../components/BiteshareButton.js';
 import { colors } from '../../../infrastructure/colors.js';
 import { BiteShareContext } from '../../../BiteShareContext.js';
-import CurrentSession from '../CurrentSession.Screen';
+// import CurrentSession from '../CurrentSession.Screen';
 
 const styles = StyleSheet.create({
 
@@ -15,12 +15,13 @@ const styles = StyleSheet.create({
 
 });
 
-const ReadyButton = () => {
+const ReadyButton = ({changeTab}) => {
   const navigation = useNavigation();
   const { state: { sessionId }, dispatch } = useContext(BiteShareContext);
 
 
   const menuChoice = () => {
+    changeTab('Summary');
     // alert('Your choice is : Excellent');
     // <CurrentSession route={{test: 'CurrentSession'}}/>;
     //@TODO ****
