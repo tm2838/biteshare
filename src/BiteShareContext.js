@@ -13,6 +13,8 @@ export const biteShareState = {
   accountHolderName: 'Susan',
   accountType: 'HOST',
   sessionId: 1234,
+  email: '',
+  authenticated: false
 };
 
 export const biteShareReducer = (state, action) => {
@@ -39,6 +41,10 @@ export const biteShareReducer = (state, action) => {
       return { ...state, accountType: action.accountType };
     case 'SET_SESSION_ID':
       return { ...state, sessionId: action.sessionId };
+    case 'SET_EMAIL':
+      return { ...state, email: action.email };
+    case 'SET_AUTH':
+      return { ...state, authenticated: action.authenticated };
     default:
       return state;
   }

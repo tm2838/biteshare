@@ -11,7 +11,10 @@ import { addANewAnonymousDocument, getAllDocuments, readDocSnapshotListener, rea
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './src/features/HomeView/Home.Screen.js';
 import AppLoading from 'expo-app-loading';
+import LoginScreen from './src/features/LoginView/Login.Screen';
 
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+const Stack = createNativeStackNavigator();
 
 import {
   useFonts,
@@ -21,6 +24,7 @@ import {
   OpenSans_700Bold,
 
 } from '@expo-google-fonts/open-sans';
+
 import {
 
   Montserrat_300Light,
@@ -55,11 +59,13 @@ export default function App() {
   });
   return (
     <BiteShareContext.Provider value={{ state, dispatch }}>
-      { !fontsLoaded
+      {!fontsLoaded
         ? <AppLoading />
         : (<ThemeProvider theme={theme}>
           <NavigationContainer>
-            <HomeScreen />
+            {state.authenticated
+              ? <HomeScreen name='Home' />
+              : <LoginScreen name='Login' />}
           </NavigationContainer>
           {/* <DummyComponent /> */}
         </ThemeProvider>)
