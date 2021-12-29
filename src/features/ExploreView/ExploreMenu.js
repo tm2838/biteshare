@@ -9,7 +9,7 @@ import { BiteShareContext } from '../../BiteShareContext';
 // import { useNavigation } from '@react-navigation/native';
 // import mockMenu from '../../../fixtures/mockMenu.json';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-// import ExploreScreen from './Explore.Screen';
+
 
 
 const styles = StyleSheet.create({
@@ -45,22 +45,9 @@ const styles = StyleSheet.create({
 });
 
 const ExploreMenu = ({navigation}) => {
-  // console.log('Navigation----------EXPLORE---MENU------------', navigation);
-  //l-44-51 suppose to work on the ogic of going back to the Explore page. Currently it is not working
-  // const navigation = useNavigation();
-  // const route = useRoute();
 
-  // console.log('route--', route);
-  // console.log(navigation);
-  // let previousScreen = route.name === 'Join' ? 'Explore' : 'Explore';
-  // const handleBackButton = () => {
-  // console.log(navigation);
-  // navigation.navigate('Join', {previous: 'coming from back button'});
-  // navigation.jumpTo('Explore');
-  // };
 
   const API_KEY = 'E3EE4E5EE5EEEEEE5E522EEEE5EfE0157f194895a9ab68497ab203e9092656EEEE4556678EEEEEEEEEEEEE';
-  
 
   const {state: { restaurantName, restaurantId, restaurantMenus}, dispatch } = useContext(BiteShareContext);
   console.log('restaurantName', restaurantName);

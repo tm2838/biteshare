@@ -24,13 +24,14 @@ const ReadyButton = ({changeTab}) => {
 
   const menuChoice = () => {
     changeTab('Summary');
-    // alert('Your choice is : Excellent');
-    // <CurrentSession route={{test: 'CurrentSession'}}/>;
+
     //@TODO ****
     // When user click 'ready'
-    // menu choice (more than one || just one item for the purpose of MVP)
-    // update DB with - {sessionId: 1234, userName: 'Greg', userId: 8776, menuName: 'pizza', menuDescription:'small', menuPrice: 12.95} under 'transaction' collections
-    // redirect to summary page
+    // orderedItem will be updated to firestore (PUT transaction collection by sessionId)
+    // search with sessionId (transactions_id from firestore)
+    // once there is a match with sessionId (transactions_id : 1234)
+    // update - { name: 'Greg', userId: 8776, ready: True, orderedItem:[{menuName: 'pizza', menuDescription:'small', menuPrice: 12.95}]} under 'transaction' collections
+    // redirect to summary page (Can guest can see if everyone ready or not? )
   };
 
   return (

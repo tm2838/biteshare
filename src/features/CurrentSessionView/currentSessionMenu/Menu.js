@@ -24,11 +24,11 @@ const styles = StyleSheet.create({
 });
 
 const Menu = ({ menu }) => {
-  // console.log('Menu-------Session----------->', menu);
+
 
   const { state: { accountHolderName, orderedItems }, dispatch } = useContext(BiteShareContext);
   const [checked, setChecked] = useState(false);
-  // console.log('------------------orderedItems------>', orderedItems.name, orderedItems.length);
+  
 
   const selectMenu = (item) => {
 
