@@ -13,9 +13,11 @@ export const biteShareState = {
   accountHolderName: 'Susan',
   accountType: 'HOST',
   sessionId: 1234,
+  orderedItems: [], //matching the name with TJ's code in Guest.js (will updated as needed after checking with TJ)
 };
 
 export const biteShareReducer = (state, action) => {
+
   switch (action.type) {
     case 'SET_ORDER_STATUS':
       return { ...state, isEveryoneReady: action.isEveryoneReady };
@@ -39,6 +41,9 @@ export const biteShareReducer = (state, action) => {
       return { ...state, accountType: action.accountType };
     case 'SET_SESSION_ID':
       return { ...state, sessionId: action.sessionId };
+    case 'SET_ORDERED_ITEMS':
+      return { ...state, orderedItems: action.orderedItems };
+
     default:
       return state;
   }

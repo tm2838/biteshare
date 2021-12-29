@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import BiteshareButton from '../../../components/BiteshareButton.js';
@@ -16,9 +16,11 @@ const styles = StyleSheet.create({
 });
 
 const ReadyButton = ({changeTab}) => {
-  const navigation = useNavigation();
-  const { state: { sessionId }, dispatch } = useContext(BiteShareContext);
 
+  const navigation = useNavigation();
+  const { state: { sessionId, orderedItems }, dispatch } = useContext(BiteShareContext);
+  console.log(orderedItems);
+  const [orderReady, SetOrderReady] = useState(false);
 
   const menuChoice = () => {
     changeTab('Summary');
@@ -33,7 +35,10 @@ const ReadyButton = ({changeTab}) => {
 
   return (
     <View style={styles.container}>
-      <BiteshareButton title={'I\'m Ready'} buttonStyle={{ backgroundColor: colors.brand.beachLight }} onPress={menuChoice} />
+      <BiteshareButton
+        title={'I\'m Ready'}
+        buttonStyle={orderedItems.length === 0 ? { backgroundColor: 'lightgrey' } : { backgroundColor: colors.brand.beachLight } }
+        onPress={menuChoice} />
     </View>
   );
 };
