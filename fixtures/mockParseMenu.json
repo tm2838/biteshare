@@ -1,0 +1,51 @@
+
+[
+  {
+    "description": "japanese cucumber, shiso leaf and sweet miso asian ginger vinaigrette",
+    "key": 1,
+    "name": "Yellowfin Tuna Tartare",
+    "price": 23
+  },
+  {
+    "description": "compressed pineapple, watermelon radish, finger limes, avocado, grenada citrus",
+    "key": 2,
+    "name": "Wild Bass Ceviche",
+    "price": 21
+  },
+  {
+    "description": "scallops, squid, spanish octopus, lobster, sweet shrimp, avocado and lemon vinaigrette",
+    "key": 3,
+    "name": "Seafood Salad",
+    "price": 24
+  },
+  {
+    "description": "local apples, black currants, marcona almonds, pecorino pepato",
+    "key": 4,
+    "name": "Organic Kale And Quinoa Salad",
+    "price": 17
+  },
+  {
+    "description": "goat cheese, tangerine, toasted hazelnuts and shaved fennel citrus vinaigrette",
+    "key": 5,
+    "name": "Roasted Red And Yellow Beet Salad",
+    "price": 14
+  },
+  {
+    "description": "black trumpet mushrooms, figs, pistachios, chioggia beets, brioche toast",
+    "key": 6,
+    "name": "Squab And Foie Gras Terrine",
+    "price": 24
+  },
+  {
+    "description": "aged sherry and extra virgin olive oil dressing",
+    "key": 7,
+    "name": "Baby Organic Mixed Green Salad",
+    "price": 10
+  },
+  {
+    "description": "bok choy, shiitake mushrooms and sticky rice, soy lemongrass ginger sauce",
+    "key": 8,
+    "name": "Miso Marinated Black Cod",
+    "price": 25
+  }
+]

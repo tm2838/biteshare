@@ -1,8 +1,6 @@
-//https://snack.expo.dev/@sugarexpo/380485
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -10,8 +8,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-export default function App() {
+export default function GuestQR() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
 
@@ -25,9 +22,8 @@ export default function App() {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     let sampleData = data.split('&');
-    let sessionId = sampleData[0];
     let hostName = sampleData[1];
-
+    let sessionId = sampleData[0];
     alert(`Session Id: ${sessionId} & HostName:${hostName}`);
     // alert(`Bar code with type ${type} and \n data [ ${data} ] has been scanned!`);
   };
@@ -49,6 +45,5 @@ export default function App() {
     </View>
   );
 }
-
 
 

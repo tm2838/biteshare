@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-native';
 
 const SafeArea = ({children}) => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1}}>
       {children}
     </SafeAreaView>
   );
