@@ -55,21 +55,21 @@ const ExploreScreen = ({ navigation }) => {
     if (zipcode && isNaN(zipcode)) {
       axios.get(`${BASE_URL}/search/fields?restaurant_name=${restaurantName}&address=${zipcode}`, config)
         .then(results => {
-          console.log(results.data);
+          // console.log(results.data);
           dispatch({ type: 'SET_RESTAURANTS', restaurants: results.data.data });
         })
         .catch(err => {
-          console.log(err);
+          // console.log(err);
           alert('failed to load, try again');
         });
     } else {
       axios.get(`${BASE_URL}/search/fields?restaurant_name=${restaurantName}&zip_code=${zipcode}`, config)
         .then(results => {
-          console.log(results.data);
+          // console.log(results.data);
           dispatch({ type: 'SET_RESTAURANTS', restaurants: results.data.data });
         })
         .catch(err => {
-          console.log(err);
+          // console.log(err);
           alert('failed to load, try again');
         });
     }
