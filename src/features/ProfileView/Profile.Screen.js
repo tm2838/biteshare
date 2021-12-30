@@ -44,3 +44,9 @@ const ProfileScreen = () => {
 };
 
 export default ProfileScreen;
+
+
+//TODO
+//Add component for user greeting w/ image and join date
+//Map transaction history from db data
+//Click account settings button and navigate to settings page
