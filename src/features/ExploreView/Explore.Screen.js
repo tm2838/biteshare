@@ -29,8 +29,8 @@ const ExploreScreen = ({ navigation }) => {
   const onRestaurantNameChangeSearch = query => setRestaurantNameQuery(query);
   //onIconPress should update state
   const APIkey = '16bcb6bcff21e2fbcbad3fd5c5ca4605';
-  const FIND_WITH_ZIP_URL = 'https://api.documenu.com/v2/restaurants/zip_code';
-  const FIND_WITH_NAME_URL = 'https://api.documenu.com/v2/restaurants/search/fields?restaurant_name';
+  const BASE_URL = 'https://api.documenu.com/v2/restaurants';
+
 
   const { state: { restaurants, restaurantId }, dispatch } = useContext(BiteShareContext);
 
@@ -43,25 +43,34 @@ const ExploreScreen = ({ navigation }) => {
   const renderRestaurant = (restaurant) => (<RestaurantInfo restaurant={restaurant.item} />);
 
   const getRestaurants = (restaurantName, zipcode) => {
-    //if resaturant name
-    if (restaurantName && zipcode) {
-      alert(`test: ${restaurantName}, ${zipcode}`);
-      // axios.get(`${FIND_WITH_NAME_URL}=${query}?key=${APIkey}`);
 
-    } else if (restaurantName && !zipcode) {
-      alert(restaurantName);
-      // //if zipcode
-      // axios.get(`${FIND_WITH_ZIP_URL}/${query}?key=${APIkey}`)
-      //   .then(results => {
-      //     console.log(results.data);
-      //     dispatch({ type: 'SET_RESTAURANTS', restaurants: results.data.data });
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //     alert('failed to load, try different zipcode');
-      //   });
-    } else if (!restaurantName && zipcode) {
-      alert(zipcode);
+    const config = {
+      headers: {
+        'X-API-KEY': APIkey
+      }
+    };
+
+    //in user entered city instead of zipcode
+    if (zipcode && isNaN(zipcode)) {
+      axios.get(`${BASE_URL}/search/fields?restaurant_name=${restaurantName}&address=${zipcode}`, config)
+        .then(results => {
+          console.log(results.data);
+          dispatch({ type: 'SET_RESTAURANTS', restaurants: results.data.data });
+        })
+        .catch(err => {
+          console.log(err);
+          alert('failed to load, try again');
+        });
+    } else {
+      axios.get(`${BASE_URL}/search/fields?restaurant_name=${restaurantName}&zip_code=${zipcode}`, config)
+        .then(results => {
+          console.log(results.data);
+          dispatch({ type: 'SET_RESTAURANTS', restaurants: results.data.data });
+        })
+        .catch(err => {
+          console.log(err);
+          alert('failed to load, try again');
+        });
     }
   };
 
@@ -81,7 +90,7 @@ const ExploreScreen = ({ navigation }) => {
                   style={{ elevation: 0 }}
                 />
                 <Searchbar
-                  placeholder="Enter Zip Code"
+                  placeholder="Enter Zip Code or City"
                   onChangeText={onZipcodeChangeSearch}
                   value={zipcodeQuery}
                   icon={() => null}
@@ -99,7 +108,7 @@ const ExploreScreen = ({ navigation }) => {
               <FlatList
                 data={restaurants}
                 renderItem={renderRestaurant}
-                keyExtractor={restaurant => restaurant.restaurant_name}
+                keyExtractor={restaurant => restaurant.restaurant_id}
               />
             </>
         }
