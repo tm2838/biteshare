@@ -4,12 +4,16 @@ import { useNavigation } from '@react-navigation/native';
 
 import SafeArea from '../../components/SafeArea';
 import ProfileScreenHeader from './ProfileScreenHeader';
+import ProfileGreeting from './Profile.Greeting';
+import ProfileHistory from './Profile.History';
+
 import { colors } from '../../infrastructure/colors';
 import { BiteShareContext } from '../../BiteShareContext';
 
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+
   },
   logout: {
     height: 30,
@@ -32,11 +36,23 @@ const ProfileScreen = () => {
       <View>
         <ProfileScreenHeader />
         <View style={styles.container}>
+
+          {/* Greeting */}
+
+
+          {/* History */}
+
+          {/* Settings */}
+
+          {/* Logout Button */}
           <TouchableOpacity
             style={styles.logout}
             onPress={logout}>
+              <ProfileGreeting/>
             <Text>Logout</Text>
           </TouchableOpacity>
+
+
         </View>
       </View>
     </SafeArea>
