@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 const ExploreMenu = ({ navigation }) => {
 
 
-  const API_KEY = 'add_own_key';
+  const API_KEY = 'OWN_KEY_GOES_HERE';
 
   const { state: { restaurantName, restaurantId, restaurantMenus }, dispatch } = useContext(BiteShareContext);
 

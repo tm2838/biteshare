@@ -27,8 +27,9 @@ const ExploreScreen = ({ navigation }) => {
 
   const [restaurantNameQuery, setRestaurantNameQuery] = React.useState('');
   const onRestaurantNameChangeSearch = query => setRestaurantNameQuery(query);
-  //onIconPress should update state
-  const APIkey = '16bcb6bcff21e2fbcbad3fd5c5ca4605';
+
+  //ADD OWN API KEY
+  const APIkey = 'OWN_KEY_GOES_HERE';
   const BASE_URL = 'https://api.documenu.com/v2/restaurants';
 
 
@@ -50,7 +51,7 @@ const ExploreScreen = ({ navigation }) => {
       }
     };
 
-    //in user entered city instead of zipcode
+    //if user entered city instead of zipcode
     if (zipcode && isNaN(zipcode)) {
       axios.get(`${BASE_URL}/search/fields?restaurant_name=${restaurantName}&address=${zipcode}`, config)
         .then(results => {
