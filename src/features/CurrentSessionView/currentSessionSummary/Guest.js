@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginRight: 80
+    marginRight: '25%'
   },
   profile: {
     borderRadius: 15,
@@ -125,7 +125,6 @@ const Guest = ({ guest }) => {
         onRowOpen={handleRowSwiped}
         onRowClose={handleRowClose}
       >
-
         <View style={styles.hiddenView} >
           <Text></Text>
           <Text onPress={handleDenyGuest}>Remove</Text>
@@ -156,7 +155,7 @@ const Guest = ({ guest }) => {
             &&
             <View style={styles.buttonContainer}>
               <BiteshareButton size={70} title='Ready' buttonStyle={allowButtonStyle} disabled={true} />
-              <Text style={{ marginLeft: 100 }}>{`$${itemPrice}`}</Text>
+              <Text style={{ marginLeft: '25%' }}>{`$${itemPrice}`}</Text>
             </View>
           }
 
@@ -167,7 +166,6 @@ const Guest = ({ guest }) => {
             </View>
           }
         </Pressable>
-
       </SwipeRow>
       {showOrderedItem && guest?.orderedItems?.length && <MenuItemCard menuItems={guest.orderedItems} />}
     </View>

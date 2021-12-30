@@ -6,8 +6,8 @@ import { BiteShareContext } from '../../../BiteShareContext.js';
 
 const styles = StyleSheet.create({
   container: {
-    width: 400,
-    height: '45%',
+    width: '100%',
+    height: '42%',
   },
 });
 

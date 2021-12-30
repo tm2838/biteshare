@@ -17,10 +17,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start'
   },
   menuItemName: {
-    width: 250,
+    width: '70%',
   },
   menuItemPrice: {
-    marginLeft: 60
+    marginLeft: '18%'
   },
   menuItemDescription: {
     fontStyle: 'italic'
