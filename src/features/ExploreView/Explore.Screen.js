@@ -4,7 +4,7 @@ import axios from 'axios';
 import { BiteShareContext } from '../../BiteShareContext.js';
 import mockRestaurants from '../../../fixtures/mockRestaurants.json';
 import { Searchbar } from 'react-native-paper';
-import { StyleSheet, Text, View, Image, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native';
 import ExploreHeader from './ExploreHeader';
 import SafeArea from '../../components/SafeArea';
 import ExploreMenu from './ExploreMenu';
@@ -22,8 +22,11 @@ const styles = StyleSheet.create({
 
 const ExploreScreen = ({ navigation }) => {
 
-  const [searchQuery, setSearchQuery] = React.useState('');
-  const onChangeSearch = query => setSearchQuery(query);
+  const [zipcodeQuery, setZipcodeQuery] = React.useState('');
+  const onZipcodeChangeSearch = query => setZipcodeQuery(query);
+
+  const [restaurantNameQuery, setRestaurantNameQuery] = React.useState('');
+  const onRestaurantNameChangeSearch = query => setRestaurantNameQuery(query);
   //onIconPress should update state
   const APIkey = '16bcb6bcff21e2fbcbad3fd5c5ca4605';
   const FIND_WITH_ZIP_URL = 'https://api.documenu.com/v2/restaurants/zip_code';
@@ -39,22 +42,26 @@ const ExploreScreen = ({ navigation }) => {
 
   const renderRestaurant = (restaurant) => (<RestaurantInfo restaurant={restaurant.item} />);
 
-  const getRestaurants = (query) => {
+  const getRestaurants = (restaurantName, zipcode) => {
     //if resaturant name
-    if (isNaN(query)) {
-      axios.get(`${FIND_WITH_NAME_URL}=${query}?key=${APIkey}`);
+    if (restaurantName && zipcode) {
+      alert(`test: ${restaurantName}, ${zipcode}`);
+      // axios.get(`${FIND_WITH_NAME_URL}=${query}?key=${APIkey}`);
 
-    } else {
-      //if zipcode
-      axios.get(`${FIND_WITH_ZIP_URL}/${query}?key=${APIkey}`)
-        .then(results => {
-          console.log(results.data);
-          dispatch({ type: 'SET_RESTAURANTS', restaurants: results.data.data });
-        })
-        .catch(err => {
-          console.log(err);
-          alert('failed to load, try different zipcode');
-        });
+    } else if (restaurantName && !zipcode) {
+      alert(restaurantName);
+      // //if zipcode
+      // axios.get(`${FIND_WITH_ZIP_URL}/${query}?key=${APIkey}`)
+      //   .then(results => {
+      //     console.log(results.data);
+      //     dispatch({ type: 'SET_RESTAURANTS', restaurants: results.data.data });
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //     alert('failed to load, try different zipcode');
+      //   });
+    } else if (!restaurantName && zipcode) {
+      alert(zipcode);
     }
   };
 
@@ -67,15 +74,26 @@ const ExploreScreen = ({ navigation }) => {
             <>
               <View style={styles.search}>
                 <Searchbar
-                  placeholder="Enter Zip Code"
-                  onChangeText={onChangeSearch}
-                  value={searchQuery}
-                  iconColor={colors.brand.rausch}
-                  onIconPress={() => {
-                    alert(`zipcode: ${searchQuery}`);
-                    // getRestaurants(searchQuery);
-                  }}
+                  placeholder="Enter Restaurant Name"
+                  onChangeText={onRestaurantNameChangeSearch}
+                  value={restaurantNameQuery}
+                  icon={() => null}
+                  style={{ elevation: 0 }}
                 />
+                <Searchbar
+                  placeholder="Enter Zip Code"
+                  onChangeText={onZipcodeChangeSearch}
+                  value={zipcodeQuery}
+                  icon={() => null}
+                  style={{ elevation: 0 }}
+                />
+
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => { getRestaurants(restaurantNameQuery, zipcodeQuery); }}>
+                  <Text style={{ color: colors.brand.kazan, fontWeight: '600' }}>Search</Text>
+                </TouchableOpacity>
+
               </View>
 
               <FlatList
