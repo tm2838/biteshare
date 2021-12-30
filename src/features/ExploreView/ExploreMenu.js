@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: fonts.subHeading
   },
-
 });
 
 const ExploreMenu = ({navigation}) => {
