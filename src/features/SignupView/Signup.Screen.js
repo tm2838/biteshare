@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     marginTop: 70
   },
   loginEntries: {
-    flex: 2.5,
+    flex: 4.5,
     margin: 20,
     alignItems: 'center',
   },
