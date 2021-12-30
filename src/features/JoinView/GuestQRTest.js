@@ -108,11 +108,7 @@ const GuestQR = () => {
 
     alert(`Session Id: ${sessionId} & Host Name: ${hostName} &  restaurant Name : ${restaurantName}`);
 
-    //***********@TODO----Once we get the  information----************
-    // HOST needs to be updated with guest name - in real time (websocket io?)
-    // HOST will get notification (current session -> summary )that someone wants to join the session?
-    // After HOST 'allow' the guest entry, update in real time (websocket io?), update conetxt api under guest[{name:Greg}]
-    // Guest get confirmation update ('waiting' -> 'allowed'), redirect to the (current -> menu)
+    
 
   };
 

@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
 
 
 const ExploreScreen = ({ navigation }) => {
-  // console.log('Explore Screen-----------------------Nagivation----------', navigation);
   const [searchQuery, setSearchQuery] = React.useState('');
   const onChangeSearch = query => setSearchQuery(query);
   //onIconPress should update state
@@ -35,7 +34,7 @@ const ExploreScreen = ({ navigation }) => {
 
   const renderRestaurant = (restaurant) => (<RestaurantInfo restaurant={restaurant.item} />);
 
-  // console.log(restaurants);
+
 
 
   return (
