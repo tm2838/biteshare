@@ -6,6 +6,7 @@ import SafeArea from '../../components/SafeArea';
 import ProfileScreenHeader from './ProfileScreenHeader';
 import { colors } from '../../infrastructure/colors';
 import { BiteShareContext } from '../../BiteShareContext';
+import { signOutUser } from '../../../firebase/helpers/authentication.firebase';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,6 +26,13 @@ const ProfileScreen = () => {
   const { state: { authenticated }, dispatch } = useContext(BiteShareContext);
   const navigation = useNavigation();
   const logout = () => {
+    signOutUser()
+      .then(() => {
+        navigation.navigate('Login');
+      })
+      .catch(err => {
+        console.log(err);
+      });
     dispatch({ type: 'SET_AUTH', authenticated: false });
   };
   return (

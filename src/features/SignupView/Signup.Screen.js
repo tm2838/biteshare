@@ -9,7 +9,7 @@ import BigButton from '../../components/BigButton';
 import { BiteShareContext } from '../../BiteShareContext';
 
 import { auth } from '../../../firebase/firebase.config';
-import { signUpNewUser, loginUser, googleLogin, onAuthStateChanged } from '../../../firebase/helpers/authentication.firebase';
+import { signUpNewUser, googleLogin } from '../../../firebase/helpers/authentication.firebase';
 
 const styles = StyleSheet.create({
   loginContainer: {
@@ -36,34 +36,31 @@ const styles = StyleSheet.create({
   },
   googleButton: {
     marginTop: 50,
+  },
+  error: {
+    color: 'red'
   }
 });
 
-const LoginScreen = () => {
-  //useEffect => onAuthStateChanged
+const SignupScreen = () => {
   const navigation = useNavigation();
   const { state: { authenticated }, dispatch } = useContext(BiteShareContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setconfirmPassword] = useState('');
+  const [signupError, setSignupError] = useState(null);
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
-        navigation.navigate('Home');
-      }
-    });
-    return unsubscribe;
-  }, []);
-
-  const handleLogin = () => {
-    //isloading?
-    loginUser(email, password)
+  const handleCreateNewUser = () => {
+    if (password !== confirmPassword) {
+      return setSignupError('Passwords do not match');
+    }
+    signUpNewUser(email, password)
       .then(userCredentials => {
         dispatch({ type: 'SET_AUTH', authenticated: true });
         dispatch({ type: 'SET_EMAIL', email });
       })
       .catch(err => {
-        console.log(err);
+        setSignupError(err.message.toString());
       });
   };
 
@@ -78,8 +75,8 @@ const LoginScreen = () => {
       });
   };
 
-  const goToSignup = () => {
-    navigation.navigate('Signup');
+  const goToLoginPage = () => {
+    navigation.navigate('Login');
   };
 
   return (
@@ -93,15 +90,22 @@ const LoginScreen = () => {
             secureText={false}
             inputValue={email}
             setInputValue={setEmail} />
+          {signupError &&
+            <Text style={styles.error} variant={'error'}>{signupError}</Text>}
           <InputField
             placeholder={'Password'}
             secureText={true}
             inputValue={password}
             setInputValue={setPassword} />
-          <BigButton title={'Login'} handleLogin={handleLogin} />
-          <Pressable onPress={goToSignup}>
-            <Text>Don't have an account?
-              <Text style={styles.signUp}> Sign Up</Text> {/*this will need "onPress => go to Sign up page"}*/}
+          <InputField
+            placeholder={'Confirm Password'}
+            secureText={true}
+            inputValue={confirmPassword}
+            setInputValue={setconfirmPassword} />
+          <BigButton title={'Sign up'} handleLogin={handleCreateNewUser} />
+          <Pressable onPress={goToLoginPage}>
+            <Text>Have an account?
+              <Text style={styles.signUp}> Log in</Text>
             </Text>
           </Pressable>
           <Pressable style={styles.googleButton} onPress={handleGoogleLogin}>
@@ -113,4 +117,4 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default SignupScreen;

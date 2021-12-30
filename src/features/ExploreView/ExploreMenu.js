@@ -9,12 +9,8 @@ import { BiteShareContext } from '../../BiteShareContext';
 // import { useNavigation } from '@react-navigation/native';
 // import mockMenu from '../../../fixtures/mockMenu.json';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-<<<<<<< HEAD
-import BackButton from '../../components/BackButton';
-=======
 // import ExploreScreen from './Explore.Screen';
 
->>>>>>> 28b18bd79064c85208107a8fb4f15f3177180c8c
 
 const styles = StyleSheet.create({
   container: {
@@ -43,12 +39,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: fonts.subHeading
   },
-
-
 });
 
 const ExploreMenu = ({navigation}) => {
-  console.log('Navigation-------------MENU------------', navigation);
+  // console.log('Navigation-------------MENU------------', navigation);
   //l-44-51 suppose to work on the ogic of going back to the Explore page. Currently it is not working
   // const navigation = useNavigation();
   const route = useRoute();
