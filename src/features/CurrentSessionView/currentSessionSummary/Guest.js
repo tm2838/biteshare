@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 
 const Guest = ({ guest }) => {
   const profilePicturePath = '../../../../assets/femaleUser.png';
-  const { state: { accountHolderName, accountType, guests }, dispatch } = useContext(BiteShareContext);
+  const { state: { accountHolderName, accountType, guests, orderedItems, isAccountHolderReady }, dispatch } = useContext(BiteShareContext);
   const [itemPrice, setItemPrice] = useState(0);
   const [rowDisabled, setRowDisabled] = useState(false);
   const [showOrderedItem, setShowOrderedItem] = useState(false);
@@ -75,17 +75,32 @@ const Guest = ({ guest }) => {
   const guestView = accountType === 'GUEST' && accountHolderName === guest.name;
 
   useEffect(() => {
-    if (accountHolderName === guest.name && guest.orderStatus === 'Not Ready') {
-      setStatus('not ready');
-    } else if (accountHolderName === guest.name && guest.orderStatus === 'Ready') {
-      setStatus('ready');
+    if (status !== 'ready') {
+      setRowDisabled(true);
+    } else {
+      setRowDisabled(false);
     }
-  }, [accountType, accountHolderName]);
+  }, [status]);
 
   useEffect(() => {
-    if (status === 'ready' && guest.orderedItems) {
-      const currentPrice = guest.orderedItems.reduce((totalPrice, item) => totalPrice + item.price, 0);
-      setItemPrice(currentPrice);
+    if (accountHolderName === guest.name) {
+      if (isAccountHolderReady) {
+        setStatus('ready');
+      } else {
+        setStatus('not ready');
+      }
+    }
+  }, [isAccountHolderReady, accountHolderName]);
+
+  useEffect(() => {
+    if (status === 'ready') {
+      if (guest.orderedItems) {
+        const currentPrice = guest.orderedItems.reduce((totalPrice, item) => totalPrice + item.price, 0);
+        setItemPrice(currentPrice);
+      } else if (orderedItems.length) {
+        const currentPrice = orderedItems.reduce((totalPrice, item) => totalPrice + item.price, 0);
+        setItemPrice(currentPrice);
+      }
     }
   }, [status]);
 
@@ -167,7 +182,8 @@ const Guest = ({ guest }) => {
           }
         </Pressable>
       </SwipeRow>
-      {showOrderedItem && guest?.orderedItems?.length && <MenuItemCard menuItems={guest.orderedItems} />}
+      {showOrderedItem && guest?.orderedItems?.length && guest?.name !== accountHolderName && <MenuItemCard menuItems={guest.orderedItems} />}
+      {showOrderedItem && orderedItems.length && guest?.name === accountHolderName && <MenuItemCard menuItems={orderedItems} />}
     </View>
   );
 };

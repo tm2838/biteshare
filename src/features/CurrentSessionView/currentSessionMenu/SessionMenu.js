@@ -21,7 +21,7 @@ const SessionMenu = () => {
 
   const {state: { restaurantName, restaurantId, restaurantMenus}, dispatch } = useContext(BiteShareContext);
   // console.log('-------restaurantMenus--------', restaurantMenus);
-  
+
   // **** useEffect is used for the mockData, if real data is used, it will be updated from contextAPI (restaurantMenus)
 
   // useEffect(() => {
