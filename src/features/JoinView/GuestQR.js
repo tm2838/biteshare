@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-export default function GuestQR() {
+export default function QRScanner() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
 
@@ -27,13 +27,13 @@ export default function GuestQR() {
     let hostName = sampleData[1];
     let sessionId = sampleData[0];
     alert(`Session Id: ${sessionId} \n  HostName: ${hostName}`);
-
+    //document ID- from query****
     //***********@TODO----Once we get the  information----************
     // HOST needs to be updated with guest name - in real time (firestore)
     // HOST will get notification (current session -> summary )that someone wants to join the session?
     // After HOST 'allow' the guest entry, update in real time (firestore snapshot), update conetxt api under guest[{name:Greg}]
     // Guest get confirmation update ('waiting' -> 'allowed'), redirect to the (current -> menu)
-    
+
   };
 
   if (hasPermission === null) {
