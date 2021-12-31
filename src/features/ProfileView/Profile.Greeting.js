@@ -30,8 +30,9 @@ const ProfileGreeting = () => {
           source = {require(profilePicturePath)}
           size = {80}
         />
-        <Text style={styles.profileName}>Hi, I'm {accountHolderName}</Text>
       </View>
+
+      <Text style={styles.profileName}>Hi, I'm {accountHolderName}</Text>
 
     </View>
   );

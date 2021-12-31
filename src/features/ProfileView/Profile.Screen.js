@@ -13,7 +13,6 @@ import { BiteShareContext } from '../../BiteShareContext';
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-
   },
   logout: {
     height: 30,
@@ -39,6 +38,7 @@ const ProfileScreen = () => {
 
           {/* Greeting */}
 
+          <ProfileGreeting/>
 
           {/* History */}
 
@@ -48,7 +48,6 @@ const ProfileScreen = () => {
           <TouchableOpacity
             style={styles.logout}
             onPress={logout}>
-              <ProfileGreeting/>
             <Text>Logout</Text>
           </TouchableOpacity>
 
