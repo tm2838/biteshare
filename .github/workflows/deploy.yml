@@ -2,7 +2,7 @@ name: Expo Publish App
 on:
   push:
     branches:
-      - deploy
+      - main
 jobs:
   publish:
     name: Install and publish
