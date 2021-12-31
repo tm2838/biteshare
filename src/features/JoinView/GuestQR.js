@@ -1,3 +1,5 @@
+//https://snack.expo.dev/@sugarexpo/380485
+
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
@@ -24,8 +26,14 @@ export default function GuestQR() {
     let sampleData = data.split('&');
     let hostName = sampleData[1];
     let sessionId = sampleData[0];
-    alert(`Session Id: ${sessionId} & HostName:${hostName}`);
-    // alert(`Bar code with type ${type} and \n data [ ${data} ] has been scanned!`);
+    alert(`Session Id: ${sessionId} \n  HostName: ${hostName}`);
+
+    //***********@TODO----Once we get the  information----************
+    // HOST needs to be updated with guest name - in real time (firestore)
+    // HOST will get notification (current session -> summary )that someone wants to join the session?
+    // After HOST 'allow' the guest entry, update in real time (firestore snapshot), update conetxt api under guest[{name:Greg}]
+    // Guest get confirmation update ('waiting' -> 'allowed'), redirect to the (current -> menu)
+    
   };
 
   if (hasPermission === null) {

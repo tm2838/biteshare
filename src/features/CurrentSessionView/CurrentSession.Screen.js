@@ -18,22 +18,18 @@ const styles = StyleSheet.create({
 });
 
 const CurrentSessionScreen = ({route, navigation}) => {
-  console.log('route---->', route);
 
   const [currentTab, setCurrentTab] = useState('Menu');
-  console.log('Current Tab---->', currentTab);
+
   useEffect(()=>{
-    console.log('route--************************************>', route);
-    // ************  Crystal's notes: The following code allows the navigation from 'create a session' to 'QR code'***
-    //**** will revisit again after the explore page is implemented ****
-    // if (route.params?.previous === 'create a session') {
-    //   console.log('TEST----------------------');
-    //   setCurrentTab('QR Code');
-    // }
-    if (route.params?.previous === 'coming from back button') {
-      console.log('TEST----------BACK------------');
-      navigation.navigate('Explore');
+
+    // ************  Crystal's notes:
+    // The following code allows the navigation from 'create a session' to 'QR code'***
+    //**** should be working, if not, comment out line31-34 ****
+    if (route.params?.previous === 'create a session') {
+      setCurrentTab('QR Code');
     }
+
   }, []);
 
   return (
