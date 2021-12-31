@@ -14,12 +14,12 @@ const styles = StyleSheet.create({
     maxHeight: 60
   },
   images: {
-    height: 40,
-    width: 40,
+    height: 30,
+    width: 30,
   },
   activeImages: {
-    height: 40,
-    width: 40,
+    height: 30,
+    width: 30,
     backgroundColor: 'white',
     borderRadius: 50,
   },
@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     flexGrow: 15,
     flexDirection: 'row',
     justifyContent: 'space-around',
+    alignItems: 'center'
   },
   backButton: {
     flexGrow: 1,

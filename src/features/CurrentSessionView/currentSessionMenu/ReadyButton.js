@@ -19,10 +19,11 @@ const ReadyButton = ({changeTab}) => {
 
   const navigation = useNavigation();
   const { state: { sessionId, orderedItems }, dispatch } = useContext(BiteShareContext);
-  
+
   const [orderReady, SetOrderReady] = useState(false);
 
   const menuChoice = () => {
+    dispatch({ type: 'SET_ORDER_STATUS', isAccountHolderReady: true });
     changeTab('Summary');
 
     //@TODO ****

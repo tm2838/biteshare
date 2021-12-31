@@ -28,13 +28,12 @@ const Menu = ({ menu }) => {
 
   const { state: { accountHolderName, orderedItems }, dispatch } = useContext(BiteShareContext);
   const [checked, setChecked] = useState(false);
-  
 
   const selectMenu = (item) => {
 
     setChecked(!checked);
 
-    let choice = {id: item.key, name: item.name, description: item.description };
+    let choice = {id: item.key, name: item.name, description: item.description, price: item.price };
     if (!checked) {
       dispatch({ type: 'SET_ORDERED_ITEMS', orderedItems: [...orderedItems, choice]});
     } else {
