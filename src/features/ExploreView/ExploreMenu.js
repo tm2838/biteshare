@@ -1,8 +1,8 @@
-import React, { useContext, useState, useEffect} from 'react';
-import { Appbar, List, Button, Avatar} from 'react-native-paper';
+import React, { useContext, useState, useEffect } from 'react';
+import { Appbar, List, Button, Avatar } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
-import { StyleSheet, View, Text, SafeAreaView, ScrollView, StatusBar} from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView, ScrollView, StatusBar } from 'react-native';
 import { colors } from '../../infrastructure/colors';
 import { fonts } from '../../infrastructure/fonts';
 import { BiteShareContext } from '../../BiteShareContext';
@@ -40,12 +40,12 @@ const styles = StyleSheet.create({
 
 });
 
-const ExploreMenu = ({navigation}) => {
+const ExploreMenu = ({ navigation }) => {
 
 
-  const API_KEY = 'E3EE4E5EE5EEEEEE5E522EEEE5EfE0157f194895a9ab68497ab203e9092656EEEE4556678EEEEEEEEEEEEE';
+  const API_KEY = 'OWN_KEY_GOES_HERE';
 
-  const {state: { restaurantName, restaurantId, restaurantMenus}, dispatch } = useContext(BiteShareContext);
+  const { state: { restaurantName, restaurantId, restaurantMenus }, dispatch } = useContext(BiteShareContext);
 
   const [isLoading, setLoading] = useState(true);
   const [restaurantAddress, setRestaurantAddress] = useState('');
@@ -53,19 +53,19 @@ const ExploreMenu = ({navigation}) => {
   const parseJsonMenu = (data) => {
     let prettyMenu = [];
     let menuId = 1;
-    for ( let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       let section = data[i].menu_items;
       for (let j = 0; j < section.length; j++) {
         let item = section[j];
-        prettyMenu.push({key: menuId, name: item.name, description: item.description, price: item.price});
-        menuId ++; //to remove the warning from react console - providing KEY for each component
+        prettyMenu.push({ key: menuId, name: item.name, description: item.description, price: item.price });
+        menuId++; //to remove the warning from react console - providing KEY for each component
       }
     }
 
     dispatch({ type: 'SET_RESTAURANT_MENU', restaurantMenus: prettyMenu });
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     fetch(`https://api.documenu.com/v2/restaurant/${restaurantId}?key=${API_KEY}`)
       .then((response) => response.json())
       .then((json) => {
@@ -75,7 +75,7 @@ const ExploreMenu = ({navigation}) => {
 
       })
       .catch((error => console.error(error)))
-      .finally(()=>setLoading(false));
+      .finally(() => setLoading(false));
   }, []);
 
   return (
@@ -85,16 +85,16 @@ const ExploreMenu = ({navigation}) => {
           ? <Text>Loading...</Text>
           : (
             <View >
-              <Appbar.Header style = {styles.restaurantHeader} >
+              <Appbar.Header style={styles.restaurantHeader} >
                 < Appbar.BackAction
                   onPress={
                     () => {
-                      dispatch({type: 'SET_RESTAURANT_ID', restaurantId: null});
+                      dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: null });
                     }
                   }
                   color="black"
                 />
-                <Appbar.Content title={restaurantName} subtitle={restaurantAddress} style = {styles.restaurantHeading}/>
+                <Appbar.Content title={restaurantName} subtitle={restaurantAddress} style={styles.restaurantHeading} />
               </Appbar.Header>
 
               <ScrollView style={styles.scrollView}>
@@ -106,7 +106,7 @@ const ExploreMenu = ({navigation}) => {
                     key={one.key}
                     title={one.name}
                     description={one.description}
-                    right={()=>(<Text> $ {one.price}</Text>)}
+                    right={() => (<Text> $ {one.price}</Text>)}
                   />);
                 })}
 
@@ -119,8 +119,8 @@ const ExploreMenu = ({navigation}) => {
                   icon='account-plus'
                   mode="contained"
                   color={colors.brand.beachLight}
-                  onPress={() => navigation.navigate('CurrentSession', {previous: 'create a session'})}>
-            Create a Session
+                  onPress={() => navigation.navigate('CurrentSession', { previous: 'create a session' })}>
+                  Create a Session
                 </Button>
               </View>
             </View>

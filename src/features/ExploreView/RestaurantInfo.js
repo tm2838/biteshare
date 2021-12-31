@@ -65,7 +65,6 @@ const RestaurantInfo = ({ restaurant }) => {
             onPress={() => seeFullMenuButtonPress(restaurant.restaurant_id, restaurant.restaurant_name)}>
             <Text style={{ color: colors.brand.kazan, fontWeight: '600' }}>See Full Menu</Text>
           </TouchableOpacity>
-
         </View>
       </Card>
     </View>
