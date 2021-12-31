@@ -53,47 +53,31 @@ const Guest = ({ guest }) => {
   const [itemPrice, setItemPrice] = useState(0);
   const [rowDisabled, setRowDisabled] = useState(false);
   const [showOrderedItem, setShowOrderedItem] = useState(false);
-  // const [status, setStatus] = useState('access'); // status: access/ready/not ready;
-  // @TODO:
-  // not ready -> ready status change should be triggered by clicking on 'I'm ready' in menu's tab
-  // DB should be updated on click
-  // the summary page should pull from DB periodically to see whether that status has changed?
-  // or socket.io?
+
   const allowButtonStyle = { margin: 0, marginRight: 10, backgroundColor: colors.brand.beachLight };
   const denyButtonStyle = { margin: 0, backgroundColor: colors.brand.kazanLight };
 
   // 'swipe to remove guest' only when current user is host and the guest is granted access to the session
-  const swipeable = accountHolderName !== guest.name && accountType !== 'GUEST' && guest.joinRequest;
+  const swipeable = accountHolderName !== guest.name && accountType !== 'GUEST' && guest.joinRequest === 'allowed';
 
   // host: access stage, should see allow/deny for everyone else
   const hostViewAccessStage = guest.joinRequest === 'pending' && accountHolderName !== guest.name && accountType === 'HOST';
 
   // host: order stage, should see status indicator for everyone
-  const hostViewOrderStageNotReady = guest.orderStatus === 'not ready' && guest.joinRequest === 'allowed' && accountType === 'HOST';
-  const hostViewOrderStageReady = guest.orderStatus === 'ready' && guest.joinRequest === 'allowed' && accountType === 'HOST';
+  const hostViewOrderStageNotReady = guest.orderStatus === 'not ready' && (guest.joinRequest === 'allowed' || guest.name === accountHolderName) && accountType === 'HOST';
+  const hostViewOrderStageReady = guest.orderStatus === 'ready' && (guest.joinRequest === 'allowed' || guest.name === accountHolderName) && accountType === 'HOST';
 
   // guest: order stage, should see status indicator for self and not anyone else
   const guestView = accountType === 'GUEST' && accountHolderName === guest.name;
   const otherGuestView = accountType === 'GUEST' && accountHolderName !== guest.name;
 
-  // useEffect(() => {
-  //   if (accountHolderName === guest.name && guest.orderStatus === 'Not Ready') {
-  //     setStatus('not ready');
-  //   } else if (accountHolderName === guest.name && guest.orderStatus === 'Ready') {
-  //     setStatus('ready');
-  //   }
-  // }, [accountType, accountHolderName]);
-
-  // useEffect(() => {
-  //   if (status === 'ready' && guest.orderedItems) {
-  //     const currentPrice = guest.orderedItems.reduce((totalPrice, item) => totalPrice + item.price, 0);
-  //     setItemPrice(currentPrice);
-  //   }
-  // }, [status]);
+  useEffect(() => {
+    setRowDisabled(guest.orderStatus === 'not ready');
+  }, [guest.orderStatus]);
 
   const handleAllowGuest = () => {
     // @TODO: update DB to include user as guest in transaction
-    getADocReferenceFromCollection('transactions/IM2n8bfFKQv4fvq9WlIu/attendees', 'name', '==', 'Linda')
+    getADocReferenceFromCollection('transactions/IM2n8bfFKQv4fvq9WlIu/attendees', 'name', '==', `${guest.name}`)
       .then((qResult) => {
         qResult.forEach((doc) => {
           updateADocument('transactions/IM2n8bfFKQv4fvq9WlIu/attendees', doc.id, {
@@ -106,8 +90,18 @@ const Guest = ({ guest }) => {
 
   const handleDenyGuest = () => {
     // @TODO: update DB to set 'request pending' back to false?
-    const updatedGuests = guests.filter((g) => g.name !== guest.name);
-    dispatch({ type: 'SET_GUESTS', guests: updatedGuests });
+    getADocReferenceFromCollection('transactions/IM2n8bfFKQv4fvq9WlIu/attendees', 'name', '==', `${guest.name}`)
+      .then((qResult) => {
+        qResult.forEach((doc) => {
+          updateADocument('transactions/IM2n8bfFKQv4fvq9WlIu/attendees', doc.id, {
+            joinRequest: 'denied'
+          });
+        });
+      })
+      .then(() => {
+        const updatedGuests = guests.filter((g) => g.name !== guest.name);
+        dispatch({ type: 'SET_GUESTS', guests: updatedGuests });
+      });
   };
 
   const handleRowSwiped = () => {
