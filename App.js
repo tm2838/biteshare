@@ -12,6 +12,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './src/features/HomeView/Home.Screen.js';
 import AppLoading from 'expo-app-loading';
 import LoginScreen from './src/features/LoginView/Login.Screen';
+import SignupScreen from './src/features/SignupView/Signup.Screen';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
@@ -63,9 +64,21 @@ export default function App() {
         ? <AppLoading />
         : (<ThemeProvider theme={theme}>
           <NavigationContainer>
-            {state.authenticated
-              ? <HomeScreen name='Home' />
-              : <LoginScreen name='Login' />}
+            <Stack.Navigator>
+              <Stack.Screen
+                name='Login'
+                component={LoginScreen}
+              />
+              <Stack.Screen
+                name='Home'
+                component={HomeScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name='Signup'
+                component={SignupScreen}
+              />
+            </Stack.Navigator>
           </NavigationContainer>
           {/* <DummyComponent /> */}
         </ThemeProvider>)

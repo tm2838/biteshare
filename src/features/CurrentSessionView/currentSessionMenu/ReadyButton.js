@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import BiteshareButton from '../../../components/BiteshareButton.js';
@@ -16,24 +16,30 @@ const styles = StyleSheet.create({
 });
 
 const ReadyButton = ({changeTab}) => {
-  const navigation = useNavigation();
-  const { state: { sessionId }, dispatch } = useContext(BiteShareContext);
 
+  const navigation = useNavigation();
+  const { state: { sessionId, orderedItems }, dispatch } = useContext(BiteShareContext);
+  
+  const [orderReady, SetOrderReady] = useState(false);
 
   const menuChoice = () => {
     changeTab('Summary');
-    // alert('Your choice is : Excellent');
-    // <CurrentSession route={{test: 'CurrentSession'}}/>;
+
     //@TODO ****
     // When user click 'ready'
-    // menu choice (more than one || just one item for the purpose of MVP)
-    // update DB with - {sessionId: 1234, userName: 'Greg', userId: 8776, menuName: 'pizza', menuDescription:'small', menuPrice: 12.95} under 'transaction' collections
-    // redirect to summary page
+    // orderedItem will be updated to firestore (PUT transaction collection by sessionId)
+    // search with sessionId (transactions_id from firestore)
+    // once there is a match with sessionId (transactions_id : 1234)
+    // update - { name: 'Greg', userId: 8776, ready: True, orderedItem:[{menuName: 'pizza', menuDescription:'small', menuPrice: 12.95}]} under 'transaction' collections
+    // redirect to summary page (Can guest can see if everyone ready or not? )
   };
 
   return (
     <View style={styles.container}>
-      <BiteshareButton title={'I\'m Ready'} buttonStyle={{ backgroundColor: colors.brand.beachLight }} onPress={menuChoice} />
+      <BiteshareButton
+        title={'I\'m Ready'}
+        buttonStyle={orderedItems.length === 0 ? { backgroundColor: 'lightgrey' } : { backgroundColor: colors.brand.beachLight } }
+        onPress={menuChoice} />
     </View>
   );
 };
