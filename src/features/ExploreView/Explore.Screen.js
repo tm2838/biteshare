@@ -3,13 +3,13 @@ import React, { useEffect, useContext } from 'react';
 import { BiteShareContext } from '../../BiteShareContext.js';
 import mockRestaurants from '../../../fixtures/mockRestaurants.json';
 import { Searchbar } from 'react-native-paper';
-import { StyleSheet, Text, View, Image, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, Pressable } from 'react-native';
 import ExploreHeader from './ExploreHeader';
 import SafeArea from '../../components/SafeArea';
 import ExploreMenu from './ExploreMenu';
 import RestaurantInfo from './RestaurantInfo';
 import { colors } from '../../infrastructure/colors';
-
+import getLocation from './LocationHelper';
 
 const styles = StyleSheet.create({
   search: {
@@ -28,14 +28,12 @@ const ExploreScreen = ({ navigation }) => {
 
   //@TODO: update to use real data
   useEffect(() => {
+    getLocation();
     const restaurantsData = mockRestaurants.data;
     dispatch({ type: 'SET_RESTAURANTS', restaurants: restaurantsData });
   }, [mockRestaurants]);
 
   const renderRestaurant = (restaurant) => (<RestaurantInfo restaurant={restaurant.item} />);
-
-
-
 
   return (
     <SafeArea>
@@ -52,6 +50,10 @@ const ExploreScreen = ({ navigation }) => {
                   iconColor={colors.brand.rausch}
                   onIconPress={() => alert('Icon pressed!')}
                 />
+                {/* <Pressable onPress={useCurrentLocation}>
+                  <Text>Hey</Text>
+                </Pressable> */}
+                {/* <LocationHelper /> */}
               </View>
 
               <FlatList
@@ -61,7 +63,6 @@ const ExploreScreen = ({ navigation }) => {
               />
             </>
         }
-
       </View>
     </SafeArea>
   );
