@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginRight: 80
+    marginRight: '25%'
   },
   profile: {
     borderRadius: 15,
@@ -49,11 +49,11 @@ const styles = StyleSheet.create({
 
 const Guest = ({ guest }) => {
   const profilePicturePath = '../../../../assets/femaleUser.png';
-  const { state: { accountHolderName, accountType, guests }, dispatch } = useContext(BiteShareContext);
+  const { state: { accountHolderName, accountType, guests, orderedItems, isAccountHolderReady }, dispatch } = useContext(BiteShareContext);
   const [itemPrice, setItemPrice] = useState(0);
   const [rowDisabled, setRowDisabled] = useState(false);
   const [showOrderedItem, setShowOrderedItem] = useState(false);
-  const [status, setStatus] = useState('access'); // status: access/ready/not ready;
+  // const [status, setStatus] = useState('access'); // status: access/ready/not ready;
   // @TODO:
   // not ready -> ready status change should be triggered by clicking on 'I'm ready' in menu's tab
   // DB should be updated on click
@@ -63,7 +63,7 @@ const Guest = ({ guest }) => {
   const denyButtonStyle = { margin: 0, backgroundColor: colors.brand.kazanLight };
 
   // 'swipe to remove guest' only when current user is host and the guest is granted access to the session
-  const swipeable = accountHolderName !== guest.name && status !== 'access' && accountType !== 'GUEST';
+  const swipeable = accountHolderName !== guest.name && accountType !== 'GUEST' && guest.joinRequest;
 
   // host: access stage, should see allow/deny for everyone else
   const hostViewAccessStage = guest.joinRequest === 'pending' && accountHolderName !== guest.name && accountType === 'HOST';
@@ -131,7 +131,6 @@ const Guest = ({ guest }) => {
         onRowOpen={handleRowSwiped}
         onRowClose={handleRowClose}
       >
-
         <View style={styles.hiddenView} >
           <Text></Text>
           <Text onPress={handleDenyGuest}>Remove</Text>
@@ -188,7 +187,7 @@ const Guest = ({ guest }) => {
           }
         </Pressable>
       </SwipeRow>
-      {showOrderedItem && guest?.orderedItems?.length && <MenuItemCard menuItems={guest.orderedItems} />}
+      {showOrderedItem && guest?.orderedItems?.length && guest?.name !== accountHolderName && <MenuItemCard menuItems={guest.orderedItems} />}
     </View>
 
   );

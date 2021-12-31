@@ -3,6 +3,7 @@ import React from 'react';
 
 export const biteShareState = {
   isEveryoneReady: false,
+  isAccountHolderReady: false,
   splitMethod: '',
   totalBill: 0,
   guests: [],
@@ -13,12 +14,18 @@ export const biteShareState = {
   accountHolderName: 'Susan',
   accountType: 'HOST',
   sessionId: 1234,
+  orderedItems: [], //matching the name with TJ's code in Guest.js (will updated as needed after checking with TJ)
+  email: '',
+  authenticated: false
 };
 
 export const biteShareReducer = (state, action) => {
+
   switch (action.type) {
-    case 'SET_ORDER_STATUS':
+    case 'SET_OVERALL_ORDER_STATUS':
       return { ...state, isEveryoneReady: action.isEveryoneReady };
+    case 'SET_ORDER_STATUS':
+      return { ...state, isAccountHolderReady: action.isAccountHolderReady };
     case 'SET_SPLIT_METHOD':
       return { ...state, splitMethod: action.splitMethod };
     case 'SET_TOTAL_BILL':
@@ -39,6 +46,12 @@ export const biteShareReducer = (state, action) => {
       return { ...state, accountType: action.accountType };
     case 'SET_SESSION_ID':
       return { ...state, sessionId: action.sessionId };
+    case 'SET_ORDERED_ITEMS':
+      return { ...state, orderedItems: action.orderedItems };
+    case 'SET_EMAIL':
+      return { ...state, email: action.email };
+    case 'SET_AUTH':
+      return { ...state, authenticated: action.authenticated };
     default:
       return state;
   }

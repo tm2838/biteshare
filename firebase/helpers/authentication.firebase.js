@@ -1,5 +1,5 @@
 import { auth } from '../firebase.config.js';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 /**
   Use this file to create helper functions for firebase authentication
@@ -14,4 +14,8 @@ const signUpNewUser = (email, password) => {
   return createUserWithEmailAndPassword(auth, email, password);
 };
 
-export { signUpNewUser };
+const loginUser = (email, password) => {
+  return signInWithEmailAndPassword(auth, email, password);
+};
+
+export { signUpNewUser, loginUser };

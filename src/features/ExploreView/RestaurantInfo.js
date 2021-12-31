@@ -34,11 +34,13 @@ const styles = StyleSheet.create({
 });
 
 const RestaurantInfo = ({ restaurant }) => {
-  const { state: { restaurantId }, dispatch } = useContext(BiteShareContext);
+  const { state: { restaurantId, restaurantName }, dispatch } = useContext(BiteShareContext);
 
-  const seeFullMenuButtonPress = (restaurant_id) => {
+  const seeFullMenuButtonPress = (restaurant_id, restaurant_name) => {
     dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: restaurant_id });
+    dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: restaurant_name }); //cs*- added restaurant_name to context API
     alert(`restaurant_id: ${restaurant_id}`);
+
   };
 
   // console.log('afterbuttonclick: ' + restaurantId);
@@ -60,7 +62,7 @@ const RestaurantInfo = ({ restaurant }) => {
         <View style={{ alignItems: 'center' }}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => seeFullMenuButtonPress(restaurant.restaurant_id)}>
+            onPress={() => seeFullMenuButtonPress(restaurant.restaurant_id, restaurant.restaurant_name)}>
             <Text style={{ color: colors.brand.kazan, fontWeight: '600' }}>See Full Menu</Text>
           </TouchableOpacity>
 

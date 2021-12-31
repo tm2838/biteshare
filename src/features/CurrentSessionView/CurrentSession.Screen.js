@@ -17,15 +17,21 @@ const styles = StyleSheet.create({
   }
 });
 
-const CurrentSessionScreen = ({ route }) => {
+const CurrentSessionScreen = ({route, navigation}) => {
 
   const [currentTab, setCurrentTab] = useState('Menu');
-  // useEffect(()=>{
-  //   // console.log('route-->', route);
-  //   if (route.params.previous === 'create a session') {
-  //     setCurrentTab('QR Code');
-  //   }
-  // }, []);
+
+  useEffect(()=>{
+
+    // ************  Crystal's notes:
+    // The following code allows the navigation from 'create a session' to 'QR code'***
+    //**** should be working, if not, comment out line31-34 ****
+    if (route.params?.previous === 'create a session') {
+      setCurrentTab('QR Code');
+    }
+
+  }, []);
+
   return (
     <SafeArea>
       <View style={styles.container}>

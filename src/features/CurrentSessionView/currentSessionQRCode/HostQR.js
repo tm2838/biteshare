@@ -42,6 +42,7 @@ const HostQR = () => {
         logoBorderRadius={10}
         logoBackgroundColor={'transparent'}
       />
+      
       <Text style={styles.baseText}>
         Scan to join a session
       </Text>
