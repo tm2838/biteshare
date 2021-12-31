@@ -18,5 +18,6 @@ jobs:
           # expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
           # expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
           expo-cache: true
-      - run: yarn
+      - run: npm sudo rm -rf node_modules package-lock.json
+      - run: npm install
       - run: expo publish
