@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
 
 const CurrentSessionSummary = () => {
   const { state: { accountType, isEveryoneReady } } = useContext(BiteShareContext);
+  console.log('IsEveryoneReady: ', isEveryoneReady);
   const buttonStyle = isEveryoneReady ? { backgroundColor: colors.brand.beachLight, marginTop: 50, width: 180 } : { marginTop: 50, width: 180 };
   const title = isEveryoneReady ? 'Everyone is ready!' : 'Still waiting...';
   return (

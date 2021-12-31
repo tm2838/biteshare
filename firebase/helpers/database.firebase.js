@@ -42,11 +42,23 @@ const deleteASpecificFieldInADocument = (collectionName, documentName, fieldName
   });
 };
 
+const getADocReferenceFromCollection = (collectionName, fieldName, comparisonOperator, value) => {
+  const q = query(collection(db, collectionName), where(fieldName, comparisonOperator, value));
+  return getDocs(q);
+};
+
 /*********************************** Sanpshot listeners *******************************************/
 const readDocSnapshotListener = (collectionName, documentName, callback) => {
   const docRef = doc(db, collectionName, documentName);
   return onSnapshot(docRef, (doc) => {
     callback(doc);
+  });
+};
+
+const readCollectionSnapshotListener = (collectionName, callback) => {
+  const collectionRef = collection(db, collectionName);
+  return onSnapshot(collectionRef, (docsSanpshot) => {
+    callback(docsSanpshot);
   });
 };
 
@@ -68,4 +80,6 @@ export {
   deleteASpecificFieldInADocument,
   readDocSnapshotListener,
   readQuerySnapshotListener,
+  readCollectionSnapshotListener,
+  getADocReferenceFromCollection
 };

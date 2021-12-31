@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, FlatList } from 'react-native';
 import Guest from './Guest.js';
 import mockGuests from '../../../../fixtures/mockGuests.json';
 import { BiteShareContext } from '../../../BiteShareContext.js';
-import { readDocSnapshotListener, readASingleDocument } from '../../../../firebase/helpers/database.firebase.js';
+import { readDocSnapshotListener, readCollectionSnapshotListener } from '../../../../firebase/helpers/database.firebase.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,21 +25,22 @@ const GuestList = () => {
   // }, [mockGuests]);
 
   useEffect(() => {
-    if (guests.length && guests.every((guest) => guest.orderStatus === 'Ready')) {
+    if (guests.length && guests.every((guest) => guest.orderStatus === 'ready')) {
       dispatch({ type: 'SET_ORDER_STATUS', isEveryoneReady: true });
     }
   }, [guests]);
 
   useEffect(() => {
-    readDocSnapshotListener('transactions', 'Rg0KxKCcc6mVOBQClhbi', (doc) => {
-      console.log('running snapshot Listener now.........');
-      const guests = doc.data().attendees;
-
+    readCollectionSnapshotListener('transactions/IM2n8bfFKQv4fvq9WlIu/attendees', (result) => {
+      const guests = [];
+      result.forEach((doc) => {
+        guests.push(doc.data());
+      });
       const currentAccount = guests.filter((guest) => guest.name === accountHolderName);
       const otherAccounts = guests.filter((guest) => guest.name !== accountHolderName);
       dispatch({ type: 'SET_GUESTS', guests: [...currentAccount, ...otherAccounts] });
-
     });
+
   }, []);
 
 
