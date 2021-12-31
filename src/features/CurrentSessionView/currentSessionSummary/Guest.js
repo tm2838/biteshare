@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 
 const Guest = ({ guest }) => {
   const profilePicturePath = '../../../../assets/femaleUser.png';
-  const { state: { accountHolderName, accountType, guests, orderedItems, isAccountHolderReady }, dispatch } = useContext(BiteShareContext);
+  const { state: { accountHolderName, accountType, guests, orderedItems, isAccountHolderReady, sessionId }, dispatch } = useContext(BiteShareContext);
   const [itemPrice, setItemPrice] = useState(0);
   const [rowDisabled, setRowDisabled] = useState(false);
   const [showOrderedItem, setShowOrderedItem] = useState(false);
@@ -77,30 +77,32 @@ const Guest = ({ guest }) => {
 
   const handleAllowGuest = () => {
     // @TODO: update DB to include user as guest in transaction
-    getADocReferenceFromCollection('transactions/IM2n8bfFKQv4fvq9WlIu/attendees', 'name', '==', `${guest.name}`)
+    getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', `${guest.name}`)
       .then((qResult) => {
         qResult.forEach((doc) => {
-          updateADocument('transactions/IM2n8bfFKQv4fvq9WlIu/attendees', doc.id, {
+          updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
             orderStatus: 'not ready',
             joinRequest: 'allowed'
           });
         });
+      })
+      .catch((error) => {
+        console.log('Error allowing the guest: ', error);
       });
   };
 
   const handleDenyGuest = () => {
     // @TODO: update DB to set 'request pending' back to false?
-    getADocReferenceFromCollection('transactions/IM2n8bfFKQv4fvq9WlIu/attendees', 'name', '==', `${guest.name}`)
+    getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', `${guest.name}`)
       .then((qResult) => {
         qResult.forEach((doc) => {
-          updateADocument('transactions/IM2n8bfFKQv4fvq9WlIu/attendees', doc.id, {
+          updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
             joinRequest: 'denied'
           });
         });
       })
-      .then(() => {
-        const updatedGuests = guests.filter((g) => g.name !== guest.name);
-        dispatch({ type: 'SET_GUESTS', guests: updatedGuests });
+      .catch((error) => {
+        console.log('Error denying the guest: ', error);
       });
   };
 
@@ -115,7 +117,7 @@ const Guest = ({ guest }) => {
   const handleShowOrderedItem = () => {
     setShowOrderedItem(!showOrderedItem);
   };
-  console.log('Guest is: ', guest);
+
   return guest.joinRequest !== 'denied' && (
     <View style={styles.container}>
       <SwipeRow
@@ -171,13 +173,10 @@ const Guest = ({ guest }) => {
               </View>)
           }
           {otherGuestView &&
-            (guest.orderStatus === 'not ready' ?
-              <View style={styles.buttonContainer}>
-
-              </View>
-              : <View style={styles.buttonContainer}>
-                <Text style={{ marginLeft: 100 }}>${guest.individualBills}</Text>
-              </View>)
+            guest.orderStatus === 'ready' &&
+            <View style={styles.buttonContainer}>
+              <Text style={{ marginLeft: 100 }}>${guest.individualBills}</Text>
+            </View>
           }
         </Pressable>
       </SwipeRow>

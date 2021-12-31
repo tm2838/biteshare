@@ -13,16 +13,7 @@ const styles = StyleSheet.create({
 });
 
 const GuestList = () => {
-  const { state: { guests, accountHolderName }, dispatch } = useContext(BiteShareContext);
-
-  // useEffect(() => {
-  //   // @TODO:
-  //   // replace mockGuests with real guests
-  //   // pull from DB periodically - potentially with 'meal session id === current meal session id' and 'request pending === true'?
-  //   const currentAccount = mockGuests.filter((guest) => guest.name === accountHolderName);
-  //   const otherAccounts = mockGuests.filter((guest) => guest.name !== accountHolderName);
-  //   dispatch({ type: 'SET_GUESTS', guests: [...currentAccount, ...otherAccounts] }); // make sure accountHolder always shows up on top
-  // }, [mockGuests]);
+  const { state: { guests, accountHolderName, sessionId }, dispatch } = useContext(BiteShareContext);
 
   useEffect(() => {
     if (guests.length && guests.every((guest) => guest.orderStatus === 'ready')) {
@@ -31,13 +22,13 @@ const GuestList = () => {
   }, [guests]);
 
   useEffect(() => {
-    readCollectionSnapshotListener('transactions/IM2n8bfFKQv4fvq9WlIu/attendees', (result) => {
+    readCollectionSnapshotListener(`transactions/${sessionId}/attendees`, (result) => {
       const guests = [];
       result.forEach((doc) => {
         guests.push(doc.data());
       });
-      const currentAccount = guests.filter((guest) => guest.name === accountHolderName);
-      const otherAccounts = guests.filter((guest) => guest.name !== accountHolderName);
+      const currentAccount = guests.filter((guest) => guest.name === accountHolderName); // Might Need to change here
+      const otherAccounts = guests.filter((guest) => guest.name !== accountHolderName); // Same here as well
       dispatch({ type: 'SET_GUESTS', guests: [...currentAccount, ...otherAccounts] });
     });
 
