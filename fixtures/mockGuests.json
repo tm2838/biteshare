@@ -38,8 +38,8 @@
     "orderStatus": "Not Ready"
   },
   {
-    "name": "Alex",
-    "orderStatus": "Not Ready"
+    "name": "Alex", 
+    "orderStatus": "Ready"
   },
   {
     "name": "Ali",

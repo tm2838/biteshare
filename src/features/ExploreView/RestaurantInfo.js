@@ -39,7 +39,7 @@ const RestaurantInfo = ({ restaurant }) => {
   const seeFullMenuButtonPress = (restaurant_id, restaurant_name) => {
     dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: restaurant_id });
     dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: restaurant_name }); //cs*- added restaurant_name to context API
-    alert(`restaurant_id: ${restaurant_id}`);
+    // alert(`restaurant_id: ${restaurant_id}`);
 
   };
 

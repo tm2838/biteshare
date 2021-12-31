@@ -32,7 +32,6 @@ const ExploreScreen = ({ navigation }) => {
   const APIkey = 'OWN_KEY_GOES_HERE';
   const BASE_URL = 'https://api.documenu.com/v2/restaurants';
 
-
   const { state: { restaurants, restaurantId }, dispatch } = useContext(BiteShareContext);
 
   //@TODO: might completely remove the initial load of explore page restaurants based on find current location functionality
@@ -50,6 +49,7 @@ const ExploreScreen = ({ navigation }) => {
         'X-API-KEY': APIkey
       }
     };
+
 
     //if user entered city instead of zipcode
     if (zipcode && isNaN(zipcode)) {

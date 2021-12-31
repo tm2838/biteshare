@@ -37,11 +37,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: fonts.subHeading
   },
-
 });
 
 const ExploreMenu = ({ navigation }) => {
-
 
   const API_KEY = 'OWN_KEY_GOES_HERE';
 
@@ -85,7 +83,9 @@ const ExploreMenu = ({ navigation }) => {
           ? <Text>Loading...</Text>
           : (
             <View >
+
               <Appbar.Header style={styles.restaurantHeader} >
+
                 < Appbar.BackAction
                   onPress={
                     () => {
@@ -110,8 +110,6 @@ const ExploreMenu = ({ navigation }) => {
                   />);
                 })}
 
-
-
               </ScrollView>
               {/* onPress 'create a session', it will direct to the QR code -  */}
               <View styles={styles.button}>
@@ -124,7 +122,6 @@ const ExploreMenu = ({ navigation }) => {
                 </Button>
               </View>
             </View>
-
           )
       }
     </View>
