@@ -13,7 +13,6 @@
   "dependencies": {
     "@expo-google-fonts/montserrat": "^0.2.0",
     "@expo-google-fonts/open-sans": "^0.2.0",
-    "@react-native-community/geolocation": "^2.0.2",
     "@react-navigation/bottom-tabs": "^6.0.9",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
@@ -24,12 +23,13 @@
     "expo-barcode-scanner": "^11.2.0",
     "expo-camera": "^12.1.0",
     "expo-constants": "^13.0.0",
+    "expo-location": "~13.0.4",
     "expo-status-bar": "~1.1.0",
+    "expo-task-manager": "~10.0.3",
     "firebase": "^9.6.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
-    "react-native-geolocation-service": "^5.3.0-beta.4",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-paper": "^4.11.1",
     "react-native-qrcode-svg": "^6.1.2",
@@ -39,9 +39,7 @@
     "react-native-swipe-list-view": "^3.2.9",
     "react-native-vector-icons": "^9.0.0",
     "react-native-web": "0.17.1",
-    "styled-components": "^5.3.3",
-    "expo-task-manager": "~10.0.3",
-    "expo-location": "~13.0.4"
+    "styled-components": "^5.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
