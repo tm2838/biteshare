@@ -105,7 +105,7 @@ const LoginScreen = () => {
             </Text>
           </Pressable>
           <Pressable style={styles.googleButton} onPress={handleGoogleLogin}>
-            <Text>Google</Text>
+            <Text>Google Changed</Text>
           </Pressable>
         </KeyboardAvoidingView>
       </View>
