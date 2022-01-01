@@ -13,7 +13,7 @@ export const biteShareState = {
   restaurantMenus: [],
   accountHolderName: 'Jeff',
   accountType: 'HOST',
-  sessionId: 'IM2n8bfFKQv4fvq9WlIu',
+  sessionId: '',
   orderedItems: [], //matching the name with TJ's code in Guest.js (will updated as needed after checking with TJ)
   email: '',
   authenticated: false

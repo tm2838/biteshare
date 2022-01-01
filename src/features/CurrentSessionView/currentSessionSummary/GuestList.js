@@ -31,7 +31,6 @@ const GuestList = () => {
       const otherAccounts = guests.filter((guest) => guest.name !== accountHolderName); // Same here as well
       dispatch({ type: 'SET_GUESTS', guests: [...currentAccount, ...otherAccounts] });
     });
-
   }, []);
 
 

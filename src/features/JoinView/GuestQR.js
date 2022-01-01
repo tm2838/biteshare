@@ -1,10 +1,11 @@
 //https://snack.expo.dev/@sugarexpo/380485
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { addANewAnonymousDocument, readDocSnapshotListener } from '../../../firebase/helpers/database.firebase';
 import { useNavigation } from '@react-navigation/native';
+import { BiteShareContext } from '../../BiteShareContext';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,6 +18,7 @@ export default function GuestQR() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const navigation = useNavigation();
+  const { state: { }, dispatch } = useContext(BiteShareContext);
 
   useEffect(() => {
     (async () => {
@@ -31,6 +33,7 @@ export default function GuestQR() {
     let hostName = sampleData[1];
     let sessionId = sampleData[0];
     // alert(`Session Id: ${sessionId} \n  HostName: ${hostName}`);
+    dispatch({type: 'SET_SESSION_ID', sessionId: sessionId});
     addANewAnonymousDocument(`transactions/${sessionId}/attendees`, {
       joinRequest: 'pending',
       isHost: true,
