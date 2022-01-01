@@ -46,8 +46,8 @@ const ExploreScreen = ({ navigation }) => {
     let address = await Location.reverseGeocodeAsync({ latitude, longitude });
     setZipcodeQuery(address[0].postalCode);
     console.log(zipcodeQuery);
-    // dispatch({ type: 'SET_CURRENTZIP', currentZip: address[0].postalCode });
   };
+  
   //@TODO: might completely remove the initial load of explore page restaurants based on find current location functionality
   useEffect(() => {
     const restaurantsData = mockRestaurants.data;
