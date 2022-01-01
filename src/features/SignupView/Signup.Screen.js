@@ -11,6 +11,7 @@ import { BiteShareContext } from '../../BiteShareContext';
 import { auth } from '../../../firebase/firebase.config';
 import { signUpNewUser, googleLogin } from '../../../firebase/helpers/authentication.firebase';
 
+
 const styles = StyleSheet.create({
   loginContainer: {
     flex: 1,
@@ -108,6 +109,8 @@ const SignupScreen = () => {
               <Text style={styles.signUp}> Log in</Text>
             </Text>
           </Pressable>
+
+
           <Pressable style={styles.googleButton} onPress={handleGoogleLogin}>
             <Text>Google</Text>
           </Pressable>

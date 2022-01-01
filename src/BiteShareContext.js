@@ -10,12 +10,19 @@ export const biteShareState = {
   restaurantName: 'BRAZILIAN RESTAURANT BREWING',
   restaurantId: null, //updates when user clicks See Full Menu from ExplorePage
   restaurantMenus: [],
+<<<<<<< HEAD
   accountHolderName: 'Jeff',
   accountType: 'HOST',
   sessionId: '',
+=======
+  accountHolderName: 'Greg',
+  accountType: 'GUEST',
+  sessionId: 1234568990,
+>>>>>>> 6732b0ccd17cc6f9584a22e1e7a51b9da42c3005
   orderedItems: [], //matching the name with TJ's code in Guest.js (will updated as needed after checking with TJ)
   email: '',
-  authenticated: false
+  authenticated: false,
+  biteShareKey: 'Eees4eeeddeeefee4e157f194895a9ab68497ab203e90926560e0ee00EEE242200000'
 };
 
 export const biteShareReducer = (state, action) => {

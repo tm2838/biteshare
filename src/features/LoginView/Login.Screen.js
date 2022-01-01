@@ -11,6 +11,8 @@ import { BiteShareContext } from '../../BiteShareContext';
 import { auth } from '../../../firebase/firebase.config';
 import { signUpNewUser, loginUser, googleLogin, onAuthStateChanged } from '../../../firebase/helpers/authentication.firebase';
 
+import GoogleLogin from './GoogleLogin';
+
 const styles = StyleSheet.create({
   loginContainer: {
     flex: 1,
@@ -104,9 +106,13 @@ const LoginScreen = () => {
               <Text style={styles.signUp}> Sign Up</Text> {/*this will need "onPress => go to Sign up page"}*/}
             </Text>
           </Pressable>
-          <Pressable style={styles.googleButton} onPress={handleGoogleLogin}>
+
+          < GoogleLogin />
+
+
+          {/* <Pressable style={styles.googleButton} onPress={handleGoogleLogin}>
             <Text>Google</Text>
-          </Pressable>
+          </Pressable> */}
         </KeyboardAvoidingView>
       </View>
     </SafeArea >
