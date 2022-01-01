@@ -117,7 +117,7 @@ const Guest = ({ guest }) => {
   const handleShowOrderedItem = () => {
     setShowOrderedItem(!showOrderedItem);
   };
-  console.log('Updated guest list: ', guest);
+
   return guest.joinRequest !== 'denied' && (
     <View style={styles.container}>
       <SwipeRow
