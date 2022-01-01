@@ -9,7 +9,8 @@ import { BiteShareContext } from '../../BiteShareContext';
 // import { useNavigation } from '@react-navigation/native';
 // import mockMenu from '../../../fixtures/mockMenu.json';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
+import { addANewAnonymousDocument } from '../../../firebase/helpers/database.firebase';
+import { Timestamp } from 'firebase/firestore';
 
 
 const styles = StyleSheet.create({
@@ -41,9 +42,10 @@ const styles = StyleSheet.create({
 
 const ExploreMenu = ({ navigation }) => {
 
-  const API_KEY = 'OWN_KEY_GOES_HERE';
+  // const API_KEY = 'OWN_KEY_GOES_HERE';
+  const API_KEY = 'e7be5f6d3ee722ee8db6d54677b04eaf';
 
-  const { state: { restaurantName, restaurantId, restaurantMenus }, dispatch } = useContext(BiteShareContext);
+  const { state: { restaurantName, restaurantId, restaurantMenus, accountHolderName }, dispatch } = useContext(BiteShareContext);
 
   const [isLoading, setLoading] = useState(true);
   const [restaurantAddress, setRestaurantAddress] = useState('');
@@ -75,6 +77,37 @@ const ExploreMenu = ({ navigation }) => {
       .catch((error => console.error(error)))
       .finally(() => setLoading(false));
   }, []);
+
+  const createSessionHandler = () => {
+    addANewAnonymousDocument('transactions', {
+      hostName: accountHolderName,
+      restaurantName: restaurantName,
+      splitMethod: '',
+      totalBills: 0,
+      date: Timestamp.fromDate(new Date()),
+    })
+      .then((doc) => {
+        dispatch({ type: 'SET_SESSION_ID', sessionId: doc.id });
+        addANewAnonymousDocument(`transactions/${doc.id}/attendees`, {
+          joinRequest: 'allowed',
+          isHost: true,
+          individualBills: 0,
+          name: accountHolderName,
+          orderStatus: 'not ready',
+          orderedItems: [],
+        })
+          .then((doc) => {
+            console.log('Successfully added the host into the database');
+          })
+          .catch((error) => {
+            console.log('Error when adding host into the database');
+          });
+      })
+      .catch((error) => {
+        console.log('Error creating a new transaction');
+      });
+    navigation.navigate('CurrentSession', { previous: 'create a session' });
+  };
 
   return (
     <View >
@@ -117,7 +150,7 @@ const ExploreMenu = ({ navigation }) => {
                   icon='account-plus'
                   mode="contained"
                   color={colors.brand.beachLight}
-                  onPress={() => navigation.navigate('CurrentSession', { previous: 'create a session' })}>
+                  onPress={() => createSessionHandler()}>
                   Create a Session
                 </Button>
               </View>
