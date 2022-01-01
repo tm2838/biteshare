@@ -11,6 +11,8 @@ import { BiteShareContext } from '../../BiteShareContext';
 import { auth } from '../../../firebase/firebase.config';
 import { signUpNewUser, loginUser, googleLogin, onAuthStateChanged } from '../../../firebase/helpers/authentication.firebase';
 
+import GoogleLogin from './GoogleLogin';
+
 const styles = StyleSheet.create({
   loginContainer: {
     flex: 1,
@@ -34,9 +36,6 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.heading,
     textDecorationLine: 'underline'
   },
-  googleButton: {
-    marginTop: 50,
-  }
 });
 
 const LoginScreen = () => {
@@ -67,17 +66,6 @@ const LoginScreen = () => {
       });
   };
 
-  const handleGoogleLogin = () => {
-    console.log('user is:');
-    googleLogin()
-      .then((result) => {
-        const user = result.user;
-      }).catch((error) => {
-        const errorMessage = error.message;
-        console.log(errorMessage);
-      });
-  };
-
   const goToSignup = () => {
     navigation.navigate('Signup');
   };
@@ -104,9 +92,7 @@ const LoginScreen = () => {
               <Text style={styles.signUp}> Sign Up</Text> {/*this will need "onPress => go to Sign up page"}*/}
             </Text>
           </Pressable>
-          <Pressable style={styles.googleButton} onPress={handleGoogleLogin}>
-            <Text>Google</Text>
-          </Pressable>
+          <GoogleLogin />
         </KeyboardAvoidingView>
       </View>
     </SafeArea >

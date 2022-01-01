@@ -6,6 +6,7 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { addANewAnonymousDocument, readDocSnapshotListener } from '../../../firebase/helpers/database.firebase';
 import { useNavigation } from '@react-navigation/native';
 import { BiteShareContext } from '../../BiteShareContext';
+import GuestMenu from './GuestMenu';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,11 +15,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-export default function GuestQR() {
+export default function QRScanner(navigation) {
+  console.log('GUEST QR---->', navigation);
+
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  const navigation = useNavigation();
-  const { state: { }, dispatch } = useContext(BiteShareContext);
+  const { state:
+    { restaurantName, restaurantId, restaurantMenus}, dispatch }
+    = useContext(BiteShareContext);
+
+  console.log('RestsurantID----------->', restaurantId);
 
   useEffect(() => {
     (async () => {
@@ -28,9 +34,12 @@ export default function GuestQR() {
   }, []);
 
   const handleBarCodeScanned = ({ type, data }) => {
+
+
     setScanned(true);
     let sampleData = data.split('&');
-    let hostName = sampleData[1];
+    //{sessionId}&${accountHolderName}&${restaurantName}
+    //1234567&Susan$Pizza&777777779998877666
     let sessionId = sampleData[0];
     // alert(`Session Id: ${sessionId} \n  HostName: ${hostName}`);
     dispatch({type: 'SET_SESSION_ID', sessionId: sessionId});
@@ -57,13 +66,27 @@ export default function GuestQR() {
       .catch((error) => {
         console.log('Error when adding GUEST into the database');
       });
+    let hostName = sampleData[1];
+    let diningPlaceName = sampleData[2];
+    let diningPlaceId = sampleData[3];
 
+    alert(`Session Id: ${sessionId} \n  HostName: ${hostName} \n
+    Restaurant Name: ${diningPlaceName} \n RestaurantID: ${diningPlaceId}` );
+    dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: diningPlaceId });
+    dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: diningPlaceName });
+    //document ID- from query****
     //***********@TODO----Once we get the  information----************
     // HOST needs to be updated with guest name - in real time (firestore)
     // HOST will get notification (current session -> summary )that someone wants to join the session?
     // After HOST 'allow' the guest entry, update in real time (firestore snapshot), update conetxt api under guest[{name:Greg}]
     // Guest get confirmation update ('waiting' -> 'allowed'), redirect to the (current -> menu)
+    if (scanned) {
+      return;
+    }
+  };
 
+  const reRoute = async()=>{
+    await delay(500);
   };
 
   if (hasPermission === null) {
@@ -75,11 +98,15 @@ export default function GuestQR() {
 
   return (
     <View style={styles.container}>
-      <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        style={StyleSheet.absoluteFillObject}
-      />
-      {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+      {scanned === true ? <GuestMenu navigation={navigation}/> :
+        <BarCodeScanner
+          onBarCodeScanned={scanned ? reRoute : handleBarCodeScanned}
+          style={StyleSheet.absoluteFillObject}
+        />
+      }
+
+
+      {/* {scanned && <ExploreMenu />} */}
     </View>
   );
 }

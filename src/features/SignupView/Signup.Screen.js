@@ -2,14 +2,15 @@ import React, { useContext, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableOpacity, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+import { auth } from '../../../firebase/firebase.config';
+import { signUpNewUser, googleLogin } from '../../../firebase/helpers/authentication.firebase';
+
 import SafeArea from '../../components/SafeArea';
 import InputField from '../../components/InputField';
 import { theme } from '../../infrastructure/index';
 import BigButton from '../../components/BigButton';
 import { BiteShareContext } from '../../BiteShareContext';
-
-import { auth } from '../../../firebase/firebase.config';
-import { signUpNewUser, googleLogin } from '../../../firebase/helpers/authentication.firebase';
+import GoogleLogin from '../LoginView/GoogleLogin';
 
 const styles = StyleSheet.create({
   loginContainer: {
@@ -34,9 +35,6 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.heading,
     textDecorationLine: 'underline'
   },
-  googleButton: {
-    marginTop: 50,
-  },
   error: {
     color: 'red'
   }
@@ -49,31 +47,28 @@ const SignupScreen = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setconfirmPassword] = useState('');
   const [signupError, setSignupError] = useState(null);
+  const [accountHolderName, setAccountHolderName] = useState(null);
 
   const handleCreateNewUser = () => {
     if (password !== confirmPassword) {
       return setSignupError('Passwords do not match');
     }
+
+    const nickname = accountHolderName.split(' ')[0];
+
     signUpNewUser(email, password)
       .then(userCredentials => {
         dispatch({ type: 'SET_AUTH', authenticated: true });
         dispatch({ type: 'SET_EMAIL', email });
+        dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName });
+        dispatch({ type: 'SET_NICKNAME', nickname });
       })
       .catch(err => {
         setSignupError(err.message.toString());
       });
   };
 
-  const handleGoogleLogin = () => {
-    console.log('user is:');
-    googleLogin()
-      .then((result) => {
-        const user = result.user;
-      }).catch((error) => {
-        const errorMessage = error.message;
-        console.log(errorMessage);
-      });
-  };
+
 
   const goToLoginPage = () => {
     navigation.navigate('Login');
@@ -86,12 +81,15 @@ const SignupScreen = () => {
         <KeyboardAvoidingView
           style={styles.loginEntries}>
           <InputField
+            placeholder={'Name'}
+            secureText={false}
+            inputValue={accountHolderName}
+            setInputValue={setAccountHolderName} />
+          <InputField
             placeholder={'Email'}
             secureText={false}
             inputValue={email}
             setInputValue={setEmail} />
-          {signupError &&
-            <Text style={styles.error} variant={'error'}>{signupError}</Text>}
           <InputField
             placeholder={'Password'}
             secureText={true}
@@ -102,15 +100,15 @@ const SignupScreen = () => {
             secureText={true}
             inputValue={confirmPassword}
             setInputValue={setconfirmPassword} />
+          {signupError &&
+            <Text style={styles.error} variant={'error'}>{signupError}</Text>}
           <BigButton title={'Sign up'} handleLogin={handleCreateNewUser} />
           <Pressable onPress={goToLoginPage}>
             <Text>Have an account?
               <Text style={styles.signUp}> Log in</Text>
             </Text>
           </Pressable>
-          <Pressable style={styles.googleButton} onPress={handleGoogleLogin}>
-            <Text>Google</Text>
-          </Pressable>
+          <GoogleLogin />
         </KeyboardAvoidingView>
       </View>
     </SafeArea >

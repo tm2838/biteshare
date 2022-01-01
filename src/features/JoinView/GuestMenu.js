@@ -1,20 +1,21 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Appbar, List, Button, Avatar } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
-import { useRoute } from '@react-navigation/native';
-import { StyleSheet, View, Text, SafeAreaView, ScrollView, StatusBar } from 'react-native';
+import { useNavigation} from '@react-navigation/native';
+import { StyleSheet, View, Text, SafeAreaView, ScrollView, StatusBar, ActivityIndicator } from 'react-native';
 import { colors } from '../../infrastructure/colors';
 import { fonts } from '../../infrastructure/fonts';
 import { BiteShareContext } from '../../BiteShareContext';
-// import { useNavigation } from '@react-navigation/native';
-// import mockMenu from '../../../fixtures/mockMenu.json';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import { addANewAnonymousDocument } from '../../../firebase/helpers/database.firebase';
-import { Timestamp } from 'firebase/firestore';
+// import Icon from 'react-native-vector-icons/FontAwesome5';
+
 
 
 const styles = StyleSheet.create({
-  menuContainer: {
+  centerContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 400,
+  },
+  buttomContainer: {
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -45,13 +46,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const ExploreMenu = ({ navigation }) => {
-  console.log('--------navigation from explore Menu----', navigation);
+const GuestMenu = ({ navigation }) => {
+  console.log('--------navigation Guest Menu----', navigation);
   const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey }, dispatch } = useContext(BiteShareContext);
   // const API_KEY = 'E3EE4E5EE5EEEEEE5E522EEEE5EfE0157f194895a9ab68497ab203e9092656eEEE4556678EEEEEEEEEEEEE';
 
   const API_KEY = biteShareKey;
 
+  const [joinRequest, setJoinRequest] = useState('allowed');
   const [isLoading, setLoading] = useState(true);
   const [restaurantAddress, setRestaurantAddress] = useState('');
 
@@ -83,55 +85,21 @@ const ExploreMenu = ({ navigation }) => {
       .finally(() => setLoading(false));
   }, []);
 
-  const createSessionHandler = () => {
-    addANewAnonymousDocument('transactions', {
-      hostName: accountHolderName,
-      restaurantName: restaurantName,
-      splitMethod: '',
-      totalBills: 0,
-      date: Timestamp.fromDate(new Date()),
-    })
-      .then((doc) => {
-        dispatch({ type: 'SET_SESSION_ID', sessionId: doc.id });
-        addANewAnonymousDocument(`transactions/${doc.id}/attendees`, {
-          joinRequest: 'allowed',
-          isHost: true,
-          individualBills: 0,
-          name: accountHolderName,
-          orderStatus: 'not ready',
-          orderedItems: [],
-        })
-          .then((doc) => {
-            console.log('Successfully added the host into the database');
-          })
-          .catch((error) => {
-            console.log('Error when adding host into the database');
-          });
-      })
-      .catch((error) => {
-        console.log('Error creating a new transaction');
-      });
-    navigation.navigate('CurrentSession', { previous: 'create a session' });
-  };
-
   return (
     <View >
       {
         isLoading
-          ? <Text>Loading...</Text>
+          ? (
+            <View style={styles.menuContainer}>
+              < ActivityIndicator size="small" color="darkblue"/>
+              <Text> Please wait </Text>
+              <Text> while we connect you to the host </Text>
+            </View>
+          )
           : (
             <View >
 
               <Appbar.Header style={styles.restaurantHeader} >
-
-                < Appbar.BackAction
-                  onPress={
-                    () => {
-                      dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: null });
-                    }
-                  }
-                  color="black"
-                />
                 <Appbar.Content title={restaurantName} subtitle={restaurantAddress} style={styles.restaurantHeading} />
               </Appbar.Header>
               <ScrollView style={styles.scrollView}>
@@ -149,31 +117,32 @@ const ExploreMenu = ({ navigation }) => {
                 })}
 
               </ScrollView>
-              {/* MENU scrollable View */}
-              <View style={styles.menuContainer}>
+              {
 
+                joinRequest === 'allowed'
+                  ? (
+                    <View style={styles.buttomContainer}><Button
+                      icon='account-plus'
+                      mode="contained"
+                      color={colors.brand.beachLight}
+                      style={{ width: 200, borderRadius: 10, height: 40}}
+                      onPress={() => navigation.navigate('CurrentSession', { previous: 'create a session' })}>
+                      Connect to Host 
+                    </Button>
+                    </View>
+                  )
+                  :
+                  (<View style={styles.buttomContainer}>
 
+                    < ActivityIndicator size="small" color="darkblue"/>
+                    <Text style={styles.text}> Still waiting for host to connect</Text>
+                    <Text> Feel free to look at menu while waiting </Text>
 
-                {/* onPress 'create a session', it will direct to the QR code -  */}
-
-                <Button
-                  icon='account-plus'
-                  mode="contained"
-                  color={colors.brand.beachLight}
-                  style={{ width: 250, borderRadius: 15, height: 38 }}
-                  onPress={() => {
-                    createSessionHandler();
-                    navigation.navigate('CurrentSession', { previous: 'create a session' });
-                  }}>
-                  Create a Session
-                </Button>
-
-              </View>
-
+                  </View>)
+              }
 
 
             </View>
-
 
           )
       }
@@ -181,5 +150,5 @@ const ExploreMenu = ({ navigation }) => {
   );
 };
 
-export default ExploreMenu;
+export default GuestMenu;
 

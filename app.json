@@ -17,7 +17,19 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "We would like to find the restaurants near you",
+        "UIBackgroundModes": [
+          "location",
+          "fetch"
+        ]
+      },
+      "config":{
+        "googleSignIn": {
+          "reservedClientId":"com.googleusercontent.apps.90738707092-9ik3l59ad22hfghgrms9ti5cgn2da675"
+        }
+      }
     },
     "android": {
       "adaptiveIcon": {
