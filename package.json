@@ -24,11 +24,8 @@
     "expo-barcode-scanner": "^11.2.0",
     "expo-camera": "^12.1.0",
     "expo-constants": "^13.0.0",
-<<<<<<< HEAD
     "expo-font": "^10.0.4",
-=======
     "expo-google-app-auth": "^9.0.0",
->>>>>>> 6732b0ccd17cc6f9584a22e1e7a51b9da42c3005
     "expo-status-bar": "~1.1.0",
     "firebase": "^9.6.1",
     "react": "17.0.1",
