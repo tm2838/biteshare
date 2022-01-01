@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import BiteshareButton from '../../../components/BiteshareButton.js';
 import { colors } from '../../../infrastructure/colors.js';
 import { BiteShareContext } from '../../../BiteShareContext.js';
@@ -27,17 +28,20 @@ const styles = StyleSheet.create({
   }
 });
 
-const SplitBillOptions = () => {
+const SplitBillOptions = ({ changeTab }) => {
+  const navigation = useNavigation();
   const { state: { isEveryoneReady }, dispatch } = useContext(BiteShareContext);
   const titleContainerStyle = isEveryoneReady ? [ styles.titleContainer, { backgroundColor: colors.brand.ebisuLight }] : styles.titleContainer;
   const buttonStyle = isEveryoneReady ? { backgroundColor: colors.brand.ebisuLight } : {};
 
   const handleSplitEvenly = (event) => {
     dispatch({ type: 'SET_SPLIT_METHOD', splitMethod: 'Evenly' });
+    changeTab('Bills');
   };
 
   const handleSplitByItem = (event) => {
     dispatch({ type: 'SET_SPLIT_METHOD', splitMethod: 'By item' });
+    changeTab('Bills');
   };
 
   return (

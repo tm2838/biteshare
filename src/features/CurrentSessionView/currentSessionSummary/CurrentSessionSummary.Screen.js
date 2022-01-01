@@ -22,7 +22,7 @@ const styles = (role) => StyleSheet.create({
   }
 });
 
-const CurrentSessionSummary = () => {
+const CurrentSessionSummary = ({ changeTab }) => {
   const { state: { accountType, isEveryoneReady } } = useContext(BiteShareContext);
   const buttonStyle = isEveryoneReady ? { backgroundColor: colors.brand.beachLight, marginTop: '10%', width: 180 } : { marginTop: '10%', width: 180 };
   const title = isEveryoneReady ? 'Everyone is ready!' : 'Still waiting...';
@@ -31,7 +31,7 @@ const CurrentSessionSummary = () => {
       <Text style={styles(accountType).title}>Summary</Text>
       <GuestList />
       {accountType === 'HOST' && <BiteshareButton size={100} title={title} buttonStyle={buttonStyle} disabled/>}
-      {accountType === 'HOST' && <SplitBillOptions />}
+      {accountType === 'HOST' && <SplitBillOptions changeTab={changeTab}/>}
     </View>
   );
 };
