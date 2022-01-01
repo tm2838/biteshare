@@ -11,6 +11,7 @@ export const biteShareState = {
   restaurantId: null, //updates when user clicks See Full Menu from ExplorePage
   restaurantMenus: [],
 <<<<<<< HEAD
+<<<<<<< HEAD
   accountHolderName: 'Jeff',
   accountType: 'HOST',
   sessionId: '',
@@ -19,10 +20,15 @@ export const biteShareState = {
   accountType: 'GUEST',
   sessionId: 1234568990,
 >>>>>>> 6732b0ccd17cc6f9584a22e1e7a51b9da42c3005
+=======
+  accountHolderName: 'Susan',
+  accountType: 'HOST',
+  sessionId: 1234,
+>>>>>>> get-location
   orderedItems: [], //matching the name with TJ's code in Guest.js (will updated as needed after checking with TJ)
   email: '',
-  authenticated: false,
-  biteShareKey: 'Eees4eeeddeeefee4e157f194895a9ab68497ab203e90926560e0ee00EEE242200000'
+  currentZip: null,
+  authenticated: false
 };
 
 export const biteShareReducer = (state, action) => {
@@ -54,6 +60,8 @@ export const biteShareReducer = (state, action) => {
       return { ...state, orderedItems: action.orderedItems };
     case 'SET_EMAIL':
       return { ...state, email: action.email };
+    case 'SET_CURRENTZIP':
+      return { ...state, currentZip: action.currentZip };
     case 'SET_AUTH':
       return { ...state, authenticated: action.authenticated };
     default:

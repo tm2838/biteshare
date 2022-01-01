@@ -33,7 +33,7 @@ const HostQR = () => {
     <View style={styles.container}>
 
       <QRCode
-        value={someString} //Try out with different information *****
+        value={someString}
         color={colors.brand.darkBlue}
         size={150}
         //  logo={require('../../../embed_logo_file_path')} // or logo={{uri: base64logo}}
@@ -42,7 +42,7 @@ const HostQR = () => {
         logoBorderRadius={10}
         logoBackgroundColor={'transparent'}
       />
-
+      
       <Text style={styles.baseText}>
         Scan to join a session
       </Text>

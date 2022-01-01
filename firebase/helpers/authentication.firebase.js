@@ -3,7 +3,6 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
-  getAuth,
   signInWithPopup,
   signInWithRedirect,
   onAuthStateChanged,
@@ -28,26 +27,7 @@ const loginUser = (email, password) => {
 
 const googleLogin = () => {
   const provider = new GoogleAuthProvider();
-  const auth = getAuth();
-
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      const user = result.user;
-      console.log('Token----------> ', token);
-      console.log('User ----->', user);
-
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-    });
-  // return signInWithRedirect(auth, provider);
+  return signInWithRedirect(auth, provider);
 };
 
 // const authorized = () => {

@@ -11,7 +11,6 @@ import { BiteShareContext } from '../../BiteShareContext';
 import { auth } from '../../../firebase/firebase.config';
 import { signUpNewUser, googleLogin } from '../../../firebase/helpers/authentication.firebase';
 
-
 const styles = StyleSheet.create({
   loginContainer: {
     flex: 1,
@@ -50,6 +49,7 @@ const SignupScreen = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setconfirmPassword] = useState('');
   const [signupError, setSignupError] = useState(null);
+  const [accountHolderName, setAccountHolderName] = useState(null);
 
   const handleCreateNewUser = () => {
     if (password !== confirmPassword) {
@@ -59,6 +59,7 @@ const SignupScreen = () => {
       .then(userCredentials => {
         dispatch({ type: 'SET_AUTH', authenticated: true });
         dispatch({ type: 'SET_EMAIL', email });
+        dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName });
       })
       .catch(err => {
         setSignupError(err.message.toString());
@@ -87,12 +88,15 @@ const SignupScreen = () => {
         <KeyboardAvoidingView
           style={styles.loginEntries}>
           <InputField
+            placeholder={'Name'}
+            secureText={false}
+            inputValue={accountHolderName}
+            setInputValue={setAccountHolderName} />
+          <InputField
             placeholder={'Email'}
             secureText={false}
             inputValue={email}
             setInputValue={setEmail} />
-          {signupError &&
-            <Text style={styles.error} variant={'error'}>{signupError}</Text>}
           <InputField
             placeholder={'Password'}
             secureText={true}
@@ -103,14 +107,14 @@ const SignupScreen = () => {
             secureText={true}
             inputValue={confirmPassword}
             setInputValue={setconfirmPassword} />
+          {signupError &&
+            <Text style={styles.error} variant={'error'}>{signupError}</Text>}
           <BigButton title={'Sign up'} handleLogin={handleCreateNewUser} />
           <Pressable onPress={goToLoginPage}>
             <Text>Have an account?
               <Text style={styles.signUp}> Log in</Text>
             </Text>
           </Pressable>
-
-
           <Pressable style={styles.googleButton} onPress={handleGoogleLogin}>
             <Text>Google</Text>
           </Pressable>

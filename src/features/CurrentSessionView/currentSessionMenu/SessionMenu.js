@@ -40,7 +40,6 @@ const SessionMenu = () => {
         data={restaurantMenus}
         renderItem={renderMenus}
         keyExtractor={menu => menu.id}
-       
       />
 
     </SafeAreaView>

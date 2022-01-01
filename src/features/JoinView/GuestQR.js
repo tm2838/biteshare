@@ -1,6 +1,7 @@
 //https://snack.expo.dev/@sugarexpo/380485
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React, { useState, useContext, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
@@ -15,6 +16,11 @@ import { BiteShareContext } from '../../BiteShareContext';
 import GuestMenu from './GuestMenu';
 >>>>>>> 6732b0ccd17cc6f9584a22e1e7a51b9da42c3005
 
+=======
+import React, { useState, useEffect } from 'react';
+import { Text, View, StyleSheet, Button } from 'react-native';
+import { BarCodeScanner } from 'expo-barcode-scanner';
+>>>>>>> get-location
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -22,11 +28,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-export default function QRScanner(navigation) {
-  console.log('GUEST QR---->', navigation);
-
+export default function GuestQR() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+<<<<<<< HEAD
 <<<<<<< HEAD
   const navigation = useNavigation();
   const { state: { }, dispatch } = useContext(BiteShareContext);
@@ -37,6 +42,8 @@ export default function QRScanner(navigation) {
 
   console.log('RestsurantID----------->', restaurantId);
 >>>>>>> 6732b0ccd17cc6f9584a22e1e7a51b9da42c3005
+=======
+>>>>>>> get-location
 
   useEffect(() => {
     (async () => {
@@ -46,10 +53,9 @@ export default function QRScanner(navigation) {
   }, []);
 
   const handleBarCodeScanned = ({ type, data }) => {
-
-
     setScanned(true);
     let sampleData = data.split('&');
+<<<<<<< HEAD
     //{sessionId}&${accountHolderName}&${restaurantName}
     //1234567&Susan$Pizza&777777779998877666
     let sessionId = sampleData[0];
@@ -84,17 +90,18 @@ export default function QRScanner(navigation) {
     let diningPlaceName = sampleData[2];
     let diningPlaceId = sampleData[3];
 >>>>>>> 6732b0ccd17cc6f9584a22e1e7a51b9da42c3005
+=======
+    let hostName = sampleData[1];
+    let sessionId = sampleData[0];
+    alert(`Session Id: ${sessionId} \n  HostName: ${hostName}`);
+>>>>>>> get-location
 
-    alert(`Session Id: ${sessionId} \n  HostName: ${hostName} \n
-    Restaurant Name: ${diningPlaceName} \n RestaurantID: ${diningPlaceId}` );
-    dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: diningPlaceId });
-    dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: diningPlaceName });
-    //document ID- from query****
     //***********@TODO----Once we get the  information----************
     // HOST needs to be updated with guest name - in real time (firestore)
     // HOST will get notification (current session -> summary )that someone wants to join the session?
     // After HOST 'allow' the guest entry, update in real time (firestore snapshot), update conetxt api under guest[{name:Greg}]
     // Guest get confirmation update ('waiting' -> 'allowed'), redirect to the (current -> menu)
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 =======
@@ -106,6 +113,9 @@ export default function QRScanner(navigation) {
   const reRoute = async()=>{
     await delay(500);
 >>>>>>> 6732b0ccd17cc6f9584a22e1e7a51b9da42c3005
+=======
+    
+>>>>>>> get-location
   };
 
   if (hasPermission === null) {
@@ -117,15 +127,11 @@ export default function QRScanner(navigation) {
 
   return (
     <View style={styles.container}>
-      {scanned === true ? <GuestMenu navigation={navigation}/> :
-        <BarCodeScanner
-          onBarCodeScanned={scanned ? reRoute : handleBarCodeScanned}
-          style={StyleSheet.absoluteFillObject}
-        />
-      }
-
-
-      {/* {scanned && <ExploreMenu />} */}
+      <BarCodeScanner
+        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        style={StyleSheet.absoluteFillObject}
+      />
+      {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
     </View>
   );
 }

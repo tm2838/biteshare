@@ -14,49 +14,44 @@ import { Timestamp } from 'firebase/firestore';
 
 
 const styles = StyleSheet.create({
-  menuContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
+  container: {
+    backgroundColor: colors.brand.body,
+  },
+  scrollView: {
+    height: '75%',
+    marginHorizontal: 20,
   },
   restaurantHeader: {
-
     backgroundColor: colors.brand.login,
     alignItems: 'center',
     justifyContent: 'center',
-    height: 60,
+    height: 100,
   },
-
-  scrollView: {
-
-    height: 535,
-    marginHorizontal: 20,
-  },
-
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 70
-
+    height: '15%',
+    borderRadius: 20,
+    width: 30
   },
   text: {
     fontSize: 20,
-    fontFamily: fonts.subHeading,
-    textAlign: 'center',
+    fontFamily: fonts.subHeading
   },
 });
 
 const ExploreMenu = ({ navigation }) => {
-  console.log('--------navigation from explore Menu----', navigation);
-  const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey }, dispatch } = useContext(BiteShareContext);
-  // const API_KEY = 'E3EE4E5EE5EEEEEE5E522EEEE5EfE0157f194895a9ab68497ab203e9092656eEEE4556678EEEEEEEEEEEEE';
 
-  const API_KEY = biteShareKey;
+  const API_KEY = 'OWN_KEY_GOES_HERE';
 
-
+<<<<<<< HEAD
 <<<<<<< HEAD
   const { state: { restaurantName, restaurantId, restaurantMenus, accountHolderName }, dispatch } = useContext(BiteShareContext);
 =======
 >>>>>>> 6732b0ccd17cc6f9584a22e1e7a51b9da42c3005
+=======
+  const { state: { restaurantName, restaurantId, restaurantMenus }, dispatch } = useContext(BiteShareContext);
+>>>>>>> get-location
 
   const [isLoading, setLoading] = useState(true);
   const [restaurantAddress, setRestaurantAddress] = useState('');
@@ -140,8 +135,8 @@ const ExploreMenu = ({ navigation }) => {
                 />
                 <Appbar.Content title={restaurantName} subtitle={restaurantAddress} style={styles.restaurantHeading} />
               </Appbar.Header>
-              <ScrollView style={styles.scrollView}>
 
+              <ScrollView style={styles.scrollView}>
                 <List.Subheader>
                   <Text style={styles.text}>Menu</Text>
                 </List.Subheader>
@@ -155,17 +150,13 @@ const ExploreMenu = ({ navigation }) => {
                 })}
 
               </ScrollView>
-              {/* MENU scrollable View */}
-              <View style={styles.menuContainer}>
-
-
-
-                {/* onPress 'create a session', it will direct to the QR code -  */}
-
+              {/* onPress 'create a session', it will direct to the QR code -  */}
+              <View styles={styles.button}>
                 <Button
                   icon='account-plus'
                   mode="contained"
                   color={colors.brand.beachLight}
+<<<<<<< HEAD
 <<<<<<< HEAD
                   onPress={() => createSessionHandler()}>
                   Create a Session
@@ -174,15 +165,13 @@ const ExploreMenu = ({ navigation }) => {
                   onPress={() => navigation.navigate('CurrentSession', { previous: 'create a session' })}>
                       Create a Session
 >>>>>>> 6732b0ccd17cc6f9584a22e1e7a51b9da42c3005
+=======
+                  onPress={() => navigation.navigate('CurrentSession', { previous: 'create a session' })}>
+                  Create a Session
+>>>>>>> get-location
                 </Button>
-
               </View>
-
-
-
             </View>
-
-
           )
       }
     </View>
