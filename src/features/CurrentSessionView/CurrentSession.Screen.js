@@ -29,6 +29,9 @@ const CurrentSessionScreen = ({route, navigation}) => {
     if (route.params?.previous === 'create a session') {
       setCurrentTab('QR Code');
     }
+    if (route.params?.previous === 'coming from join tab') {
+      setCurrentTab('Summary');
+    }
 
   }, []);
 
