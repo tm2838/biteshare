@@ -127,7 +127,7 @@ const GuestMenu = ({ navigation }) => {
                       color={colors.brand.beachLight}
                       style={{ width: 200, borderRadius: 10, height: 40}}
                       onPress={() => navigation.navigate('CurrentSession', { previous: 'create a session' })}>
-                      Connect to Host
+                      Connect to Host 
                     </Button>
                     </View>
                   )

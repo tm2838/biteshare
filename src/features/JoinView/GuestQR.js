@@ -19,7 +19,7 @@ export default function QRScanner(navigation) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const { state:
-    { restaurantName, restaurantId, restaurantMenus, biteShareKey }, dispatch }
+    { restaurantName, restaurantId, restaurantMenus}, dispatch }
     = useContext(BiteShareContext);
 
   console.log('RestsurantID----------->', restaurantId);
