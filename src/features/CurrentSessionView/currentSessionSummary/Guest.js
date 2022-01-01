@@ -49,8 +49,7 @@ const styles = StyleSheet.create({
 
 const Guest = ({ guest }) => {
   const profilePicturePath = '../../../../assets/femaleUser.png';
-  const { state: { accountHolderName, accountType, guests, orderedItems, isAccountHolderReady, sessionId }, dispatch } = useContext(BiteShareContext);
-  const [itemPrice, setItemPrice] = useState(0);
+  const { state: { accountHolderName, accountType, guests, orderedItems, sessionId }, dispatch } = useContext(BiteShareContext);
   const [rowDisabled, setRowDisabled] = useState(false);
   const [showOrderedItem, setShowOrderedItem] = useState(false);
 
@@ -77,7 +76,7 @@ const Guest = ({ guest }) => {
 
   const handleAllowGuest = () => {
     // @TODO: update DB to include user as guest in transaction
-    getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', `${guest.name}`)
+    getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', guest.name)
       .then((qResult) => {
         qResult.forEach((doc) => {
           updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
@@ -93,7 +92,7 @@ const Guest = ({ guest }) => {
 
   const handleDenyGuest = () => {
     // @TODO: update DB to set 'request pending' back to false?
-    getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', `${guest.name}`)
+    getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', guest.name)
       .then((qResult) => {
         qResult.forEach((doc) => {
           updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
@@ -180,7 +179,7 @@ const Guest = ({ guest }) => {
           }
         </Pressable>
       </SwipeRow>
-      {showOrderedItem && guest?.orderedItems?.length && guest?.name !== accountHolderName && <MenuItemCard menuItems={guest.orderedItems} />}
+      {showOrderedItem && guest?.orderedItems?.length && <MenuItemCard menuItems={guest.orderedItems} />}
     </View>
 
   );

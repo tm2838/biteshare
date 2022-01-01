@@ -22,16 +22,18 @@ const GuestList = () => {
   }, [guests]);
 
   useEffect(() => {
-    readCollectionSnapshotListener(`transactions/${sessionId}/attendees`, (result) => {
-      const guests = [];
-      result.forEach((doc) => {
-        guests.push(doc.data());
+    if (sessionId) {
+      readCollectionSnapshotListener(`transactions/${sessionId}/attendees`, (result) => {
+        const guests = [];
+        result.forEach((doc) => {
+          guests.push(doc.data());
+        });
+        const currentAccount = guests.filter((guest) => guest.name === accountHolderName); // Might Need to change here
+        const otherAccounts = guests.filter((guest) => guest.name !== accountHolderName); // Same here as well
+        dispatch({ type: 'SET_GUESTS', guests: [...currentAccount, ...otherAccounts] });
       });
-      const currentAccount = guests.filter((guest) => guest.name === accountHolderName); // Might Need to change here
-      const otherAccounts = guests.filter((guest) => guest.name !== accountHolderName); // Same here as well
-      dispatch({ type: 'SET_GUESTS', guests: [...currentAccount, ...otherAccounts] });
-    });
-  }, []);
+    }
+  }, [sessionId]);
 
 
   const renderGuest = (guest) => (<Guest guest={guest.item} />);
