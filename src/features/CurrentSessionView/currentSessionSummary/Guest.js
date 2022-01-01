@@ -179,7 +179,7 @@ const Guest = ({ guest }) => {
           }
         </Pressable>
       </SwipeRow>
-      {showOrderedItem && guest?.orderedItems?.length && <MenuItemCard menuItems={guest.orderedItems} />}
+      {(showOrderedItem && guest?.orderedItems?.length > 0) && <MenuItemCard menuItems={guest.orderedItems} />}
     </View>
 
   );
