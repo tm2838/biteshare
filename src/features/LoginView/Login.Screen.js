@@ -2,10 +2,6 @@ import React, { useContext, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableOpacity, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import React, { useContext, useState, useEffect } from 'react';
-import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableOpacity, Pressable } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-
 import SafeArea from '../../components/SafeArea';
 import InputField from '../../components/InputField';
 import { theme } from '../../infrastructure/index';
@@ -14,6 +10,8 @@ import { BiteShareContext } from '../../BiteShareContext';
 
 import { auth } from '../../../firebase/firebase.config';
 import { signUpNewUser, loginUser, googleLogin, onAuthStateChanged } from '../../../firebase/helpers/authentication.firebase';
+
+import GoogleLogin from './GoogleLogin';
 
 const styles = StyleSheet.create({
   loginContainer: {
@@ -108,9 +106,13 @@ const LoginScreen = () => {
               <Text style={styles.signUp}> Sign Up</Text> {/*this will need "onPress => go to Sign up page"}*/}
             </Text>
           </Pressable>
-          <Pressable style={styles.googleButton} onPress={handleGoogleLogin}>
+
+          < GoogleLogin />
+
+
+          {/* <Pressable style={styles.googleButton} onPress={handleGoogleLogin}>
             <Text>Google</Text>
-          </Pressable>
+          </Pressable> */}
         </KeyboardAvoidingView>
       </View>
     </SafeArea >
