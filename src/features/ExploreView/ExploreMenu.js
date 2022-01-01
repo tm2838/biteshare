@@ -86,6 +86,7 @@ const ExploreMenu = ({ navigation }) => {
       date: Timestamp.fromDate(new Date()),
     })
       .then((doc) => {
+        dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'HOST' });
         dispatch({ type: 'SET_SESSION_ID', sessionId: doc.id });
         addANewAnonymousDocument(`transactions/${doc.id}/attendees`, {
           joinRequest: 'allowed',

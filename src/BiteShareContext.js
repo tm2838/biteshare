@@ -11,7 +11,7 @@ export const biteShareState = {
   restaurantId: null, //updates when user clicks See Full Menu from ExplorePage
   restaurantMenus: [],
   accountHolderName: 'Jeff',
-  accountType: 'HOST',
+  accountType: 'GUEST',
   sessionId: '',
   orderedItems: [], //matching the name with TJ's code in Guest.js (will updated as needed after checking with TJ)
   email: '',
