@@ -36,7 +36,7 @@ export default function GuestQR() {
     dispatch({type: 'SET_SESSION_ID', sessionId: sessionId});
     addANewAnonymousDocument(`transactions/${sessionId}/attendees`, {
       joinRequest: 'pending',
-      isHost: true,
+      isHost: false,
       individualBills: 0,
       name: 'Tom',
       orderStatus: 'not ready',
