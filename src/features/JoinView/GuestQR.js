@@ -48,9 +48,10 @@ export default function QRScanner() {
     dispatch({type: 'SET_SESSION_ID', sessionId: sessionId});
     dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: diningPlaceId });
     dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: diningPlaceName });
-
+    dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'GUEST' });
     // alert(`Session Id: ${sessionId} \n  HostName: ${hostName} \n
     // Restaurant Name: ${diningPlaceName} \n RestaurantID: ${diningPlaceId}` );
+
 
 
     addANewAnonymousDocument(`transactions/${sessionId}/attendees`, {
@@ -88,7 +89,7 @@ export default function QRScanner() {
 
   return (
     <View style={styles.container}>
-      
+
       {scanned === true ? <GuestMenu /> :
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
