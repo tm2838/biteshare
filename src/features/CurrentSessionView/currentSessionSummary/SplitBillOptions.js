@@ -37,14 +37,9 @@ const SplitBillOptions = ({ changeTab }) => {
 
   const handleSplitEvenly = (event) => {
     dispatch({ type: 'SET_SPLIT_METHOD', splitMethod: 'Evenly' });
-    getADocReferenceFromCollection('transactions', 'id', '==', sessionId)
-      .then((qResult) => {
-        qResult.forEach((doc) => {
-          updateADocument(`transactions/${sessionId}`, doc.id, {
-            splitMethod: 'Evenly',
-          });
-        });
-      })
+    updateADocument('transactions', sessionId, {
+      splitMethod: 'Evenly',
+    })
       .catch((error) => {
         console.log('Error updating split method: ', error);
       });
@@ -53,15 +48,9 @@ const SplitBillOptions = ({ changeTab }) => {
 
   const handleSplitByItem = (event) => {
     dispatch({ type: 'SET_SPLIT_METHOD', splitMethod: 'By item' });
-    getADocReferenceFromCollection('transactions', 'id', '==', sessionId)
-      .then((qResult) => {
-        console.log(qResult);
-        qResult.forEach((doc) => {
-          updateADocument('transactions', sessionId, {
-            splitMethod: 'By item',
-          });
-        });
-      })
+    updateADocument('transactions', sessionId, {
+      splitMethod: 'By item',
+    })
       .catch((error) => {
         console.log('Error updating split method: ', error);
       });
