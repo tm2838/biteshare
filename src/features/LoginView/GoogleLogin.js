@@ -5,7 +5,14 @@ import SafeArea from '../../components/SafeArea';
 import { theme } from '../../infrastructure/index';
 import { BiteShareContext } from '../../BiteShareContext';
 import * as Google from 'expo-google-app-auth';
-import googleImg from '../../../assets/google-signin.png';
+import googleImg from '../../../assets/google-logo.png';
+
+const styles = StyleSheet.create({
+  googleLogo: {
+    height: 67,
+    width: 67,
+  }
+});
 
 const GoogleLogin = () => {
   const navigation = useNavigation();
@@ -35,8 +42,8 @@ const GoogleLogin = () => {
 
   return (
     <SafeArea>
-      <TouchableOpacity onPress={signInAsync} style={{ marginTop: 50 }}>
-        <Image source={googleImg} />
+      <TouchableOpacity onPress={signInAsync} >
+        <Image style = {styles.googleLogo} source={googleImg} />
       </TouchableOpacity>
     </SafeArea>
   );
