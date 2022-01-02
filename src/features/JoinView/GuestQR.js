@@ -58,7 +58,7 @@ export default function QRScanner() {
       joinRequest: 'pending',
       isHost: false,
       individualBills: 0,
-      name: 'Tom',
+      name: 'Josh',
       orderStatus: 'not ready',
       orderedItems: [],
 
