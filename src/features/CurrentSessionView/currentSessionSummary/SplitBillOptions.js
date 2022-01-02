@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { updateADocument, getADocReferenceFromCollection } from '../../../../firebase/helpers/database.firebase.js';
 import BiteshareButton from '../../../components/BiteshareButton.js';
 import { colors } from '../../../infrastructure/colors.js';
 import { BiteShareContext } from '../../../BiteShareContext.js';
@@ -30,17 +31,40 @@ const styles = StyleSheet.create({
 
 const SplitBillOptions = ({ changeTab }) => {
   const navigation = useNavigation();
-  const { state: { isEveryoneReady }, dispatch } = useContext(BiteShareContext);
+  const { state: { isEveryoneReady, sessionId }, dispatch } = useContext(BiteShareContext);
   const titleContainerStyle = isEveryoneReady ? [ styles.titleContainer, { backgroundColor: colors.brand.ebisuLight }] : styles.titleContainer;
   const buttonStyle = isEveryoneReady ? { backgroundColor: colors.brand.ebisuLight } : {};
 
   const handleSplitEvenly = (event) => {
     dispatch({ type: 'SET_SPLIT_METHOD', splitMethod: 'Evenly' });
+    getADocReferenceFromCollection('transactions', 'id', '==', sessionId)
+      .then((qResult) => {
+        qResult.forEach((doc) => {
+          updateADocument(`transactions/${sessionId}`, doc.id, {
+            splitMethod: 'Evenly',
+          });
+        });
+      })
+      .catch((error) => {
+        console.log('Error updating split method: ', error);
+      });
     changeTab('Bills');
   };
 
   const handleSplitByItem = (event) => {
     dispatch({ type: 'SET_SPLIT_METHOD', splitMethod: 'By item' });
+    getADocReferenceFromCollection('transactions', 'id', '==', sessionId)
+      .then((qResult) => {
+        console.log(qResult);
+        qResult.forEach((doc) => {
+          updateADocument('transactions', sessionId, {
+            splitMethod: 'By item',
+          });
+        });
+      })
+      .catch((error) => {
+        console.log('Error updating split method: ', error);
+      });
     changeTab('Bills');
   };
 
