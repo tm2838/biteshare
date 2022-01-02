@@ -10,6 +10,7 @@ import { BiteShareContext } from '../../BiteShareContext';
 
 import { auth } from '../../../firebase/firebase.config';
 import { signUpNewUser, googleLogin } from '../../../firebase/helpers/authentication.firebase';
+import FacebookLogin from '../LoginView/FacebookLogin';
 
 const styles = StyleSheet.create({
   loginContainer: {
@@ -39,6 +40,10 @@ const styles = StyleSheet.create({
   },
   error: {
     color: 'red'
+  },
+  authProvider: {
+    flex: 1,
+    flexDirection: 'row',
   }
 });
 
@@ -111,6 +116,9 @@ const SignupScreen = () => {
           <Pressable style={styles.googleButton} onPress={handleGoogleLogin}>
             <Text>Google</Text>
           </Pressable>
+          <View style={styles.authProvider}>
+            <FacebookLogin />
+          </View>
         </KeyboardAvoidingView>
       </View>
     </SafeArea >
