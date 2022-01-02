@@ -6,9 +6,11 @@ import { BiteShareContext } from '../../BiteShareContext';
 
 const styles = StyleSheet.create({
   profileView: {
-    flex: 1,
+    flex: .25,
+    height: 30,
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: 'blue'
   },
   profileAvatar: {
     marginRight: 15

@@ -6,6 +6,7 @@ import SafeArea from '../../components/SafeArea';
 import ProfileScreenHeader from './ProfileScreenHeader';
 import ProfileGreeting from './Profile.Greeting';
 import ProfileHistory from './Profile.History';
+import SettingButton from './Profile.Settings';
 
 import { colors } from '../../infrastructure/colors';
 import { BiteShareContext } from '../../BiteShareContext';
@@ -14,6 +15,22 @@ import { signOutUser } from '../../../firebase/helpers/authentication.firebase';
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    flexDirection: 'column',
+    height: '90%',
+    backgroundColor: 'grey',
+  },
+  greeting: {
+    alignItems: 'center',
+    flexDirection: 'column',
+    height: 20,
+    backgroundColor: 'grey',
+    flex: 1
+  },
+  history: {
+    flex: 2
+  },
+  settings: {
+    flex: 1
   },
   logout: {
     height: 30,
@@ -38,19 +55,20 @@ const ProfileScreen = () => {
       });
     dispatch({ type: 'SET_AUTH', authenticated: false });
   };
+
   return (
     <SafeArea>
-      <View>
+      <View >
         <ProfileScreenHeader />
         <View style={styles.container}>
 
-          {/* Greeting */}
+          <ProfileGreeting style={styles.greeting}/>
 
-          <ProfileGreeting/>
-
-          {/* History */}
+          <ProfileHistory style={styles.history}/>
 
           {/* Settings */}
+
+          <SettingButton style={styles.settings}/>
 
           {/* Logout Button */}
           <TouchableOpacity

@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const SettingButton = () => {
+const PreviousBite = () => {
   // const { state: { accountHolderName }, dispatch } = useContext(BiteShareContext);
 
 
@@ -22,12 +22,11 @@ const SettingButton = () => {
     <View style={styles.container}>
 
       {/* Scrollable list of previous bites */}
-      <Text>Account Settings</Text>
-      <Text>Personal Informaton {'>'}</Text>
+      <Text>BITE BITE BITE BITE</Text>
 
 
     </View>
   );
 };
 
-export default SettingButton;
+export default PreviousBite;
