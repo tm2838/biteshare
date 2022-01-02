@@ -36,7 +36,6 @@ const SplitBillOptions = ({ changeTab }) => {
   const buttonStyle = isEveryoneReady ? { backgroundColor: colors.brand.ebisuLight } : {};
 
   const handleSplitEvenly = (event) => {
-    dispatch({ type: 'SET_SPLIT_METHOD', splitMethod: 'Evenly' });
     updateADocument('transactions', sessionId, {
       splitMethod: 'Evenly',
     })
@@ -66,7 +65,6 @@ const SplitBillOptions = ({ changeTab }) => {
   };
 
   const handleSplitByItem = (event) => {
-    dispatch({ type: 'SET_SPLIT_METHOD', splitMethod: 'By item' });
     updateADocument('transactions', sessionId, {
       splitMethod: 'By item',
     })
