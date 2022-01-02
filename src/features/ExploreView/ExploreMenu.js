@@ -151,9 +151,6 @@ const ExploreMenu = ({ navigation }) => {
               </ScrollView>
               {/* MENU scrollable View */}
               <View style={styles.menuContainer}>
-
-
-
                 {/* onPress 'create a session', it will direct to the QR code -  */}
 
                 <Button
@@ -163,18 +160,12 @@ const ExploreMenu = ({ navigation }) => {
                   style={{ width: 250, borderRadius: 15, height: 38 }}
                   onPress={() => {
                     createSessionHandler();
-                    navigation.navigate('CurrentSession', { previous: 'create a session' });
                   }}>
                   Create a Session
                 </Button>
 
               </View>
-
-
-
             </View>
-
-
           )
       }
     </View>

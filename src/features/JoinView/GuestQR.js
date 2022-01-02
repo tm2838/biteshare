@@ -104,8 +104,6 @@ export default function QRScanner(navigation) {
           style={StyleSheet.absoluteFillObject}
         />
       }
-
-
       {/* {scanned && <ExploreMenu />} */}
     </View>
   );
