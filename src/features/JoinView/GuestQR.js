@@ -1,11 +1,12 @@
 //https://snack.expo.dev/@sugarexpo/380485
 
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import { BiteShareContext } from '../../BiteShareContext';
 import { addANewAnonymousDocument, readDocSnapshotListener } from '../../../firebase/helpers/database.firebase';
 import { useNavigation } from '@react-navigation/native';
-import { BiteShareContext } from '../../BiteShareContext';
+import GuestMenu from './GuestMenu';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,11 +15,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-export default function GuestQR() {
+export default function QRScanner() {
+
+  const navigation = useNavigation();
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  const navigation = useNavigation();
-  const { state: { }, dispatch } = useContext(BiteShareContext);
+  //Context API -
+  const { state:
+    { restaurantName, restaurantId, restaurantMenus, biteShareKey }, dispatch }
+    = useContext(BiteShareContext);
+
+  console.log('RestsurantID----------->', restaurantId);
 
   useEffect(() => {
     (async () => {
@@ -28,12 +35,25 @@ export default function GuestQR() {
   }, []);
 
   const handleBarCodeScanned = ({ type, data }) => {
+
     setScanned(true);
+    alert('Please wait until the host allows you to join the session');
+
     let sampleData = data.split('&');
-    let hostName = sampleData[1];
     let sessionId = sampleData[0];
-    // alert(`Session Id: ${sessionId} \n  HostName: ${hostName}`);
+    let hostName = sampleData[1];
+    let diningPlaceName = sampleData[2];
+    let diningPlaceId = sampleData[3];
+
     dispatch({type: 'SET_SESSION_ID', sessionId: sessionId});
+    dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: diningPlaceId });
+    dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: diningPlaceName });
+    dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'GUEST' });
+    // alert(`Session Id: ${sessionId} \n  HostName: ${hostName} \n
+    // Restaurant Name: ${diningPlaceName} \n RestaurantID: ${diningPlaceId}` );
+
+
+
     addANewAnonymousDocument(`transactions/${sessionId}/attendees`, {
       joinRequest: 'pending',
       isHost: false,
@@ -45,7 +65,6 @@ export default function GuestQR() {
     })
       .then((doc) => {
         console.log('Successfully added GUEST into the database');
-        alert('Please wait until the host allows you to join the session');
         const unsubscribe = readDocSnapshotListener(`transactions/${sessionId}/attendees`, doc.id, (doc) => {
           const docData = doc.data();
           if (docData.joinRequest === 'allowed') {
@@ -58,13 +77,8 @@ export default function GuestQR() {
         console.log('Error when adding GUEST into the database');
       });
 
-    //***********@TODO----Once we get the  information----************
-    // HOST needs to be updated with guest name - in real time (firestore)
-    // HOST will get notification (current session -> summary )that someone wants to join the session?
-    // After HOST 'allow' the guest entry, update in real time (firestore snapshot), update conetxt api under guest[{name:Greg}]
-    // Guest get confirmation update ('waiting' -> 'allowed'), redirect to the (current -> menu)
-
   };
+
 
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
@@ -75,11 +89,14 @@ export default function GuestQR() {
 
   return (
     <View style={styles.container}>
-      <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        style={StyleSheet.absoluteFillObject}
-      />
-      {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+
+      {scanned === true ? <GuestMenu /> :
+        <BarCodeScanner
+          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          style={StyleSheet.absoluteFillObject}
+        />
+      }
+
     </View>
   );
 }

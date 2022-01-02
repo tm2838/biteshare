@@ -24,9 +24,9 @@ const styles = StyleSheet.create({
 });
 
 const HostQR = () => {
-  const { state: { sessionId, accountHolderName, restaurantName }, dispatch } = useContext(BiteShareContext);
+  const { state: { sessionId, accountHolderName, restaurantName, restaurantId }, dispatch } = useContext(BiteShareContext);
   //also pass in resturant name
-  const someString = `${sessionId}&${accountHolderName}&${restaurantName}`;
+  const someString = `${sessionId}&${accountHolderName}&${restaurantName}&${restaurantId}`;
 
   return (
 
@@ -42,7 +42,7 @@ const HostQR = () => {
         logoBorderRadius={10}
         logoBackgroundColor={'transparent'}
       />
-      
+
       <Text style={styles.baseText}>
         Scan to join a session
       </Text>

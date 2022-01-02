@@ -27,12 +27,14 @@ const ExploreScreen = ({ navigation }) => {
 
   const [restaurantNameQuery, setRestaurantNameQuery] = React.useState('');
   const onRestaurantNameChangeSearch = query => setRestaurantNameQuery(query);
+  const { state: { restaurants, restaurantId, biteShareKey }, dispatch } = useContext(BiteShareContext);
 
   //ADD OWN API KEY
-  const APIkey = 'OWN_KEY_GOES_HERE';
+  // const APIkey = 'OWN_KEY_GOES_HERE';
+  const APIkey = biteShareKey;
   const BASE_URL = 'https://api.documenu.com/v2/restaurants';
 
-  const { state: { restaurants, restaurantId }, dispatch } = useContext(BiteShareContext);
+
 
   //@TODO: might completely remove the initial load of explore page restaurants based on find current location functionality
   useEffect(() => {
