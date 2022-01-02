@@ -84,6 +84,7 @@ const ExploreMenu = ({ navigation }) => {
       splitMethod: '',
       totalBills: 0,
       date: Timestamp.fromDate(new Date()),
+      menu: restaurantMenus,
     })
       .then((doc) => {
         dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'HOST' });

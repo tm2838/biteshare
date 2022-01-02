@@ -31,6 +31,7 @@ const ReadyButton = ({changeTab}) => {
           updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
             orderStatus: 'ready',
             individualBills: newBill,
+            orderedItems: [...orderedItems]
           });
         });
       })

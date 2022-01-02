@@ -77,7 +77,7 @@ const Guest = ({ guest }) => {
     if (guest.orderedItems.length && guest.orderStatus === 'ready') {
       setItemsPrice(calculateItemPrice(guest.orderedItems));
     }
-  }, [guest.orderedItem]);
+  }, [guest.orderedItems]);
 
   useEffect(() => {
     setRowDisabled(guest.orderStatus === 'not ready');
