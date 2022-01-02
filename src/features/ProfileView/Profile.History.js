@@ -22,9 +22,13 @@ const styles = StyleSheet.create({
     borderWidth: 1
   },
   title: {
-    flex: 1,
+    flex: .5,
     fontSize: 25,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+
+    borderColor: 'black',
+    borderWidth: 1
+
   },
   bite: {
     flex: 1
@@ -49,6 +53,8 @@ const ProfileHistory = () => {
       <PreviousBite style={styles.bite}/>
       <PreviousBite style={styles.bite}/>
       <PreviousBite style={styles.bite}/>
+      <PreviousBite style={styles.bite}/>
+
     </View>
 
   );

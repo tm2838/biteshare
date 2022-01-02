@@ -6,7 +6,7 @@ import { BiteShareContext } from '../../BiteShareContext';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: .5,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: colors.brand.ebisuLight2,
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
 
     borderRadius: 15,
-    height: 20,
+    height: 15,
     marginRight: 20,
 
     borderColor: 'black',
@@ -23,15 +23,13 @@ const styles = StyleSheet.create({
 });
 
 const PreviousBite = () => {
-  // const { state: { accountHolderName }, dispatch } = useContext(BiteShareContext);
-
 
   return (
     <View style={styles.container}>
 
       {/* Scrollable list of previous bites */}
 
-      <Text> Name </Text>
+      <Text> Restauraunt </Text>
       <Text> Guest / Host </Text>
       <Text> Price </Text>
 

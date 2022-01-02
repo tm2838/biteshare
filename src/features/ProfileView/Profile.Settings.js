@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
   container: {
     flex: .25,
     flexDirection: 'column',
+    padding: 5,
     margin: 5,
     justifyContent: 'flex-start',
     width: '90%',
@@ -30,8 +31,6 @@ const styles = StyleSheet.create({
 });
 
 const SettingButton = () => {
-  // const { state: { accountHolderName }, dispatch } = useContext(BiteShareContext);
-
 
   return (
     <View style={styles.container}>
