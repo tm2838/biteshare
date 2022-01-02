@@ -6,6 +6,12 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { BiteShareContext } from '../../BiteShareContext';
 import GuestMenu from './GuestMenu';
 
+// import { Text, View, StyleSheet, Button } from 'react-native';
+// import { BarCodeScanner } from 'expo-barcode-scanner';
+import { addANewAnonymousDocument, readDocSnapshotListener } from '../../../firebase/helpers/database.firebase';
+import { useNavigation } from '@react-navigation/native';
+// import { BiteShareContext } from '../../BiteShareContext';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -23,6 +29,8 @@ export default function QRScanner(navigation) {
     = useContext(BiteShareContext);
 
   console.log('RestsurantID----------->', restaurantId);
+  const navigation = useNavigation();
+  const { state: { }, dispatch } = useContext(BiteShareContext);
 
   useEffect(() => {
     (async () => {
@@ -42,6 +50,31 @@ export default function QRScanner(navigation) {
     let hostName = sampleData[1];
     let diningPlaceName = sampleData[2];
     let diningPlaceId = sampleData[3];
+    // alert(`Session Id: ${sessionId} \n  HostName: ${hostName}`);
+    dispatch({type: 'SET_SESSION_ID', sessionId: sessionId});
+    addANewAnonymousDocument(`transactions/${sessionId}/attendees`, {
+      joinRequest: 'pending',
+      isHost: false,
+      individualBills: 0,
+      name: 'Tom',
+      orderStatus: 'not ready',
+      orderedItems: [],
+
+    })
+      .then((doc) => {
+        console.log('Successfully added GUEST into the database');
+        alert('Please wait until the host allows you to join the session');
+        const unsubscribe = readDocSnapshotListener(`transactions/${sessionId}/attendees`, doc.id, (doc) => {
+          const docData = doc.data();
+          if (docData.joinRequest === 'allowed') {
+            navigation.navigate('CurrentSession', {previous: 'coming from join tab'});
+            unsubscribe();
+          }
+        });
+      })
+      .catch((error) => {
+        console.log('Error when adding GUEST into the database');
+      });
 
     alert(`Session Id: ${sessionId} \n  HostName: ${hostName} \n
     Restaurant Name: ${diningPlaceName} \n RestaurantID: ${diningPlaceId}` );
@@ -60,6 +93,7 @@ export default function QRScanner(navigation) {
 
   const reRoute = async()=>{
     await delay(500);
+
   };
 
   if (hasPermission === null) {

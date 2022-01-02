@@ -17,10 +17,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start'
   },
   menuItemName: {
-    width: 250,
+    width: '70%',
   },
   menuItemPrice: {
-    marginLeft: 60
+    marginLeft: '18%'
   },
   menuItemDescription: {
     fontStyle: 'italic'
@@ -33,7 +33,7 @@ const MenuItemCard = ({ menuItems }) => {
       <View style={styles.menuItemContainer}>
         <View style={styles.menuItemInfoContainer}>
           <Text style={styles.menuItemName}>{menuItem.item.name}</Text>
-          <Text style={styles.menuItemPrice}>{menuItem.item.pricing[0].priceString}</Text>
+          <Text style={styles.menuItemPrice}>{menuItem.item.price}</Text>
         </View>
         <Text style={styles.menuItemDescription}>{menuItem.item.description}</Text>
       </View>

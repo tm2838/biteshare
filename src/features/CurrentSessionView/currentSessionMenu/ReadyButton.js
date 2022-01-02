@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import BiteshareButton from '../../../components/BiteshareButton.js';
 import { colors } from '../../../infrastructure/colors.js';
 import { BiteShareContext } from '../../../BiteShareContext.js';
+import { updateADocument, getADocReferenceFromCollection } from '../../../../firebase/helpers/database.firebase.js';
 // import CurrentSession from '../CurrentSession.Screen';
 
 const styles = StyleSheet.create({
@@ -18,11 +19,22 @@ const styles = StyleSheet.create({
 const ReadyButton = ({changeTab}) => {
 
   const navigation = useNavigation();
-  const { state: { sessionId, orderedItems }, dispatch } = useContext(BiteShareContext);
-  
+  const { state: { sessionId, orderedItems, accountHolderName }, dispatch } = useContext(BiteShareContext);
+
   const [orderReady, SetOrderReady] = useState(false);
 
   const menuChoice = () => {
+    getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', accountHolderName)
+      .then((qResult) => {
+        qResult.forEach((doc) => {
+          updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
+            orderStatus: 'ready',
+          });
+        });
+      })
+      .catch((error) => {
+        console.log('Error marking order status: ', error);
+      });
     changeTab('Summary');
 
     //@TODO ****

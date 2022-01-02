@@ -9,7 +9,8 @@ import { BiteShareContext } from '../../BiteShareContext';
 // import { useNavigation } from '@react-navigation/native';
 // import mockMenu from '../../../fixtures/mockMenu.json';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
+import { addANewAnonymousDocument } from '../../../firebase/helpers/database.firebase';
+import { Timestamp } from 'firebase/firestore';
 
 
 const styles = StyleSheet.create({
@@ -46,12 +47,13 @@ const styles = StyleSheet.create({
 
 const ExploreMenu = ({ navigation }) => {
   console.log('--------navigation from explore Menu----', navigation);
-  const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey }, dispatch } = useContext(BiteShareContext);
+  const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey,accountHolderName }, dispatch } = useContext(BiteShareContext);
   // const API_KEY = 'E3EE4E5EE5EEEEEE5E522EEEE5EfE0157f194895a9ab68497ab203e9092656eEEE4556678EEEEEEEEEEEEE';
 
   const API_KEY = biteShareKey;
 
 
+  // const { state: { restaurantName, restaurantId, restaurantMenus, accountHolderName }, dispatch } = useContext(BiteShareContext);
 
   const [isLoading, setLoading] = useState(true);
   const [restaurantAddress, setRestaurantAddress] = useState('');
@@ -83,6 +85,37 @@ const ExploreMenu = ({ navigation }) => {
       .catch((error => console.error(error)))
       .finally(() => setLoading(false));
   }, []);
+
+  const createSessionHandler = () => {
+    addANewAnonymousDocument('transactions', {
+      hostName: accountHolderName,
+      restaurantName: restaurantName,
+      splitMethod: '',
+      totalBills: 0,
+      date: Timestamp.fromDate(new Date()),
+    })
+      .then((doc) => {
+        dispatch({ type: 'SET_SESSION_ID', sessionId: doc.id });
+        addANewAnonymousDocument(`transactions/${doc.id}/attendees`, {
+          joinRequest: 'allowed',
+          isHost: true,
+          individualBills: 0,
+          name: accountHolderName,
+          orderStatus: 'not ready',
+          orderedItems: [],
+        })
+          .then((doc) => {
+            console.log('Successfully added the host into the database');
+          })
+          .catch((error) => {
+            console.log('Error when adding host into the database');
+          });
+      })
+      .catch((error) => {
+        console.log('Error creating a new transaction');
+      });
+    navigation.navigate('CurrentSession', { previous: 'create a session' });
+  };
 
   return (
     <View >
@@ -131,7 +164,7 @@ const ExploreMenu = ({ navigation }) => {
                   mode="contained"
                   color={colors.brand.beachLight}
                   style={{ width: 250, borderRadius: 15, height: 38}}
-                  onPress={() => navigation.navigate('CurrentSession', { previous: 'create a session' })}>
+                  onPress={() => createSessionHandler()}>
                       Create a Session
                 </Button>
 
