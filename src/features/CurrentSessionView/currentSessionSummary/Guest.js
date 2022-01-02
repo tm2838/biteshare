@@ -52,6 +52,7 @@ const Guest = ({ guest }) => {
   const { state: { accountHolderName, accountType, guests, orderedItems, sessionId }, dispatch } = useContext(BiteShareContext);
   const [rowDisabled, setRowDisabled] = useState(false);
   const [showOrderedItem, setShowOrderedItem] = useState(false);
+  const [itemsPrice, setItemsPrice] = useState(0);
 
   const allowButtonStyle = { margin: 0, marginRight: 10, backgroundColor: colors.brand.beachLight };
   const denyButtonStyle = { margin: 0, backgroundColor: colors.brand.kazanLight };
@@ -69,6 +70,14 @@ const Guest = ({ guest }) => {
   // guest: order stage, should see status indicator for self and not anyone else
   const guestView = accountType === 'GUEST' && accountHolderName === guest.name;
   const otherGuestView = accountType === 'GUEST' && accountHolderName !== guest.name;
+
+  const calculateItemPrice = (items) => items.reduce((totalPrice, item) => totalPrice + item.price, 0);
+
+  useEffect(() => {
+    if (guest.orderedItems.length && guest.orderStatus === 'ready') {
+      setItemsPrice(calculateItemPrice(guest.orderedItems));
+    }
+  }, [guest.orderedItems]);
 
   useEffect(() => {
     setRowDisabled(guest.orderStatus === 'not ready');
@@ -157,7 +166,7 @@ const Guest = ({ guest }) => {
             &&
             <View style={styles.buttonContainer}>
               <BiteshareButton size={70} title='Ready' buttonStyle={allowButtonStyle} disabled={true} />
-              <Text style={{ marginLeft: 100 }}>${guest.individualBills}</Text>
+              <Text style={{ marginLeft: 100 }}>${itemsPrice}</Text>
             </View>
           }
 
@@ -168,13 +177,13 @@ const Guest = ({ guest }) => {
               </View>
               : <View style={styles.buttonContainer}>
                 <BiteshareButton size={70} title='Ready' buttonStyle={allowButtonStyle} disabled={true} />
-                <Text style={{ marginLeft: 100 }}>${guest.individualBills}</Text>
+                <Text style={{ marginLeft: 100 }}>${itemsPrice}</Text>
               </View>)
           }
           {otherGuestView &&
             guest.orderStatus === 'ready' &&
             <View style={styles.buttonContainer}>
-              <Text style={{ marginLeft: 100 }}>${guest.individualBills}</Text>
+              <Text style={{ marginLeft: 100 }}>${itemsPrice}</Text>
             </View>
           }
         </Pressable>

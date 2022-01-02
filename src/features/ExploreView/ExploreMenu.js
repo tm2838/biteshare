@@ -94,8 +94,10 @@ const ExploreMenu = ({ navigation }) => {
       splitMethod: '',
       totalBills: 0,
       date: Timestamp.fromDate(new Date()),
+      menu: restaurantMenus,
     })
       .then((doc) => {
+        dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'HOST' });
         dispatch({ type: 'SET_SESSION_ID', sessionId: doc.id });
         addANewAnonymousDocument(`transactions/${doc.id}/attendees`, {
           joinRequest: 'allowed',
