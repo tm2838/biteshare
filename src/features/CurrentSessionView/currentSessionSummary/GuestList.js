@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, FlatList } from 'react-native';
 import Guest from './Guest.js';
 import mockGuests from '../../../../fixtures/mockGuests.json';
 import { BiteShareContext } from '../../../BiteShareContext.js';
-import { readDocSnapshotListener, readCollectionSnapshotListener } from '../../../../firebase/helpers/database.firebase.js';
+import { readCollectionSnapshotListener } from '../../../../firebase/helpers/database.firebase.js';
 
 const styles = StyleSheet.create({
   container: {
