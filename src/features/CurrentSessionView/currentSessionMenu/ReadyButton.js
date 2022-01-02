@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import BiteshareButton from '../../../components/BiteshareButton.js';
 import { colors } from '../../../infrastructure/colors.js';
 import { BiteShareContext } from '../../../BiteShareContext.js';
-import { updateADocument, getADocReferenceFromCollection } from '../../../../firebase/helpers/database.firebase.js';
+import { updateADocument, getADocReferenceFromCollection, readASingleDocument } from '../../../../firebase/helpers/database.firebase.js';
 // import CurrentSession from '../CurrentSession.Screen';
 
 const styles = StyleSheet.create({
@@ -20,20 +20,32 @@ const ReadyButton = ({changeTab}) => {
 
   const navigation = useNavigation();
   const { state: { sessionId, orderedItems, accountHolderName }, dispatch } = useContext(BiteShareContext);
-
   const [orderReady, SetOrderReady] = useState(false);
+  const calculateItemPrice = (items) => items.reduce((totalPrice, item) => totalPrice + item.price, 0);
 
   const menuChoice = () => {
+    const newBill = calculateItemPrice(orderedItems);
     getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', accountHolderName)
       .then((qResult) => {
         qResult.forEach((doc) => {
           updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
             orderStatus: 'ready',
+            individualBills: newBill,
           });
         });
       })
       .catch((error) => {
         console.log('Error marking order status: ', error);
+      })
+      .then(() => readASingleDocument('transactions', sessionId))
+      .then((result) => {
+        const originalBill = result.data().totalBills;
+        updateADocument('transactions', sessionId, {
+          totalBills: originalBill + newBill,
+        });
+      })
+      .catch((error) => {
+        console.log('Error updating total bill: ', error);
       });
     changeTab('Summary');
 
