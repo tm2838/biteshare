@@ -9,6 +9,7 @@ import {
   onAuthStateChanged,
   signOut
 } from 'firebase/auth';
+import * as Facebook from 'expo-facebook';
 /**
   Use this file to create helper functions for firebase authentication
  An example is provided here for creating new User using email & password
@@ -59,4 +60,24 @@ const signOutUser = () => {
   return signOut(auth);
 };
 
-export { signUpNewUser, loginUser, googleLogin, authorized, signOutUser };
+const fbLogin = async () => {
+  try {
+    await Facebook.initializeAsync({ appId: '243179384596845', appName: 'BiteShare' }); // appId from facebook developer account
+    const { type, token } = await Facebook.logInWithReadPermissionsAsync({
+      permissions: ['public_profile'],
+    });
+    if (type === 'success') {
+      // Get the user's info using Facebook's Graph API
+      const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+      const jsonResponse = await response.json();
+      return Promise.resolve(jsonResponse);
+    } else {
+      alert('You cancelled login with facebook');
+      return Promise.resolve('cancelled');
+    }
+  } catch (error) {
+    return Promise.reject(new Error('Facebook Login failed'));
+  }
+};
+
+export { signUpNewUser, loginUser, googleLogin, authorized, signOutUser, fbLogin };

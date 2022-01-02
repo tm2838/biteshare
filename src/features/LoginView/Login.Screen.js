@@ -7,7 +7,7 @@ import InputField from '../../components/InputField';
 import { theme } from '../../infrastructure/index';
 import BigButton from '../../components/BigButton';
 import { BiteShareContext } from '../../BiteShareContext';
-
+import FacebookLogin from '../LoginView/FacebookLogin';
 import { auth } from '../../../firebase/firebase.config';
 import { signUpNewUser, loginUser, googleLogin, onAuthStateChanged } from '../../../firebase/helpers/authentication.firebase';
 
@@ -36,6 +36,13 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.heading,
     textDecorationLine: 'underline'
   },
+  googleButton: {
+    marginTop: 50,
+  },
+  authProvider: {
+    flex: 1,
+    flexDirection: 'row',
+  }
 });
 
 const LoginScreen = () => {
@@ -93,6 +100,12 @@ const LoginScreen = () => {
             </Text>
           </Pressable>
           <GoogleLogin />
+          <Pressable style={styles.googleButton} onPress={handleGoogleLogin}>
+            <Text>Google</Text>
+          </Pressable>
+          <View style={styles.authProvider}>
+            <FacebookLogin />
+          </View>
         </KeyboardAvoidingView>
       </View>
     </SafeArea >
