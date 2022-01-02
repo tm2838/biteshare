@@ -46,11 +46,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const GuestMenu = ({ navigation }) => {
-  console.log('--------navigation Guest Menu----', navigation);
-  const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey }, dispatch } = useContext(BiteShareContext);
-  // const API_KEY = 'E3EE4E5EE5EEEEEE5E522EEEE5EfE0157f194895a9ab68497ab203e9092656eEEE4556678EEEEEEEEEEEEE';
+const GuestMenu = () => {
 
+  const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey }, dispatch } = useContext(BiteShareContext);
   const API_KEY = biteShareKey;
 
   const [joinRequest, setJoinRequest] = useState('allowed');
@@ -87,65 +85,40 @@ const GuestMenu = ({ navigation }) => {
 
   return (
     <View >
-      {
-        isLoading
-          ? (
-            <View style={styles.menuContainer}>
-              < ActivityIndicator size="small" color="darkblue"/>
-              <Text> Please wait </Text>
-              <Text> while we connect you to the host </Text>
-            </View>
-          )
-          : (
-            <View >
 
-              <Appbar.Header style={styles.restaurantHeader} >
-                <Appbar.Content title={restaurantName} subtitle={restaurantAddress} style={styles.restaurantHeading} />
-              </Appbar.Header>
-              <ScrollView style={styles.scrollView}>
+      <View >
 
-                <List.Subheader>
-                  <Text style={styles.text}>Menu</Text>
-                </List.Subheader>
-                {restaurantMenus.map((one) => {
-                  return (<List.Item
-                    key={one.key}
-                    title={one.name}
-                    description={one.description}
-                    right={() => (<Text> $ {one.price}</Text>)}
-                  />);
-                })}
+        <Appbar.Header style={styles.restaurantHeader} >
+          <Appbar.Content title={restaurantName} subtitle={restaurantAddress} style={styles.restaurantHeading} />
+        </Appbar.Header>
+        <ScrollView style={styles.scrollView}>
 
-              </ScrollView>
-              {
+          <List.Subheader>
+            <Text style={styles.text}>Menu</Text>
+          </List.Subheader>
+          {restaurantMenus.map((one) => {
+            return (<List.Item
+              key={one.key}
+              title={one.name}
+              description={one.description}
+              right={() => (<Text> $ {one.price}</Text>)}
+            />);
+          })}
 
-                joinRequest === 'allowed'
-                  ? (
-                    <View style={styles.buttomContainer}><Button
-                      icon='account-plus'
-                      mode="contained"
-                      color={colors.brand.beachLight}
-                      style={{ width: 200, borderRadius: 10, height: 40}}
-                      onPress={() => navigation.navigate('CurrentSession', { previous: 'create a session' })}>
-                      Connect to Host
-                    </Button>
-                    </View>
-                  )
-                  :
-                  (<View style={styles.buttomContainer}>
+        </ScrollView>
 
-                    < ActivityIndicator size="small" color="darkblue"/>
-                    <Text style={styles.text}> Still waiting for host to connect</Text>
-                    <Text> Feel free to look at menu while waiting </Text>
+        <View style={styles.buttomContainer}>
 
-                  </View>)
-              }
+          < ActivityIndicator size="small" color="darkblue"/>
+          <Text style={styles.text}> Still waiting for host to connect</Text>
+          <Text> Feel free to look at menu while waiting </Text>
+
+        </View>
+
+      </View>
 
 
-            </View>
-
-          )
-      }
+      
     </View>
   );
 };

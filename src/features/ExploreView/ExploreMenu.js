@@ -115,6 +115,8 @@ const ExploreMenu = ({ navigation }) => {
       .catch((error) => {
         console.log('Error creating a new transaction');
       });
+
+    // navigate the HOST to QR code screen - allows guest to scan
     navigation.navigate('CurrentSession', { previous: 'create a session' });
   };
 
@@ -138,6 +140,7 @@ const ExploreMenu = ({ navigation }) => {
                 />
                 <Appbar.Content title={restaurantName} subtitle={restaurantAddress} style={styles.restaurantHeading} />
               </Appbar.Header>
+              {/* implentation with FLATLIST */}
               <ScrollView style={styles.scrollView}>
 
                 <List.Subheader>
@@ -159,15 +162,17 @@ const ExploreMenu = ({ navigation }) => {
 
 
                 {/* onPress 'create a session', it will direct to the QR code -  */}
-
-                <Button
-                  icon='account-plus'
-                  mode="contained"
-                  color={colors.brand.beachLight}
-                  style={{ width: 250, borderRadius: 15, height: 38}}
-                  onPress={() => createSessionHandler()}>
+                {/* ????? - is HOST allow to create a new session (NO) */}
+                {
+                  accountType !== 'GUEST' &&
+                  <Button
+                    icon='account-plus'
+                    mode="contained"
+                    color={colors.brand.beachLight}
+                    style={{ width: 250, borderRadius: 15, height: 38}}
+                    onPress={() => createSessionHandler()}>
                       Create a Session
-                </Button>
+                  </Button>}
 
               </View>
 
