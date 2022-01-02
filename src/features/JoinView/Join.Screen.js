@@ -13,15 +13,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 200
   },
-  sessionContainer: {
+  hostContainer: {
 
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 200,
+    marginTop: 350,
+
+  },
+  hostText: {
     textAlign: 'center',
     fontFamily: fonts.heading,
+    height: 50,
     fontSize: 20,
-
+    color: colors.brand.rausch
   }
 });
 
@@ -32,10 +36,17 @@ const JoinScreen = ({ route, navigation }) => {
   const { state: { accountType }, dispatch } = useContext(BiteShareContext);
   const [openCamera, setOpenCamera] = useState(false);
 
-  //QR code will only shown if you are a GUEST
+  //QR code will NOT show if you are a HOST
   return (
     <SafeArea>
-      {accountType === 'GUEST' ?
+      {accountType === 'HOST' ?
+
+        (<View style={styles.hostContainer}>
+          <Text style={styles.hostText}> You are currently a HOST.</Text>
+          <Text > Tap on CurrentSession</Text>
+        </View>)
+        :
+
         (openCamera ? <GuestQR navigation={navigation}/> :
           <View>
             <JoinScreenHeader />
@@ -48,10 +59,6 @@ const JoinScreen = ({ route, navigation }) => {
               <Text>Scan QR code to join</Text>
             </View>
           </View>)
-        :
-        <View>
-          <Text style={styles.sessionContainer}> You are currently a HOST.</Text>
-        </View>
       }
 
     </SafeArea>

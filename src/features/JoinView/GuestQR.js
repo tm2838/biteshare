@@ -29,8 +29,8 @@ export default function QRScanner(navigation) {
     = useContext(BiteShareContext);
 
   console.log('RestsurantID----------->', restaurantId);
-  const navigation = useNavigation();
-  const { state: { }, dispatch } = useContext(BiteShareContext);
+  // const navigation = useNavigation();
+  // const { state: { }, dispatch } = useContext(BiteShareContext);
 
   useEffect(() => {
     (async () => {

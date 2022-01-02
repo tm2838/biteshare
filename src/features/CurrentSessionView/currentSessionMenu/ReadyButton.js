@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+// import { useNavigation } from '@react-navigation/native';
 import BiteshareButton from '../../../components/BiteshareButton.js';
 import { colors } from '../../../infrastructure/colors.js';
 import { BiteShareContext } from '../../../BiteShareContext.js';
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 
 const ReadyButton = ({changeTab}) => {
 
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   const { state: { sessionId, orderedItems, accountHolderName }, dispatch } = useContext(BiteShareContext);
 
   const [orderReady, SetOrderReady] = useState(false);

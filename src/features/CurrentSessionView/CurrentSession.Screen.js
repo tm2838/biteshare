@@ -18,17 +18,19 @@ const styles = StyleSheet.create({
 });
 
 const CurrentSessionScreen = ({route, navigation}) => {
-
+  // console.log('-------------------Current Session------------', route);
   const [currentTab, setCurrentTab] = useState('Menu');
 
   useEffect(()=>{
-
+    console.log('-------------------Current Session------------', route);
     // ************  Crystal's notes:
     // The following code allows the navigation from 'create a session' to 'QR code'***
     //**** should be working, if not, comment out line31-34 ****
+
     if (route.params?.previous === 'create a session') {
       setCurrentTab('QR Code');
     }
+    //For Guest- after guest notification from host, will direct them to Summary page
     if (route.params?.previous === 'coming from join tab') {
       setCurrentTab('Summary');
     }

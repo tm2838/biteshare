@@ -46,10 +46,8 @@ const styles = StyleSheet.create({
 });
 
 const ExploreMenu = ({ navigation }) => {
-  console.log('--------navigation from explore Menu----', navigation);
-  const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey,accountHolderName }, dispatch } = useContext(BiteShareContext);
-  // const API_KEY = 'E3EE4E5EE5EEEEEE5E522EEEE5EfE0157f194895a9ab68497ab203e9092656eEEE4556678EEEEEEEEEEEEE';
-
+  // console.log('--------navigation from explore Menu----', navigation);
+  const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey, accountHolderName, accountType }, dispatch } = useContext(BiteShareContext);
   const API_KEY = biteShareKey;
 
 
@@ -87,6 +85,9 @@ const ExploreMenu = ({ navigation }) => {
   }, []);
 
   const createSessionHandler = () => {
+    //Once user click 'create Session', the AccountType change to 'HOST'
+    dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'HOST' });
+
     addANewAnonymousDocument('transactions', {
       hostName: accountHolderName,
       restaurantName: restaurantName,
@@ -152,7 +153,7 @@ const ExploreMenu = ({ navigation }) => {
                 })}
 
               </ScrollView>
-              {/* MENU scrollable View */}
+
               <View style={styles.menuContainer}>
 
 
