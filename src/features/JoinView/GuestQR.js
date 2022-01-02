@@ -34,6 +34,7 @@ export default function GuestQR() {
     let sessionId = sampleData[0];
     // alert(`Session Id: ${sessionId} \n  HostName: ${hostName}`);
     dispatch({type: 'SET_SESSION_ID', sessionId: sessionId});
+    dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'GUEST' });
     addANewAnonymousDocument(`transactions/${sessionId}/attendees`, {
       joinRequest: 'pending',
       isHost: false,
