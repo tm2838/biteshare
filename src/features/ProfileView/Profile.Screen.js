@@ -17,20 +17,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     height: '90%',
-    backgroundColor: 'grey',
+    // backgroundColor: 'grey',
+
   },
   greeting: {
     alignItems: 'center',
     flexDirection: 'column',
     height: 20,
     backgroundColor: 'grey',
-    flex: 1
-  },
-  history: {
     flex: 2
   },
+  history: {
+
+  },
   settings: {
-    flex: 1
+
   },
   logout: {
     height: 30,

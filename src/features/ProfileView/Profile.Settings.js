@@ -6,12 +6,27 @@ import { BiteShareContext } from '../../BiteShareContext';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'green',
-    margin: 5
+    flex: .25,
+    flexDirection: 'column',
+    margin: 5,
+    justifyContent: 'flex-start',
+    width: '90%',
+
+    borderColor: 'black',
+    borderWidth: 1
   },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 25
+  },
+  button: {
+    backgroundColor: colors.brand.ebisuLight2,
+    borderRadius: 15,
+    height: 20,
+    marginRight: 20,
+    borderColor: 'black',
+    borderWidth: 1
+  }
 });
 
 const SettingButton = () => {
@@ -22,8 +37,9 @@ const SettingButton = () => {
     <View style={styles.container}>
 
       {/* Scrollable list of previous bites */}
-      <Text>Account Settings</Text>
-      <Text>Personal Informaton {'>'}</Text>
+      <Text style={styles.title}>Account Settings</Text>
+
+      <Text style={styles.button}>Personal Informaton {'>'}</Text>
 
 
     </View>

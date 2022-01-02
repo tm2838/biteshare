@@ -10,13 +10,17 @@ const styles = StyleSheet.create({
     height: 30,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'blue'
+
+    borderColor: 'black',
+    borderWidth: 1
   },
   profileAvatar: {
     marginRight: 15
   },
   profileName: {
-    color: 'black'
+    color: 'black',
+    fontSize: 20,
+    fontWeight: 'bold'
   },
 });
 

@@ -11,14 +11,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center',
     width: 400,
     height: '45%',
-    backgroundColor: 'red',
-    margin: 20
+    // backgroundColor: 'red',
+    margin: 10,
+    padding: 10,
+    justifyContent: 'flex-start',
+
+    borderColor: 'black',
+    borderWidth: 1
   },
   title: {
-    flex: 1
+    flex: 1,
+    fontSize: 25,
+    fontWeight: 'bold'
   },
   bite: {
     flex: 1
@@ -26,13 +32,13 @@ const styles = StyleSheet.create({
 });
 
 const ProfileHistory = () => {
-  // const { state: { accountHolderName }, dispatch } = useContext(BiteShareContext);
-
 
   //Query previous bites from db
+  //Restauraunt Name - Guest / Host Status - Price
+
 
   //Map to bite components
-  //Render to DOM
+  //Render to DOM in scrollable list
 
   return (
     <View style={styles.container}>
