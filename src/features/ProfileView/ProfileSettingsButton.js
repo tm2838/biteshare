@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Appbar, Avatar } from 'react-native-paper';
 import { colors } from '../../infrastructure/colors';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, Button, TouchableOpacity } from 'react-native';
 import { BiteShareContext } from '../../BiteShareContext';
 
 const styles = StyleSheet.create({
@@ -31,12 +31,24 @@ const styles = StyleSheet.create({
   }
 });
 
-const SettingButton = () => {
+const SettingButton = ({ navPage }) => {
 
+  // Refactor Personal Info into button so that onClick calls navigatePage('Account')
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Account Settings</Text>
       <Text style={styles.button}>Personal Information</Text>
+      {/* <Button
+        onPress={navigatePage('Account')}
+        title="Learn More"
+      /> */}
+
+      {/* <TouchableOpacity
+        style={styles.button}
+        onPress={navPage('Account')}>
+        <Text>Personal Information</Text>
+      </TouchableOpacity> */}
+
     </View>
   );
 };

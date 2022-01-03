@@ -8,9 +8,6 @@ import ProfileGreeting from './Profile.Greeting';
 import ProfileHistory from './Profile.History';
 import SettingButton from './ProfileSettingsButton';
 
-import Profile from './Profile';
-import AccountScreen from './AccountSettings/Account.Screen';
-
 import { colors } from '../../infrastructure/colors';
 import { BiteShareContext } from '../../BiteShareContext';
 import { signOutUser } from '../../../firebase/helpers/authentication.firebase';
@@ -19,7 +16,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     flexDirection: 'column',
-    height: '100%',
+    height: '90%',
 
   },
   greeting: {
@@ -35,6 +32,7 @@ const styles = StyleSheet.create({
 
   },
   logout: {
+    flex: .1,
     height: 30,
     alignItems: 'center',
     justifyContent: 'center',
@@ -44,55 +42,38 @@ const styles = StyleSheet.create({
   }
 });
 
-const ProfileScreen = () => {
+const Profile = ({ navPage }) => {
   const { state: { authenticated }, dispatch } = useContext(BiteShareContext);
   const [currentPage, setCurrentPage] = useState('Profile');
 
-  // const navigation = useNavigation();
-  // const logout = () => {
-  //   signOutUser()
-  //     .then(() => {
-  //       navigation.navigate('Login');
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  //   dispatch({ type: 'SET_AUTH', authenticated: false });
-  // };
-
-  const renderAccountSettings = () => {
-    return (
-      <AccountScreen/>
-    );
+  const navigation = useNavigation();
+  const logout = () => {
+    signOutUser()
+      .then(() => {
+        navigation.navigate('Login');
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    dispatch({ type: 'SET_AUTH', authenticated: false });
   };
-
 
   return (
     <SafeArea>
       <View >
-        <ProfileScreenHeader />
         <View style={styles.container}>
-
-
-          <Profile navPage={setCurrentPage}/>
-          {currentPage !== 'Account' && renderAccountSettings()}
-
-
-
-
-          {/* <ProfileGreeting style={styles.greeting}/>
+          <ProfileGreeting style={styles.greeting}/>
           <ProfileHistory style={styles.history}/>
-          <SettingButton style={styles.settings}/>
+          <SettingButton style={styles.settings} navPage={navPage}/>
           <TouchableOpacity
             style={styles.logout}
             onPress={logout}>
             <Text>Logout</Text>
-          </TouchableOpacity> */}
-
+          </TouchableOpacity>
         </View>
       </View>
     </SafeArea>
   );
 };
 
-export default ProfileScreen;
+export default Profile;
