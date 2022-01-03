@@ -11,8 +11,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
 
-    borderColor: 'black',
-    borderWidth: 1
   },
   profileAvatar: {
     marginRight: 15

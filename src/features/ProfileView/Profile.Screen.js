@@ -17,14 +17,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     height: '90%',
-    // backgroundColor: 'grey',
 
   },
   greeting: {
     alignItems: 'center',
     flexDirection: 'column',
     height: 20,
-    backgroundColor: 'grey',
     flex: 2
   },
   history: {
@@ -70,13 +68,11 @@ const ProfileScreen = () => {
 
           <SettingButton style={styles.settings}/>
 
-          {/* Logout Button */}
           <TouchableOpacity
             style={styles.logout}
             onPress={logout}>
             <Text>Logout</Text>
           </TouchableOpacity>
-
 
         </View>
       </View>

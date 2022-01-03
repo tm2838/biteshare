@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.brand.ebisuLight2,
     margin: 5,
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
 
     borderRadius: 15,
     height: 40,
@@ -18,21 +18,17 @@ const styles = StyleSheet.create({
     marginTop: 10,
 
 
-    borderColor: 'black',
-    borderWidth: 1
   },
 });
 
-const PreviousBite = () => {
+const PreviousBite = ({ meal }) => {
 
   return (
     <View style={styles.container}>
 
-      {/* Scrollable list of previous bites */}
-
-      <Text> Restauraunt </Text>
-      <Text> Guest / Host </Text>
-      <Text> Price </Text>
+      <Text>{meal.restauraunt}</Text>
+      <Text>{meal.hostStatus}</Text>
+      <Text>{meal.bill}</Text>
 
     </View>
   );

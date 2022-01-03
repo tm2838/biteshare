@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Appbar, Avatar } from 'react-native-paper';
 import { colors } from '../../infrastructure/colors';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, FlatList} from 'react-native';
 import { BiteShareContext } from '../../BiteShareContext';
 import SafeArea from '../../components/SafeArea';
 
@@ -18,28 +18,23 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: 'flex-start',
 
-    borderColor: 'black',
-    borderWidth: 1
   },
   title: {
-    flex: .5,
+    flex: .1,
     fontSize: 25,
     fontWeight: 'bold',
-
-    borderColor: 'black',
-    borderWidth: 1
-
   },
-  bite: {
-    flex: 1,
-    justifyContent: 'space-between',
+  list: {
+    flex: 1
   }
 });
+
+
 
 const ProfileHistory = () => {
 
 
-  const bites = [
+  const mockBites = [
     {restauraunt: 'Grey Ghost', hostStatus: 'Host', bill: 32.40},
     {restauraunt: 'Barda', hostStatus: 'Guest', bill: 22.40},
     {restauraunt: 'Ima', hostStatus: 'Guest', bill: 12.40},
@@ -49,25 +44,28 @@ const ProfileHistory = () => {
     {restauraunt: 'Taqueria El Rey', hostStatus: 'Host', bill: 8.40}
   ];
 
+
+  const renderBite = ({item, index}) => (<PreviousBite meal={item} index={index}/>);
+
   //Query previous bites from db
   //Restauraunt Name - Guest / Host Status - Price
 
 
-  //Map to bite components
-  //Render to DOM in scrollable list
 
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <Text style={styles.title}>Bites Shared </Text>
 
-        <Text style={styles.title}>Bites Shared </Text>
-        <PreviousBite style={styles.bite}/>
-        <PreviousBite style={styles.bite}/>
-        <PreviousBite style={styles.bite}/>
-        <PreviousBite style={styles.bite}/>
-        <PreviousBite style={styles.bite}/>
+      <FlatList
+        style={styles.list}
+        data={ mockBites }
+        renderItem={renderBite}
+      />
 
-      </ScrollView>
+
+
+
+
     </View>
 
   );
