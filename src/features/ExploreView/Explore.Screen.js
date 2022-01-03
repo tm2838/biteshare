@@ -10,7 +10,7 @@ import SafeArea from '../../components/SafeArea';
 import ExploreMenu from './ExploreMenu';
 import RestaurantInfo from './RestaurantInfo';
 import { colors } from '../../infrastructure/colors';
-
+import * as Location from 'expo-location';
 
 const styles = StyleSheet.create({
   search: {
@@ -34,7 +34,18 @@ const ExploreScreen = ({ navigation }) => {
   const APIkey = biteShareKey;
   const BASE_URL = 'https://api.documenu.com/v2/restaurants';
 
-
+  const getLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      return;
+    }
+    let location = await Location.getCurrentPositionAsync({});
+    let longitude = location.coords.longitude;
+    let latitude = location.coords.latitude;
+    let address = await Location.reverseGeocodeAsync({ latitude, longitude });
+    setZipcodeQuery(address[0].postalCode);
+    console.log(zipcodeQuery);
+  };
 
   //@TODO: might completely remove the initial load of explore page restaurants based on find current location functionality
   useEffect(() => {
@@ -42,8 +53,11 @@ const ExploreScreen = ({ navigation }) => {
     dispatch({ type: 'SET_RESTAURANTS', restaurants: restaurantsData });
   }, [mockRestaurants]);
 
-  const renderRestaurant = (restaurant) => (<RestaurantInfo restaurant={restaurant.item} />);
+  useEffect(() => {
+    return getLocation();
+  }, []);
 
+  const renderRestaurant = (restaurant) => (<RestaurantInfo restaurant={restaurant.item} />);
   const getRestaurants = (restaurantName, zipcode) => {
 
     const config = {
@@ -51,8 +65,6 @@ const ExploreScreen = ({ navigation }) => {
         'X-API-KEY': APIkey
       }
     };
-
-
     //if user entered city instead of zipcode
     if (zipcode && isNaN(zipcode)) {
       axios.get(`${BASE_URL}/search/fields?restaurant_name=${restaurantName}&address=${zipcode}`, config)

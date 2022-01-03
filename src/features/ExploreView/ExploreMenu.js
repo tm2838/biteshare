@@ -49,10 +49,6 @@ const ExploreMenu = ({ navigation }) => {
   // console.log('--------navigation from explore Menu----', navigation);
   const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey, accountHolderName, accountType }, dispatch } = useContext(BiteShareContext);
   const API_KEY = biteShareKey;
-
-
-  // const { state: { restaurantName, restaurantId, restaurantMenus, accountHolderName }, dispatch } = useContext(BiteShareContext);
-
   const [isLoading, setLoading] = useState(true);
   const [restaurantAddress, setRestaurantAddress] = useState('');
 
@@ -160,9 +156,6 @@ const ExploreMenu = ({ navigation }) => {
               </ScrollView>
 
               <View style={styles.menuContainer}>
-
-
-
                 {/* onPress 'create a session', it will direct to the QR code -  */}
                 {/* ????? - is HOST allow to create a new session (NO) */}
                 {
@@ -171,18 +164,13 @@ const ExploreMenu = ({ navigation }) => {
                     icon='account-plus'
                     mode="contained"
                     color={colors.brand.beachLight}
-                    style={{ width: 250, borderRadius: 15, height: 38}}
+                    style={{ width: 250, borderRadius: 15, height: 38 }}
                     onPress={() => createSessionHandler()}>
-                      Create a Session
+                    Create a Session
                   </Button>}
 
               </View>
-
-
-
             </View>
-
-
           )
       }
     </View>

@@ -7,8 +7,9 @@ import { BiteShareContext } from '../../BiteShareContext';
 
 const styles = StyleSheet.create({
   fbLogo: {
-    height: 60,
-    width: 60,
+    marginTop: 4,
+    height: 62,
+    width: 62,
   }
 });
 
@@ -21,6 +22,7 @@ const FacebookLogin = () => {
       const fbUserName = fbLogInResult.name;
       if (fbLogInResult !== 'cancelled') {
         dispatch({ type: 'SET_AUTH', authenticated: true });
+        dispatch({ type: 'SET_NICKNAME', nickname: fbUserName.split(' ')[0] });
         dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName: fbUserName });
         navigation.navigate('Home');
       }
@@ -33,7 +35,7 @@ const FacebookLogin = () => {
   return (
     <View>
       <TouchableOpacity onPress={handleFbLogin}>
-        <Image style = {styles.fbLogo} source = {facebookLogo} />
+        <Image style={styles.fbLogo} source={facebookLogo} />
       </TouchableOpacity>
     </View>
   );
