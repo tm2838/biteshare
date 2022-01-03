@@ -6,7 +6,6 @@ import { BiteShareContext } from '../../BiteShareContext';
 
 const styles = StyleSheet.create({
   container: {
-    flex: .5,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: colors.brand.ebisuLight2,
@@ -14,8 +13,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
 
     borderRadius: 15,
-    height: 15,
+    height: 40,
     marginRight: 20,
+    marginTop: 10,
+
 
     borderColor: 'black',
     borderWidth: 1

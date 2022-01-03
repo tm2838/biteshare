@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Appbar, Avatar } from 'react-native-paper';
 import { colors } from '../../infrastructure/colors';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { BiteShareContext } from '../../BiteShareContext';
 import SafeArea from '../../components/SafeArea';
 
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     width: 400,
     height: '45%',
-    // backgroundColor: 'red',
+
     margin: 10,
     padding: 10,
     justifyContent: 'flex-start',
@@ -31,11 +31,23 @@ const styles = StyleSheet.create({
 
   },
   bite: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'space-between',
   }
 });
 
 const ProfileHistory = () => {
+
+
+  const bites = [
+    {restauraunt: 'Grey Ghost', hostStatus: 'Host', bill: 32.40},
+    {restauraunt: 'Barda', hostStatus: 'Guest', bill: 22.40},
+    {restauraunt: 'Ima', hostStatus: 'Guest', bill: 12.40},
+    {restauraunt: 'Lenny\'s', hostStatus: 'Host', bill: 9.40},
+    {restauraunt: 'Supinos', hostStatus: 'Guest', bill: 25.40},
+    {restauraunt: 'Flowers of Vietnam', hostStatus: 'Host', bill: 42.40},
+    {restauraunt: 'Taqueria El Rey', hostStatus: 'Host', bill: 8.40}
+  ];
 
   //Query previous bites from db
   //Restauraunt Name - Guest / Host Status - Price
@@ -46,15 +58,16 @@ const ProfileHistory = () => {
 
   return (
     <View style={styles.container}>
+      <ScrollView>
 
-      {/* Scrollable list of previous bites */}
-      <Text style={styles.title}>Bites Shared </Text>
-      <PreviousBite style={styles.bite}/>
-      <PreviousBite style={styles.bite}/>
-      <PreviousBite style={styles.bite}/>
-      <PreviousBite style={styles.bite}/>
-      <PreviousBite style={styles.bite}/>
+        <Text style={styles.title}>Bites Shared </Text>
+        <PreviousBite style={styles.bite}/>
+        <PreviousBite style={styles.bite}/>
+        <PreviousBite style={styles.bite}/>
+        <PreviousBite style={styles.bite}/>
+        <PreviousBite style={styles.bite}/>
 
+      </ScrollView>
     </View>
 
   );

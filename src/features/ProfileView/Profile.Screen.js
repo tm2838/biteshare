@@ -67,7 +67,6 @@ const ProfileScreen = () => {
 
           <ProfileHistory style={styles.history}/>
 
-          {/* Settings */}
 
           <SettingButton style={styles.settings}/>
 
