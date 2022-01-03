@@ -10,7 +10,7 @@ import SafeArea from '../../components/SafeArea';
 import ExploreMenu from './ExploreMenu';
 import RestaurantInfo from './RestaurantInfo';
 import { colors } from '../../infrastructure/colors';
-
+import * as Location from 'expo-location';
 
 const styles = StyleSheet.create({
   search: {
@@ -27,6 +27,7 @@ const ExploreScreen = ({ navigation }) => {
 
   const [restaurantNameQuery, setRestaurantNameQuery] = React.useState('');
   const onRestaurantNameChangeSearch = query => setRestaurantNameQuery(query);
+
   const { state: { restaurants, restaurantsImages, restaurantId, biteShareKey }, dispatch } = useContext(BiteShareContext);
 
   const APIkey = biteShareKey;
@@ -43,13 +44,8 @@ const ExploreScreen = ({ navigation }) => {
       });
   };
 
-  useEffect(() => {
-    const restaurantsData = mockRestaurants.data;
-    dispatch({ type: 'SET_RESTAURANTS', restaurants: restaurantsData });
-    getImages();
-  }, [mockRestaurants]);
-
   const getRestaurants = (restaurantName, zipcode) => {
+    getImages();
 
     const config = {
       headers: {
@@ -75,6 +71,29 @@ const ExploreScreen = ({ navigation }) => {
         });
     }
   };
+
+  const getLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      return;
+    }
+    let location = await Location.getCurrentPositionAsync({});
+    let longitude = location.coords.longitude;
+    let latitude = location.coords.latitude;
+    let address = await Location.reverseGeocodeAsync({ latitude, longitude });
+    setZipcodeQuery(address[0].postalCode);
+    // console.log(zipcodeQuery);
+  };
+
+  useEffect(() => {
+    const restaurantsData = mockRestaurants.data;
+    dispatch({ type: 'SET_RESTAURANTS', restaurants: restaurantsData });
+    getImages();
+  }, [mockRestaurants]);
+
+  useEffect(() => {
+    return getLocation();
+  }, []);
 
   return (
     <SafeArea>
@@ -102,7 +121,6 @@ const ExploreScreen = ({ navigation }) => {
                 <TouchableOpacity
                   style={styles.button}
                   onPress={() => {
-                    getImages();
                     getRestaurants(restaurantNameQuery, zipcodeQuery);
                   }}>
                   <Text style={{ color: colors.brand.kazan, fontWeight: '600' }}>Search</Text>

@@ -47,7 +47,7 @@ const getADocReferenceFromCollection = (collectionName, fieldName, comparisonOpe
   return getDocs(q);
 };
 
-/*********************************** Sanpshot listeners *******************************************/
+/*********************************** Snapshot listeners *******************************************/
 const readDocSnapshotListener = (collectionName, documentName, callback) => {
   const docRef = doc(db, collectionName, documentName);
   return onSnapshot(docRef, (doc) => {
