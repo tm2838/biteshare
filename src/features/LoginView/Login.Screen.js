@@ -7,7 +7,7 @@ import InputField from '../../components/InputField';
 import { theme } from '../../infrastructure/index';
 import BigButton from '../../components/BigButton';
 import { BiteShareContext } from '../../BiteShareContext';
-
+import FacebookLogin from '../LoginView/FacebookLogin';
 import { auth } from '../../../firebase/firebase.config';
 import { signUpNewUser, loginUser, googleLogin, onAuthStateChanged } from '../../../firebase/helpers/authentication.firebase';
 

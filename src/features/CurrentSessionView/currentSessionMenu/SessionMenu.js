@@ -28,8 +28,9 @@ const SessionMenu = () => {
   //   dispatch({ type: 'SET_RESTAURANT_MENU', restaurantMenus: mockParseMenu });
   // }, [mockParseMenu]);
 
-  const renderMenus = (menu) => {
-    return (<Menu menu={menu} key = {menu.id}/>);
+  const renderMenus = ({item}) => {
+    // console.log('SESSION MENU---------', item);
+    return (<Menu menu={item} />);
   };
 
   return (
@@ -39,8 +40,7 @@ const SessionMenu = () => {
       <FlatList
         data={restaurantMenus}
         renderItem={renderMenus}
-        keyExtractor={menu => menu.id}
-       
+        keyExtractor={item => item.key}
       />
 
     </SafeAreaView>

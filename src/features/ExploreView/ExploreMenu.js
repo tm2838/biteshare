@@ -46,10 +46,8 @@ const styles = StyleSheet.create({
 });
 
 const ExploreMenu = ({ navigation }) => {
-  console.log('--------navigation from explore Menu----', navigation);
-  const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey }, dispatch } = useContext(BiteShareContext);
-  // const API_KEY = 'E3EE4E5EE5EEEEEE5E522EEEE5EfE0157f194895a9ab68497ab203e9092656eEEE4556678EEEEEEEEEEEEE';
-
+  // console.log('--------navigation from explore Menu----', navigation);
+  const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey, accountHolderName, accountType }, dispatch } = useContext(BiteShareContext);
   const API_KEY = biteShareKey;
 
   const [isLoading, setLoading] = useState(true);
@@ -84,14 +82,19 @@ const ExploreMenu = ({ navigation }) => {
   }, []);
 
   const createSessionHandler = () => {
+    //Once user click 'create Session', the AccountType change to 'HOST'
+    dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'HOST' });
+
     addANewAnonymousDocument('transactions', {
       hostName: accountHolderName,
       restaurantName: restaurantName,
       splitMethod: '',
       totalBills: 0,
       date: Timestamp.fromDate(new Date()),
+      menu: restaurantMenus,
     })
       .then((doc) => {
+        dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'HOST' });
         dispatch({ type: 'SET_SESSION_ID', sessionId: doc.id });
         addANewAnonymousDocument(`transactions/${doc.id}/attendees`, {
           joinRequest: 'allowed',
@@ -111,6 +114,8 @@ const ExploreMenu = ({ navigation }) => {
       .catch((error) => {
         console.log('Error creating a new transaction');
       });
+
+    // navigate the HOST to QR code screen - allows guest to scan
     navigation.navigate('CurrentSession', { previous: 'create a session' });
   };
 
@@ -134,6 +139,7 @@ const ExploreMenu = ({ navigation }) => {
                 />
                 <Appbar.Content title={restaurantName} subtitle={restaurantAddress} style={styles.restaurantHeading} />
               </Appbar.Header>
+              {/* implentation with FLATLIST */}
               <ScrollView style={styles.scrollView}>
 
                 <List.Subheader>
@@ -149,20 +155,20 @@ const ExploreMenu = ({ navigation }) => {
                 })}
 
               </ScrollView>
-              {/* MENU scrollable View */}
+
               <View style={styles.menuContainer}>
                 {/* onPress 'create a session', it will direct to the QR code -  */}
-
-                <Button
-                  icon='account-plus'
-                  mode="contained"
-                  color={colors.brand.beachLight}
-                  style={{ width: 250, borderRadius: 15, height: 38 }}
-                  onPress={() => {
-                    createSessionHandler();
-                  }}>
-                  Create a Session
-                </Button>
+                {/* ????? - is HOST allow to create a new session (NO) */}
+                {
+                  accountType !== 'GUEST' &&
+                  <Button
+                    icon='account-plus'
+                    mode="contained"
+                    color={colors.brand.beachLight}
+                    style={{ width: 250, borderRadius: 15, height: 38 }}
+                    onPress={() => createSessionHandler()}>
+                    Create a Session
+                  </Button>}
 
               </View>
             </View>

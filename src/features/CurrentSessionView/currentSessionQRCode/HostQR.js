@@ -24,16 +24,16 @@ const styles = StyleSheet.create({
 });
 
 const HostQR = () => {
-  const { state: { sessionId, accountHolderName, restaurantName }, dispatch } = useContext(BiteShareContext);
+  const { state: { sessionId, accountHolderName, restaurantName, restaurantId }, dispatch } = useContext(BiteShareContext);
   //also pass in resturant name
-  const someString = `${sessionId}&${accountHolderName}&${restaurantName}`;
+  const someString = `${sessionId}&${accountHolderName}&${restaurantName}&${restaurantId}`;
 
   return (
 
     <View style={styles.container}>
 
       <QRCode
-        value={someString} //Try out with different information *****
+        value={someString}
         color={colors.brand.darkBlue}
         size={150}
         //  logo={require('../../../embed_logo_file_path')} // or logo={{uri: base64logo}}

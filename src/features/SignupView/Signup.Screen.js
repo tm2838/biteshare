@@ -11,6 +11,7 @@ import { theme } from '../../infrastructure/index';
 import BigButton from '../../components/BigButton';
 import { BiteShareContext } from '../../BiteShareContext';
 import GoogleLogin from '../LoginView/GoogleLogin';
+import FacebookLogin from '../LoginView/FacebookLogin';
 
 const styles = StyleSheet.create({
   loginContainer: {
@@ -37,6 +38,10 @@ const styles = StyleSheet.create({
   },
   error: {
     color: 'red'
+  },
+  authProvider: {
+    flex: 1,
+    flexDirection: 'row',
   }
 });
 
@@ -67,8 +72,6 @@ const SignupScreen = () => {
         setSignupError(err.message.toString());
       });
   };
-
-
 
   const goToLoginPage = () => {
     navigation.navigate('Login');
