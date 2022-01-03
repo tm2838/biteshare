@@ -7,6 +7,7 @@ import {
   signInWithPopup,
   signInWithRedirect,
   onAuthStateChanged,
+  updateProfile,
   signOut
 } from 'firebase/auth';
 import * as Facebook from 'expo-facebook';
@@ -51,9 +52,6 @@ const googleLogin = () => {
   // return signInWithRedirect(auth, provider);
 };
 
-// const authorized = () => {
-//   return auth.onAuthStateChanged;
-// };
 const authorized = auth.onAuthStateChanged;
 
 const signOutUser = () => {
@@ -80,4 +78,4 @@ const fbLogin = async () => {
   }
 };
 
-export { signUpNewUser, loginUser, googleLogin, authorized, signOutUser, fbLogin };
+export { signUpNewUser, loginUser, googleLogin, authorized, signOutUser, fbLogin, updateProfile };

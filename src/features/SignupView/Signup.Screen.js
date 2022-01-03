@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableOpacity, Pressab
 import { useNavigation } from '@react-navigation/native';
 
 import { auth } from '../../../firebase/firebase.config';
-import { signUpNewUser, googleLogin } from '../../../firebase/helpers/authentication.firebase';
+import { signUpNewUser, googleLogin, updateProfile } from '../../../firebase/helpers/authentication.firebase';
 
 import SafeArea from '../../components/SafeArea';
 import InputField from '../../components/InputField';
@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
     color: 'red'
   },
   authProvider: {
-    flex: 1,
+    width: 130,
+    marginTop: 10,
     flexDirection: 'row',
   }
 });
@@ -52,14 +53,23 @@ const SignupScreen = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setconfirmPassword] = useState('');
   const [signupError, setSignupError] = useState(null);
-  const [accountHolderName, setAccountHolderName] = useState(null);
+  const [accountHolderName, setAccountHolderName] = useState('');
+  const nickname = accountHolderName.split(' ')[0];
+
+  const updateUserProfile = () => {
+    updateProfile(auth.currentUser, {
+      displayName: accountHolderName
+    }).then(() => {
+      // console.log('profile updatead');
+    }).catch((error) => {
+      console.log('error updating profile');
+    });
+  };
 
   const handleCreateNewUser = () => {
     if (password !== confirmPassword) {
       return setSignupError('Passwords do not match');
     }
-
-    const nickname = accountHolderName.split(' ')[0];
 
     signUpNewUser(email, password)
       .then(userCredentials => {
@@ -67,6 +77,7 @@ const SignupScreen = () => {
         dispatch({ type: 'SET_EMAIL', email });
         dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName });
         dispatch({ type: 'SET_NICKNAME', nickname });
+        updateUserProfile();
       })
       .catch(err => {
         setSignupError(err.message.toString());
@@ -111,8 +122,8 @@ const SignupScreen = () => {
               <Text style={styles.signUp}> Log in</Text>
             </Text>
           </Pressable>
-          <GoogleLogin />
           <View style={styles.authProvider}>
+            <GoogleLogin />
             <FacebookLogin />
           </View>
         </KeyboardAvoidingView>

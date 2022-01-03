@@ -9,8 +9,8 @@ import googleImg from '../../../assets/google-logo.png';
 
 const styles = StyleSheet.create({
   googleLogo: {
-    height: 67,
-    width: 67,
+    height: 70,
+    width: 70,
   }
 });
 
@@ -27,7 +27,6 @@ const GoogleLogin = () => {
       });
       if (type === 'success') {
         console.log('user', user);
-
         dispatch({ type: 'SET_AUTH', authenticated: true });
         dispatch({ type: 'SET_EMAIL', email: user.email });
         dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName: user.name });
@@ -43,7 +42,7 @@ const GoogleLogin = () => {
   return (
     <SafeArea>
       <TouchableOpacity onPress={signInAsync} >
-        <Image style = {styles.googleLogo} source={googleImg} />
+        <Image style={styles.googleLogo} source={googleImg} />
       </TouchableOpacity>
     </SafeArea>
   );

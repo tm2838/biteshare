@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline'
   },
   authProvider: {
-    flex: 1,
     width: 130,
     marginTop: 10,
     flexDirection: 'row',
@@ -43,7 +42,6 @@ const styles = StyleSheet.create({
 });
 
 const LoginScreen = () => {
-  //useEffect => onAuthStateChanged
   const navigation = useNavigation();
   const { state: { authenticated }, dispatch } = useContext(BiteShareContext);
   const [email, setEmail] = useState('');
@@ -52,6 +50,13 @@ const LoginScreen = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
+        console.log('provider data:', user.providerData[0].displayName);
+        if (user.providerData[0].displayName) {
+          let accountHolderName = user.providerData[0].displayName;
+          let nickname = accountHolderName.split(' ')[0];
+          dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName });
+          dispatch({ type: 'SET_NICKNAME', nickname });
+        }
         navigation.navigate('Home');
       }
     });
@@ -100,7 +105,6 @@ const LoginScreen = () => {
             <GoogleLogin />
             <FacebookLogin />
           </View>
-
         </KeyboardAvoidingView>
       </View>
     </SafeArea >
