@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 
 const ExploreMenu = ({ navigation }) => {
   // console.log('--------navigation from explore Menu----', navigation);
-  const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey, accountHolderName, accountType }, dispatch } = useContext(BiteShareContext);
+  const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey, accountHolderName, accountType, nickname }, dispatch } = useContext(BiteShareContext);
   const API_KEY = biteShareKey;
   const [isLoading, setLoading] = useState(true);
   const [restaurantAddress, setRestaurantAddress] = useState('');
@@ -85,7 +85,7 @@ const ExploreMenu = ({ navigation }) => {
     dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'HOST' });
 
     addANewAnonymousDocument('transactions', {
-      hostName: accountHolderName,
+      hostName: nickname || accountHolderName,
       restaurantName: restaurantName,
       splitMethod: '',
       totalBills: 0,
@@ -99,7 +99,7 @@ const ExploreMenu = ({ navigation }) => {
           joinRequest: 'allowed',
           isHost: true,
           individualBills: 0,
-          name: accountHolderName,
+          name: nickname || accountHolderName,
           orderStatus: 'not ready',
           orderedItems: [],
         })

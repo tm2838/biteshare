@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 
 const Guest = ({ guest }) => {
   const profilePicturePath = '../../../../assets/femaleUser.png';
-  const { state: { accountHolderName, accountType, guests, orderedItems, sessionId }, dispatch } = useContext(BiteShareContext);
+  const { state: { accountHolderName, accountType, guests, orderedItems, sessionId, nickname }, dispatch } = useContext(BiteShareContext);
   const [rowDisabled, setRowDisabled] = useState(false);
   const [showOrderedItem, setShowOrderedItem] = useState(false);
   const [itemsPrice, setItemsPrice] = useState(0);
@@ -68,8 +68,8 @@ const Guest = ({ guest }) => {
   const hostViewOrderStageReady = guest.orderStatus === 'ready' && (guest.joinRequest === 'allowed' || guest.name === accountHolderName) && accountType === 'HOST';
 
   // guest: order stage, should see status indicator for self and not anyone else
-  const guestView = accountType === 'GUEST' && accountHolderName === guest.name;
-  const otherGuestView = accountType === 'GUEST' && accountHolderName !== guest.name;
+  const guestView = accountType === 'GUEST' && (guest.name === accountHolderName || guest.name === nickname);
+  const otherGuestView = accountType === 'GUEST' && (accountHolderName !== guest.name && guest.name !== nickname);
 
   const calculateItemPrice = (items) => items.reduce((totalPrice, item) => totalPrice + item.price, 0);
 
@@ -143,7 +143,7 @@ const Guest = ({ guest }) => {
         <Pressable style={styles.guestContainer} onPress={handleShowOrderedItem} disabled={rowDisabled}>
           <View style={styles.profileContainer}>
             <Image source={require(profilePicturePath)} style={styles.profile}/>
-            <Text>{accountHolderName === guest.name ? 'You' : guest.name }</Text>
+            <Text>{(guest.name === accountHolderName || guest.name === nickname) ? 'You' : guest.name }</Text>
 
           </View>
 
@@ -183,7 +183,7 @@ const Guest = ({ guest }) => {
           {otherGuestView &&
             guest.orderStatus === 'ready' &&
             <View style={styles.buttonContainer}>
-              <Text style={{ marginLeft: 100 }}>${itemsPrice}</Text>
+              <Text style={{ marginLeft: 180 }}>${itemsPrice}</Text>
             </View>
           }
         </Pressable>
