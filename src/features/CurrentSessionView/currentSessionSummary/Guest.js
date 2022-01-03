@@ -166,7 +166,7 @@ const Guest = ({ guest }) => {
             &&
             <View style={styles.buttonContainer}>
               <BiteshareButton size={70} title='Ready' buttonStyle={allowButtonStyle} disabled={true} />
-              <Text style={{ marginLeft: 100 }}>${itemsPrice}</Text>
+              <Text style={{ marginLeft: 70 }}>${itemsPrice}</Text>
             </View>
           }
 
@@ -177,13 +177,13 @@ const Guest = ({ guest }) => {
               </View>
               : <View style={styles.buttonContainer}>
                 <BiteshareButton size={70} title='Ready' buttonStyle={allowButtonStyle} disabled={true} />
-                <Text style={{ marginLeft: 100 }}>${itemsPrice}</Text>
+                <Text style={{ marginLeft: 70 }}>${itemsPrice}</Text>
               </View>)
           }
           {otherGuestView &&
             guest.orderStatus === 'ready' &&
             <View style={styles.buttonContainer}>
-              <Text style={{ marginLeft: 180 }}>${itemsPrice}</Text>
+              <Text style={{ marginLeft: 150 }}>${itemsPrice}</Text>
             </View>
           }
         </Pressable>

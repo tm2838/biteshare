@@ -51,6 +51,7 @@ const ExploreMenu = ({ navigation }) => {
   const API_KEY = biteShareKey;
   const [isLoading, setLoading] = useState(true);
   const [restaurantAddress, setRestaurantAddress] = useState('');
+  const [creatingSession, setCreatingSession] = useState(false);
 
   const parseJsonMenu = (data) => {
     let prettyMenu = [];
@@ -82,6 +83,7 @@ const ExploreMenu = ({ navigation }) => {
 
   const createSessionHandler = () => {
     //Once user click 'create Session', the AccountType change to 'HOST'
+    setCreatingSession(true);
     dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'HOST' });
 
     addANewAnonymousDocument('transactions', {
@@ -108,14 +110,16 @@ const ExploreMenu = ({ navigation }) => {
           })
           .catch((error) => {
             console.log('Error when adding host into the database');
+          })
+          .then(() => {
+            // navigate the HOST to QR code screen - allows guest to scan
+            navigation.navigate('CurrentSession', { previous: 'create a session' });
+            setCreatingSession(false);
           });
       })
       .catch((error) => {
         console.log('Error creating a new transaction');
       });
-
-    // navigate the HOST to QR code screen - allows guest to scan
-    navigation.navigate('CurrentSession', { previous: 'create a session' });
   };
 
   return (
@@ -166,7 +170,7 @@ const ExploreMenu = ({ navigation }) => {
                     color={colors.brand.beachLight}
                     style={{ width: 250, borderRadius: 15, height: 38 }}
                     onPress={() => createSessionHandler()}>
-                    Create a Session
+                    {creatingSession ? 'Creating session...' : 'Create a Session'}
                   </Button>}
 
               </View>

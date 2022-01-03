@@ -8,7 +8,7 @@ export const biteShareState = {
   guests: [],
   restaurants: [], //restaurants displayed in ExplorePage
   restaurantsImages: [], //images for ExplorePage
-  restaurantName: 'BRAZILIAN RESTAURANT BREWING',
+  restaurantName: '',
   restaurantId: null, //updates when user clicks See Full Menu from ExplorePage
   restaurantMenus: [],
   accountHolderName: 'Greg',
@@ -17,7 +17,7 @@ export const biteShareState = {
   orderedItems: [], //matching the name with TJ's code in Guest.js (will updated as needed after checking with TJ)
   email: '',
   authenticated: false,
-  biteShareKey: '16bcb6bcff21e2fbcbad3fd5c5ca4605',
+  biteShareKey: 'ef09326728f1d8f42f313fd7add1d6f6',
   nickname: null
 };
 
