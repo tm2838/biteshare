@@ -112,6 +112,9 @@ const SignupScreen = () => {
             </Text>
           </Pressable>
           <GoogleLogin />
+          <View style={styles.authProvider}>
+            <FacebookLogin />
+          </View>
         </KeyboardAvoidingView>
       </View>
     </SafeArea >

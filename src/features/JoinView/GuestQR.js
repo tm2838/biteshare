@@ -21,10 +21,10 @@ export default function QRScanner() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const { state:
-    { restaurantName, restaurantId, restaurantMenus}, dispatch }
+    { restaurantName, restaurantId, restaurantMenus, nickname}, dispatch }
     = useContext(BiteShareContext);
 
-  console.log('RestsurantID----------->', restaurantId);
+  console.log('RestsurantID----------->', nickname);
 
   useEffect(() => {
     (async () => {
@@ -57,7 +57,7 @@ export default function QRScanner() {
       joinRequest: 'pending',
       isHost: false,
       individualBills: 0,
-      name: 'Tom',
+      name: nickname, //Get userName from google
       orderStatus: 'not ready',
       orderedItems: [],
 

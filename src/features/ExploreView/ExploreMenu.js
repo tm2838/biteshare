@@ -49,7 +49,6 @@ const ExploreMenu = ({ navigation }) => {
   // console.log('--------navigation from explore Menu----', navigation);
   const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey, accountHolderName, accountType }, dispatch } = useContext(BiteShareContext);
   const API_KEY = biteShareKey;
-
   const [isLoading, setLoading] = useState(true);
   const [restaurantAddress, setRestaurantAddress] = useState('');
 

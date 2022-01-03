@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableOpacity, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
 import SafeArea from '../../components/SafeArea';
 import InputField from '../../components/InputField';
 import { theme } from '../../infrastructure/index';
@@ -10,7 +9,6 @@ import { BiteShareContext } from '../../BiteShareContext';
 import FacebookLogin from '../LoginView/FacebookLogin';
 import { auth } from '../../../firebase/firebase.config';
 import { signUpNewUser, loginUser, googleLogin, onAuthStateChanged } from '../../../firebase/helpers/authentication.firebase';
-
 import GoogleLogin from './GoogleLogin';
 
 const styles = StyleSheet.create({
@@ -36,6 +34,12 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.heading,
     textDecorationLine: 'underline'
   },
+  authProvider: {
+    flex: 1,
+    width: 130,
+    marginTop: 10,
+    flexDirection: 'row',
+  }
 });
 
 const LoginScreen = () => {
@@ -92,7 +96,11 @@ const LoginScreen = () => {
               <Text style={styles.signUp}> Sign Up</Text> {/*this will need "onPress => go to Sign up page"}*/}
             </Text>
           </Pressable>
-          <GoogleLogin />
+          <View style={styles.authProvider}>
+            <GoogleLogin />
+            <FacebookLogin />
+          </View>
+
         </KeyboardAvoidingView>
       </View>
     </SafeArea >
