@@ -5,6 +5,7 @@ import { colors } from '../../../infrastructure/colors.js';
 import BiteshareButton from '../../../components/BiteshareButton.js';
 import { BiteShareContext } from '../../../BiteShareContext.js';
 import MenuItemCard from '../../../components/MenuItemCard.js';
+import { updateADocument, getADocReferenceFromCollection } from '../../../../firebase/helpers/database.firebase.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginRight: 80
+    marginRight: '25%'
   },
   profile: {
     borderRadius: 15,
@@ -48,60 +49,69 @@ const styles = StyleSheet.create({
 
 const Guest = ({ guest }) => {
   const profilePicturePath = '../../../../assets/femaleUser.png';
-  const { state: { accountHolderName, accountType, guests }, dispatch } = useContext(BiteShareContext);
-  const [itemPrice, setItemPrice] = useState(0);
+  const { state: { accountHolderName, accountType, guests, orderedItems, sessionId }, dispatch } = useContext(BiteShareContext);
   const [rowDisabled, setRowDisabled] = useState(false);
   const [showOrderedItem, setShowOrderedItem] = useState(false);
-  const [status, setStatus] = useState('access'); // status: access/ready/not ready;
-  // @TODO:
-  // not ready -> ready status change should be triggered by clicking on 'I'm ready' in menu's tab
-  // DB should be updated on click
-  // the summary page should pull from DB periodically to see whether that status has changed?
-  // or socket.io?
+  const [itemsPrice, setItemsPrice] = useState(0);
+
   const allowButtonStyle = { margin: 0, marginRight: 10, backgroundColor: colors.brand.beachLight };
   const denyButtonStyle = { margin: 0, backgroundColor: colors.brand.kazanLight };
 
   // 'swipe to remove guest' only when current user is host and the guest is granted access to the session
-  const swipeable = accountHolderName !== guest.name && status !== 'access' && accountType !== 'GUEST';
+  const swipeable = accountHolderName !== guest.name && accountType !== 'GUEST' && guest.joinRequest === 'allowed';
 
   // host: access stage, should see allow/deny for everyone else
-  const hostViewAccessStage = status === 'access' && accountHolderName !== guest.name && accountType === 'HOST';
+  const hostViewAccessStage = guest.joinRequest === 'pending' && accountHolderName !== guest.name && accountType === 'HOST';
 
   // host: order stage, should see status indicator for everyone
-  const hostViewOrderStageNotReady = status === 'not ready' && accountType === 'HOST';
-  const hostViewOrderStageReady = status === 'ready' && accountType === 'HOST';
+  const hostViewOrderStageNotReady = guest.orderStatus === 'not ready' && (guest.joinRequest === 'allowed' || guest.name === accountHolderName) && accountType === 'HOST';
+  const hostViewOrderStageReady = guest.orderStatus === 'ready' && (guest.joinRequest === 'allowed' || guest.name === accountHolderName) && accountType === 'HOST';
 
   // guest: order stage, should see status indicator for self and not anyone else
   const guestView = accountType === 'GUEST' && accountHolderName === guest.name;
+  const otherGuestView = accountType === 'GUEST' && accountHolderName !== guest.name;
+
+  const calculateItemPrice = (items) => items.reduce((totalPrice, item) => totalPrice + item.price, 0);
 
   useEffect(() => {
-    if (accountHolderName === guest.name && guest.orderStatus === 'Not Ready') {
-      setStatus('not ready');
-    } else if (accountHolderName === guest.name && guest.orderStatus === 'Ready') {
-      setStatus('ready');
+    if (guest.orderedItems.length && guest.orderStatus === 'ready') {
+      setItemsPrice(calculateItemPrice(guest.orderedItems));
     }
-  }, [accountType, accountHolderName]);
+  }, [guest.orderedItems]);
 
   useEffect(() => {
-    if (status === 'ready' && guest.orderedItems) {
-      const currentPrice = guest.orderedItems.reduce((totalPrice, item) => totalPrice + item.price, 0);
-      setItemPrice(currentPrice);
-    }
-  }, [status]);
+    setRowDisabled(guest.orderStatus === 'not ready');
+  }, [guest.orderStatus]);
 
   const handleAllowGuest = () => {
     // @TODO: update DB to include user as guest in transaction
-    if (guest.orderStatus === 'Not Ready') {
-      setStatus('not ready');
-    } else if (guest.orderStatus === 'Ready') {
-      setStatus('ready');
-    }
+    getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', guest.name)
+      .then((qResult) => {
+        qResult.forEach((doc) => {
+          updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
+            orderStatus: 'not ready',
+            joinRequest: 'allowed'
+          });
+        });
+      })
+      .catch((error) => {
+        console.log('Error allowing the guest: ', error);
+      });
   };
 
   const handleDenyGuest = () => {
     // @TODO: update DB to set 'request pending' back to false?
-    const updatedGuests = guests.filter((g) => g.name !== guest.name);
-    dispatch({ type: 'SET_GUESTS', guests: updatedGuests });
+    getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', guest.name)
+      .then((qResult) => {
+        qResult.forEach((doc) => {
+          updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
+            joinRequest: 'denied'
+          });
+        });
+      })
+      .catch((error) => {
+        console.log('Error denying the guest: ', error);
+      });
   };
 
   const handleRowSwiped = () => {
@@ -116,7 +126,7 @@ const Guest = ({ guest }) => {
     setShowOrderedItem(!showOrderedItem);
   };
 
-  return (
+  return guest.joinRequest !== 'denied' && (
     <View style={styles.container}>
       <SwipeRow
         rightOpenValue={-80}
@@ -125,7 +135,6 @@ const Guest = ({ guest }) => {
         onRowOpen={handleRowSwiped}
         onRowClose={handleRowClose}
       >
-
         <View style={styles.hiddenView} >
           <Text></Text>
           <Text onPress={handleDenyGuest}>Remove</Text>
@@ -135,6 +144,7 @@ const Guest = ({ guest }) => {
           <View style={styles.profileContainer}>
             <Image source={require(profilePicturePath)} style={styles.profile}/>
             <Text>{accountHolderName === guest.name ? 'You' : guest.name }</Text>
+
           </View>
 
           {hostViewAccessStage
@@ -156,21 +166,31 @@ const Guest = ({ guest }) => {
             &&
             <View style={styles.buttonContainer}>
               <BiteshareButton size={70} title='Ready' buttonStyle={allowButtonStyle} disabled={true} />
-              <Text style={{ marginLeft: 100 }}>{`$${itemPrice}`}</Text>
+              <Text style={{ marginLeft: 100 }}>${itemsPrice}</Text>
             </View>
           }
 
           {guestView
-            &&
+            && (guest.orderStatus === 'not ready' ?
+              <View style={styles.buttonContainer}>
+                <BiteshareButton size={70} title='Not Ready' buttonStyle={{ margin: 0 }} disabled={true} />
+              </View>
+              : <View style={styles.buttonContainer}>
+                <BiteshareButton size={70} title='Ready' buttonStyle={allowButtonStyle} disabled={true} />
+                <Text style={{ marginLeft: 100 }}>${itemsPrice}</Text>
+              </View>)
+          }
+          {otherGuestView &&
+            guest.orderStatus === 'ready' &&
             <View style={styles.buttonContainer}>
-              <BiteshareButton size={70} title='Not Ready' buttonStyle={{ margin: 0 }} disabled={true} />
+              <Text style={{ marginLeft: 100 }}>${itemsPrice}</Text>
             </View>
           }
         </Pressable>
-
       </SwipeRow>
-      {showOrderedItem && guest?.orderedItems?.length && <MenuItemCard menuItems={guest.orderedItems} />}
+      {(showOrderedItem && guest?.orderedItems?.length > 0) && <MenuItemCard menuItems={guest.orderedItems} />}
     </View>
+
   );
 };
 

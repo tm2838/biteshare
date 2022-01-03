@@ -10,7 +10,6 @@ import { BiteShareContext } from '../../BiteShareContext';
 const styles = StyleSheet.create({
   currentSessionHeader: {
     backgroundColor: colors.brand.kazan,
-    height: 120,
   },
   restaurantName: {
     color: 'white',
@@ -35,9 +34,11 @@ const styles = StyleSheet.create({
   },
   accountTypeText: {
     color: 'white',
+    fontSize: 12,
   },
   accountHolderName: {
     color: 'white',
+    fontSize: 12,
   }
 });
 
@@ -57,7 +58,7 @@ const CurrentSessionHeader = () => {
             <Text style = {styles.accountTypeText}>{accountType}</Text>
           </View>
           <View>
-            <Avatar.Image source={require(profilePicturePath)} />
+            <Avatar.Image size = {35} source={require(profilePicturePath)} />
           </View>
           <View>
             <Text style = {styles.accountHolderName}>{accountHolderName}</Text>

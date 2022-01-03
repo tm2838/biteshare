@@ -23,18 +23,17 @@ const styles = StyleSheet.create({
   }
 });
 
-const Menu = ({ menu }) => {
-
+const Menu = ( {menu} ) => {
+  // console.log('MENU--------------', menu);
 
   const { state: { accountHolderName, orderedItems }, dispatch } = useContext(BiteShareContext);
   const [checked, setChecked] = useState(false);
-  
 
   const selectMenu = (item) => {
-
+    // console.log('item------->', item);
     setChecked(!checked);
 
-    let choice = {id: item.key, name: item.name, description: item.description };
+    let choice = {id: item.key, name: item.name, description: item.description, price: item.price };
     if (!checked) {
       dispatch({ type: 'SET_ORDERED_ITEMS', orderedItems: [...orderedItems, choice]});
     } else {
@@ -47,7 +46,7 @@ const Menu = ({ menu }) => {
   };
 
   return (
-    <View style={styles.container} key = {menu.id} >
+    <View style={styles.container} >
 
       <Pressable
         style={({ pressed }) => [
@@ -61,8 +60,8 @@ const Menu = ({ menu }) => {
             flexDirection: 'row',
           },
         ]}
-        key = {menu.id}
-        onPress={()=> { selectMenu(menu.item); }}
+
+        onPress={()=> { selectMenu(menu); }}
       >
 
 
@@ -71,19 +70,19 @@ const Menu = ({ menu }) => {
           <Checkbox.Android
             status={checked ? 'checked' : 'unchecked'}
             color={'black'}
-            onPress={()=> { selectMenu(menu.item); }}
+            onPress={()=> { selectMenu(menu); }}
           />
 
 
         </View>
 
         <View style={{ width: '75%'}}>
-          <Text style={styles.title}>{menu.item.name}</Text>
-          <Text style={styles.description}>{menu.item.description}</Text>
+          <Text style={styles.title}>{menu.name}</Text>
+          <Text style={styles.description}>{menu.description}</Text>
         </View>
 
         <View style={{width: '15%'}}>
-          <Text>$ {menu.item.price}</Text>
+          <Text>$ {menu.price}</Text>
         </View>
       </Pressable>
 

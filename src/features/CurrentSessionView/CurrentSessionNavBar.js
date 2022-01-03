@@ -1,8 +1,9 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import BackButton from '../../components/BackButton';
 import { BiteShareContext } from '../../BiteShareContext';
 import { colors } from '../../infrastructure/colors';
+import { readDocSnapshotListener } from '../../../firebase/helpers/database.firebase.js';
 
 
 const styles = StyleSheet.create({
@@ -14,12 +15,12 @@ const styles = StyleSheet.create({
     maxHeight: 60
   },
   images: {
-    height: 40,
-    width: 40,
+    height: 30,
+    width: 30,
   },
   activeImages: {
-    height: 40,
-    width: 40,
+    height: 30,
+    width: 30,
     backgroundColor: 'white',
     borderRadius: 50,
   },
@@ -28,6 +29,7 @@ const styles = StyleSheet.create({
     flexGrow: 15,
     flexDirection: 'row',
     justifyContent: 'space-around',
+    alignItems: 'center'
   },
   backButton: {
     flexGrow: 1,
@@ -40,15 +42,30 @@ const styles = StyleSheet.create({
 
 
 const CurrentSessionTopNavBar = ({ changeTab, currentTab }) => {
-  const { state: {accountType}, dispatch } = useContext(BiteShareContext);
+  const { state: { accountType, sessionId, splitMethod }, dispatch } = useContext(BiteShareContext);
   const [bills, setBills] = useState('Bills');
   const [menu, setMenu] = useState('Menu');
   const [qrCode, setQrCode] = useState('QR Code');
   const [summary, setSummary] = useState('Summary');
+  const [hasSplitMethod, setHasSplitMethod] = useState(false);
 
   const handleTabRouting = (val) => {
     changeTab(val);
   };
+
+  useEffect(() => {
+    if (sessionId) {
+      readDocSnapshotListener('transactions', sessionId, (doc) => {
+        dispatch({ type: 'SET_SPLIT_METHOD', splitMethod: doc.data().splitMethod });
+      });
+    }
+  }, [sessionId]);
+
+  useEffect(() => {
+    if (splitMethod !== '') {
+      setHasSplitMethod(true);
+    }
+  }, [splitMethod]);
 
   return (
     <View style = {styles.topBarContainer}>
@@ -57,9 +74,9 @@ const CurrentSessionTopNavBar = ({ changeTab, currentTab }) => {
       </View>
       <View style = {styles.tabs}>
         <View>
-          <TouchableOpacity onPress={() => handleTabRouting(bills)} style={styles.tabsImages} >
-            <Image style = {currentTab === 'Bills' ? styles.activeImages : styles.images} source={require('../../../assets/bill-image.png')}/>
-            <Text>{bills}</Text>
+          <TouchableOpacity onPress={() => handleTabRouting(bills)} style={styles.tabsImages} disabled={!hasSplitMethod} >
+            <Image style={currentTab === 'Bills' ? [styles.activeImages, { opacity: 1 }] : [styles.images, hasSplitMethod ? { opacity: 1 } : { opacity: 0.3 }]} source={require('../../../assets/bill-image.png')}/>
+            <Text style={ hasSplitMethod ? { opacity: 1 } : { opacity: 0.3 }}>{bills}</Text>
           </TouchableOpacity>
         </View>
         <View>
