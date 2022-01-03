@@ -35,13 +35,13 @@ const ProfileHistory = () => {
 
 
   const mockBites = [
-    {restauraunt: 'Grey Ghost', hostStatus: 'Host', bill: 32.40},
-    {restauraunt: 'Barda', hostStatus: 'Guest', bill: 22.40},
-    {restauraunt: 'Ima', hostStatus: 'Guest', bill: 12.40},
-    {restauraunt: 'Lenny\'s', hostStatus: 'Host', bill: 9.40},
-    {restauraunt: 'Supinos', hostStatus: 'Guest', bill: 25.40},
-    {restauraunt: 'Flowers of Vietnam', hostStatus: 'Host', bill: 42.40},
-    {restauraunt: 'Taqueria El Rey', hostStatus: 'Host', bill: 8.40}
+    {restauraunt: 'Grey Ghost', hostStatus: 'Host', bill: 32.42},
+    {restauraunt: 'Barda', hostStatus: 'Guest', bill: 22.42},
+    {restauraunt: 'Ima', hostStatus: 'Guest', bill: 12.43},
+    {restauraunt: 'Lenny\'s', hostStatus: 'Host', bill: 9.44},
+    {restauraunt: 'Supinos', hostStatus: 'Guest', bill: 25.45},
+    {restauraunt: 'Flowers of Vietnam', hostStatus: 'Host', bill: 42.45},
+    {restauraunt: 'Taqueria El Rey', hostStatus: 'Host', bill: 8.49}
   ];
 
 

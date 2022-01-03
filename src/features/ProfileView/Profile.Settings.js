@@ -10,10 +10,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     padding: 5,
     margin: 5,
-    justifyContent: 'space-around',
-
     width: '90%',
-
   },
   title: {
     fontWeight: 'bold',
@@ -21,23 +18,16 @@ const styles = StyleSheet.create({
     padding: 10
   },
   button: {
-    // backgroundColor: colors.brand.ebisuLight2,
-    borderRadius: 15,
-    height: 40,
-    // marginRight: 20,
-    // marginTop: 10,
-    // justifyContent: 'space-around',
-
-
-    borderColor: 'black',
-    borderWidth: 1,
-
-
-    flexDirection: 'row',
-    alignItems: 'center',
     backgroundColor: colors.brand.ebisuLight2,
     margin: 5,
-    justifyContent: 'space-around',
+    borderRadius: 15,
+    height: 40,
+    width: '100%',
+
+    flex: 1,
+    textAlign: 'center',
+
+    fontSize: 15,
   }
 });
 

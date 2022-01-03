@@ -16,9 +16,11 @@ const styles = StyleSheet.create({
     height: 40,
     marginRight: 20,
     marginTop: 10,
-
-
   },
+  text: {
+    flex: 1,
+    fontSize: 15
+  }
 });
 
 const PreviousBite = ({ meal }) => {
@@ -26,9 +28,9 @@ const PreviousBite = ({ meal }) => {
   return (
     <View style={styles.container}>
 
-      <Text>{meal.restauraunt}</Text>
-      <Text>{meal.hostStatus}</Text>
-      <Text>{meal.bill}</Text>
+      <Text style={styles.text}>{meal.restauraunt}</Text>
+      <Text style={styles.text}>{meal.hostStatus}</Text>
+      <Text style={styles.text}>${meal.bill}</Text>
 
     </View>
   );
