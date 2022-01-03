@@ -38,8 +38,9 @@ const ExploreScreen = ({ navigation }) => {
   useEffect(() => {
     const restaurantsData = mockRestaurants.data;
     dispatch({ type: 'SET_RESTAURANTS', restaurants: restaurantsData });
+  }, [mockRestaurants]);
 
-    //set images
+  const getImages = () => {
     axios.get('https://api.unsplash.com/photos/random?query=food&client_id=GHgiPIKZT9Y-KTj_C0kolwugQpmWl1rGH2AetMxwanU&count=25')
       .then(results => {
         const images = results.data.map(obj => obj.urls.regular);
@@ -48,8 +49,7 @@ const ExploreScreen = ({ navigation }) => {
       .catch(err => {
         console.log(err);
       });
-
-  }, [mockRestaurants]);
+  };
 
   const getRestaurants = (restaurantName, zipcode) => {
 
@@ -58,8 +58,6 @@ const ExploreScreen = ({ navigation }) => {
         'X-API-KEY': APIkey
       }
     };
-
-
     //if user entered city instead of zipcode
     if (zipcode && isNaN(zipcode)) {
       axios.get(`${BASE_URL}/search/fields?restaurant_name=${restaurantName}&address=${zipcode}`, config)
@@ -105,7 +103,10 @@ const ExploreScreen = ({ navigation }) => {
 
                 <TouchableOpacity
                   style={styles.button}
-                  onPress={() => { getRestaurants(restaurantNameQuery, zipcodeQuery); }}>
+                  onPress={() => {
+                    getImages();
+                    getRestaurants(restaurantNameQuery, zipcodeQuery);
+                  }}>
                   <Text style={{ color: colors.brand.kazan, fontWeight: '600' }}>Search</Text>
                 </TouchableOpacity>
 
