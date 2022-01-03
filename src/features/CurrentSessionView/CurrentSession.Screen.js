@@ -53,7 +53,7 @@ const CurrentSessionScreen = ({route, navigation}) => {
       setCurrentTab('Menu');
     }
 
-  }, []);
+  }, [route.params]);
 
   return (
     <SafeArea>

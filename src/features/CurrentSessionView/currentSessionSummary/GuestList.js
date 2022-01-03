@@ -16,7 +16,7 @@ const GuestList = () => {
   const { state: { guests, accountHolderName, sessionId, nickname }, dispatch } = useContext(BiteShareContext);
 
   useEffect(() => {
-    if (guests.length && guests.every((guest) => guest.orderStatus === 'ready')) {
+    if (guests.length && guests.filter((guest) => guest.joinRequest === 'allowed').every((guest) => guest.orderStatus === 'ready')) {
       dispatch({ type: 'SET_ORDER_STATUS', isEveryoneReady: true });
     }
   }, [guests]);
