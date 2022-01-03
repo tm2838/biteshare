@@ -50,7 +50,7 @@ const LoginScreen = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-        console.log('provider data:', user.providerData[0].displayName);
+        // console.log('provider data:', user.providerData[0].displayName);
         if (user.providerData[0].displayName) {
           let accountHolderName = user.providerData[0].displayName;
           let nickname = accountHolderName.split(' ')[0];

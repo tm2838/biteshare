@@ -22,7 +22,7 @@ const FacebookLogin = () => {
       const fbUserName = fbLogInResult.name;
       if (fbLogInResult !== 'cancelled') {
         dispatch({ type: 'SET_AUTH', authenticated: true });
-        dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName: fbUserName });
+        dispatch({ type: 'SET_NICKNAME', nickname: fbUserName.split(' ')[0] });
         navigation.navigate('Home');
       }
     } catch (error) {
