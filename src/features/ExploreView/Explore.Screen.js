@@ -27,18 +27,16 @@ const ExploreScreen = ({ navigation }) => {
 
   const [restaurantNameQuery, setRestaurantNameQuery] = React.useState('');
   const onRestaurantNameChangeSearch = query => setRestaurantNameQuery(query);
+  const { state: { restaurants, restaurantsImages, restaurantId, biteShareKey }, dispatch } = useContext(BiteShareContext);
 
   //ADD OWN API KEY
-  const APIkey = '16bcb6bcff21e2fbcbad3fd5c5ca4605';
+  // const APIkey = 'OWN_KEY_GOES_HERE';
+  const APIkey = biteShareKey;
   const BASE_URL = 'https://api.documenu.com/v2/restaurants';
 
-  const { state: { restaurants, restaurantsImages, restaurantId }, dispatch } = useContext(BiteShareContext);
+
 
   //@TODO: might completely remove the initial load of explore page restaurants based on find current location functionality
-  useEffect(() => {
-    const restaurantsData = mockRestaurants.data;
-    dispatch({ type: 'SET_RESTAURANTS', restaurants: restaurantsData });
-  }, [mockRestaurants]);
 
   const getImages = () => {
     axios.get('https://api.unsplash.com/photos/random?query=food&client_id=GHgiPIKZT9Y-KTj_C0kolwugQpmWl1rGH2AetMxwanU&count=25')
@@ -50,6 +48,12 @@ const ExploreScreen = ({ navigation }) => {
         console.log(err);
       });
   };
+
+  useEffect(() => {
+    const restaurantsData = mockRestaurants.data;
+    dispatch({ type: 'SET_RESTAURANTS', restaurants: restaurantsData });
+    getImages();
+  }, [mockRestaurants]);
 
   const getRestaurants = (restaurantName, zipcode) => {
 

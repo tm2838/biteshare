@@ -14,37 +14,44 @@ import { Timestamp } from 'firebase/firestore';
 
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.brand.body,
-  },
-  scrollView: {
-    height: '75%',
-    marginHorizontal: 20,
+  menuContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   restaurantHeader: {
+
     backgroundColor: colors.brand.login,
     alignItems: 'center',
     justifyContent: 'center',
-    height: 100,
+    height: 60,
   },
+
+  scrollView: {
+
+    height: 535,
+    marginHorizontal: 20,
+  },
+
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    height: '15%',
-    borderRadius: 20,
-    width: 30
+    paddingBottom: 70
+
   },
   text: {
     fontSize: 20,
-    fontFamily: fonts.subHeading
+    fontFamily: fonts.subHeading,
+    textAlign: 'center',
   },
 });
 
 const ExploreMenu = ({ navigation }) => {
+  // console.log('--------navigation from explore Menu----', navigation);
+  const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey, accountHolderName, accountType }, dispatch } = useContext(BiteShareContext);
+  const API_KEY = biteShareKey;
 
-  const API_KEY = '16bcb6bcff21e2fbcbad3fd5c5ca4605';
 
-  const { state: { restaurantName, restaurantId, restaurantMenus, accountHolderName }, dispatch } = useContext(BiteShareContext);
+  // const { state: { restaurantName, restaurantId, restaurantMenus, accountHolderName }, dispatch } = useContext(BiteShareContext);
 
   const [isLoading, setLoading] = useState(true);
   const [restaurantAddress, setRestaurantAddress] = useState('');
@@ -78,14 +85,19 @@ const ExploreMenu = ({ navigation }) => {
   }, []);
 
   const createSessionHandler = () => {
+    //Once user click 'create Session', the AccountType change to 'HOST'
+    dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'HOST' });
+
     addANewAnonymousDocument('transactions', {
       hostName: accountHolderName,
       restaurantName: restaurantName,
       splitMethod: '',
       totalBills: 0,
       date: Timestamp.fromDate(new Date()),
+      menu: restaurantMenus,
     })
       .then((doc) => {
+        dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'HOST' });
         dispatch({ type: 'SET_SESSION_ID', sessionId: doc.id });
         addANewAnonymousDocument(`transactions/${doc.id}/attendees`, {
           joinRequest: 'allowed',
@@ -105,6 +117,8 @@ const ExploreMenu = ({ navigation }) => {
       .catch((error) => {
         console.log('Error creating a new transaction');
       });
+
+    // navigate the HOST to QR code screen - allows guest to scan
     navigation.navigate('CurrentSession', { previous: 'create a session' });
   };
 
@@ -128,8 +142,9 @@ const ExploreMenu = ({ navigation }) => {
                 />
                 <Appbar.Content title={restaurantName} subtitle={restaurantAddress} style={styles.restaurantHeading} />
               </Appbar.Header>
-
+              {/* implentation with FLATLIST */}
               <ScrollView style={styles.scrollView}>
+
                 <List.Subheader>
                   <Text style={styles.text}>Menu</Text>
                 </List.Subheader>
@@ -143,17 +158,31 @@ const ExploreMenu = ({ navigation }) => {
                 })}
 
               </ScrollView>
-              {/* onPress 'create a session', it will direct to the QR code -  */}
-              <View styles={styles.button}>
-                <Button
-                  icon='account-plus'
-                  mode="contained"
-                  color={colors.brand.beachLight}
-                  onPress={() => createSessionHandler()}>
-                  Create a Session
-                </Button>
+
+              <View style={styles.menuContainer}>
+
+
+
+                {/* onPress 'create a session', it will direct to the QR code -  */}
+                {/* ????? - is HOST allow to create a new session (NO) */}
+                {
+                  accountType !== 'GUEST' &&
+                  <Button
+                    icon='account-plus'
+                    mode="contained"
+                    color={colors.brand.beachLight}
+                    style={{ width: 250, borderRadius: 15, height: 38 }}
+                    onPress={() => createSessionHandler()}>
+                    Create a Session
+                  </Button>}
+
               </View>
+
+
+
             </View>
+
+
           )
       }
     </View>

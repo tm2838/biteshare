@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { updateADocument, getADocReferenceFromCollection, readASingleDocument } from '../../../../firebase/helpers/database.firebase.js';
 import BiteshareButton from '../../../components/BiteshareButton.js';
 import { colors } from '../../../infrastructure/colors.js';
 import { BiteShareContext } from '../../../BiteShareContext.js';
@@ -27,17 +29,49 @@ const styles = StyleSheet.create({
   }
 });
 
-const SplitBillOptions = () => {
-  const { state: { isEveryoneReady }, dispatch } = useContext(BiteShareContext);
+const SplitBillOptions = ({ changeTab }) => {
+  const navigation = useNavigation();
+  const { state: { isEveryoneReady, sessionId, guests }, dispatch } = useContext(BiteShareContext);
   const titleContainerStyle = isEveryoneReady ? [ styles.titleContainer, { backgroundColor: colors.brand.ebisuLight }] : styles.titleContainer;
   const buttonStyle = isEveryoneReady ? { backgroundColor: colors.brand.ebisuLight } : {};
 
   const handleSplitEvenly = (event) => {
-    dispatch({ type: 'SET_SPLIT_METHOD', splitMethod: 'Evenly' });
+    updateADocument('transactions', sessionId, {
+      splitMethod: 'Evenly',
+    })
+      .catch((error) => {
+        console.log('Error updating split method: ', error);
+      })
+      .then(() => readASingleDocument('transactions', sessionId))
+      .then((result) => {
+        const totalBill = result.data().totalBills;
+        const guestCount = guests.length;
+        const updatedIndividualBill = totalBill / guestCount;
+        guests.forEach((guest) => {
+          getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', guest.name)
+            .then((qResult) => {
+              qResult.forEach((doc) => {
+                updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
+                  individualBills: updatedIndividualBill,
+                });
+              });
+            })
+            .catch((error) => {
+              console.log('Error updating individual bill: ', error);
+            });
+        });
+      });
+    changeTab('Bills');
   };
 
   const handleSplitByItem = (event) => {
-    dispatch({ type: 'SET_SPLIT_METHOD', splitMethod: 'By item' });
+    updateADocument('transactions', sessionId, {
+      splitMethod: 'By item',
+    })
+      .catch((error) => {
+        console.log('Error updating split method: ', error);
+      });
+    changeTab('Bills');
   };
 
   return (
