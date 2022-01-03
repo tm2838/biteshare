@@ -20,13 +20,13 @@ const styles = StyleSheet.create({
 });
 
 const ExploreHeader = () => {
-  const { state: { nickname }, dispatch } = useContext(BiteShareContext);
+  const { state: { nickname, accountHolderName }, dispatch } = useContext(BiteShareContext);
   const profileLogoPath = '../../../assets/profile-logo.png';
   return (
     <Appbar.Header style={styles.exploreHeader}>
       <View style={styles.exploreHeaderContainer}>
         <View>
-          <Text style={styles.headerText}>Welcome {nickname}</Text>
+          <Text style={styles.headerText}>Welcome {nickname || accountHolderName}</Text>
         </View>
         <View>
           <Image

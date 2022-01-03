@@ -8,7 +8,7 @@ export const biteShareState = {
   guests: [],
   restaurants: [], //restaurants displayed in ExplorePage
   restaurantsImages: [], //images for ExplorePage
-  restaurantName: 'BRAZILIAN RESTAURANT BREWING',
+  restaurantName: '',
   restaurantId: null, //updates when user clicks See Full Menu from ExplorePage
   restaurantMenus: [],
   accountHolderName: 'Greg',
