@@ -35,13 +35,8 @@ const SettingButton = () => {
 
   return (
     <View style={styles.container}>
-
-      {/* Scrollable list of previous bites */}
       <Text style={styles.title}>Account Settings</Text>
-
       <Text style={styles.button}>Personal Information</Text>
-
-
     </View>
   );
 };

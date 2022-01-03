@@ -43,37 +43,14 @@ const styles = StyleSheet.create({
 
 const ProfileScreen = () => {
   const { state: { authenticated }, dispatch } = useContext(BiteShareContext);
-
   const navigation = useNavigation();
-  const logout = () => {
-    signOutUser()
-      .then(() => {
-        navigation.navigate('Login');
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    dispatch({ type: 'SET_AUTH', authenticated: false });
-  };
 
   return (
     <SafeArea>
       <View >
         <ProfileScreenHeader />
         <View style={styles.container}>
-
-          <ProfileGreeting style={styles.greeting}/>
-
-          <ProfileHistory style={styles.history}/>
-
-
-          <SettingButton style={styles.settings}/>
-
-          <TouchableOpacity
-            style={styles.logout}
-            onPress={logout}>
-            <Text>Logout</Text>
-          </TouchableOpacity>
+          <Text>THIS IS THE ACCOUNT SETTINGS PAGE</Text>
 
         </View>
       </View>
@@ -82,3 +59,8 @@ const ProfileScreen = () => {
 };
 
 export default ProfileScreen;
+
+
+// TODO
+// ** Ensure back nav button directs to profile page
+// ** Render Components

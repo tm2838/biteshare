@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
     justifyContent: 'flex-start',
-
   },
   title: {
     flex: .1,
