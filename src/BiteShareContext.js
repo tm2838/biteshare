@@ -7,6 +7,7 @@ export const biteShareState = {
   totalBill: 0,
   guests: [],
   restaurants: [], //restaurants displayed in ExplorePage
+  restaurantsImages: [], //images for ExplorePage
   restaurantName: 'BRAZILIAN RESTAURANT BREWING',
   restaurantId: null, //updates when user clicks See Full Menu from ExplorePage
   restaurantMenus: [],
@@ -16,7 +17,7 @@ export const biteShareState = {
   orderedItems: [], //matching the name with TJ's code in Guest.js (will updated as needed after checking with TJ)
   email: '',
   authenticated: false,
-  biteShareKey: '157f194895a9ab68497ab203e9092656',
+  biteShareKey: '16bcb6bcff21e2fbcbad3fd5c5ca4605',
   nickname: null
 };
 
@@ -33,6 +34,8 @@ export const biteShareReducer = (state, action) => {
       return { ...state, guests: action.guests };
     case 'SET_RESTAURANTS':
       return { ...state, restaurants: action.restaurants };
+    case 'SET_RESTAURANTS_IMAGES':
+      return { ...state, restaurantsImages: action.restaurantsImages };
     case 'SET_RESTAURANT_NAME':
       return { ...state, restaurantName: action.restaurantName };
     case 'SET_RESTAURANT_ID':

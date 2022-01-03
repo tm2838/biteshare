@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import axios from 'axios';
 import { BiteShareContext } from '../../BiteShareContext.js';
 import mockRestaurants from '../../../fixtures/mockRestaurants.json';
@@ -27,12 +27,50 @@ const ExploreScreen = ({ navigation }) => {
 
   const [restaurantNameQuery, setRestaurantNameQuery] = React.useState('');
   const onRestaurantNameChangeSearch = query => setRestaurantNameQuery(query);
-  const { state: { restaurants, restaurantId, biteShareKey }, dispatch } = useContext(BiteShareContext);
 
-  //ADD OWN API KEY
-  // const APIkey = 'OWN_KEY_GOES_HERE';
+  const { state: { restaurants, restaurantsImages, restaurantId, biteShareKey }, dispatch } = useContext(BiteShareContext);
+
   const APIkey = biteShareKey;
   const BASE_URL = 'https://api.documenu.com/v2/restaurants';
+
+  const getImages = () => {
+    axios.get('https://api.unsplash.com/photos/random?query=food&client_id=GHgiPIKZT9Y-KTj_C0kolwugQpmWl1rGH2AetMxwanU&count=25')
+      .then(results => {
+        const images = results.data.map(obj => obj.urls.regular);
+        dispatch({ type: 'SET_RESTAURANTS_IMAGES', restaurantsImages: images });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const getRestaurants = (restaurantName, zipcode) => {
+    getImages();
+
+    const config = {
+      headers: {
+        'X-API-KEY': APIkey
+      }
+    };
+    //if user entered city instead of zipcode
+    if (zipcode && isNaN(zipcode)) {
+      axios.get(`${BASE_URL}/search/fields?restaurant_name=${restaurantName}&address=${zipcode}`, config)
+        .then(results => {
+          dispatch({ type: 'SET_RESTAURANTS', restaurants: results.data.data });
+        })
+        .catch(err => {
+          alert('failed to load, try again');
+        });
+    } else {
+      axios.get(`${BASE_URL}/search/fields?restaurant_name=${restaurantName}&zip_code=${zipcode}`, config)
+        .then(results => {
+          dispatch({ type: 'SET_RESTAURANTS', restaurants: results.data.data });
+        })
+        .catch(err => {
+          alert('failed to load, try again');
+        });
+    }
+  };
 
   const getLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -44,50 +82,18 @@ const ExploreScreen = ({ navigation }) => {
     let latitude = location.coords.latitude;
     let address = await Location.reverseGeocodeAsync({ latitude, longitude });
     setZipcodeQuery(address[0].postalCode);
-    console.log(zipcodeQuery);
+    // console.log(zipcodeQuery);
   };
 
-  //@TODO: might completely remove the initial load of explore page restaurants based on find current location functionality
   useEffect(() => {
     const restaurantsData = mockRestaurants.data;
     dispatch({ type: 'SET_RESTAURANTS', restaurants: restaurantsData });
+    getImages();
   }, [mockRestaurants]);
 
   useEffect(() => {
     return getLocation();
   }, []);
-
-  const renderRestaurant = (restaurant) => (<RestaurantInfo restaurant={restaurant.item} />);
-  const getRestaurants = (restaurantName, zipcode) => {
-
-    const config = {
-      headers: {
-        'X-API-KEY': APIkey
-      }
-    };
-    //if user entered city instead of zipcode
-    if (zipcode && isNaN(zipcode)) {
-      axios.get(`${BASE_URL}/search/fields?restaurant_name=${restaurantName}&address=${zipcode}`, config)
-        .then(results => {
-          // console.log(results.data);
-          dispatch({ type: 'SET_RESTAURANTS', restaurants: results.data.data });
-        })
-        .catch(err => {
-          // console.log(err);
-          alert('failed to load, try again');
-        });
-    } else {
-      axios.get(`${BASE_URL}/search/fields?restaurant_name=${restaurantName}&zip_code=${zipcode}`, config)
-        .then(results => {
-          // console.log(results.data);
-          dispatch({ type: 'SET_RESTAURANTS', restaurants: results.data.data });
-        })
-        .catch(err => {
-          // console.log(err);
-          alert('failed to load, try again');
-        });
-    }
-  };
 
   return (
     <SafeArea>
@@ -114,7 +120,9 @@ const ExploreScreen = ({ navigation }) => {
 
                 <TouchableOpacity
                   style={styles.button}
-                  onPress={() => { getRestaurants(restaurantNameQuery, zipcodeQuery); }}>
+                  onPress={() => {
+                    getRestaurants(restaurantNameQuery, zipcodeQuery);
+                  }}>
                   <Text style={{ color: colors.brand.kazan, fontWeight: '600' }}>Search</Text>
                 </TouchableOpacity>
 
@@ -122,8 +130,9 @@ const ExploreScreen = ({ navigation }) => {
 
               <FlatList
                 data={restaurants}
-                renderItem={renderRestaurant}
+                renderItem={({ item, index }) => <RestaurantInfo restaurant={item} image={restaurantsImages[index]} />}
                 keyExtractor={restaurant => restaurant.restaurant_id}
+                ListFooterComponent={<View style={{ padding: 115 }} />}
               />
             </>
         }
