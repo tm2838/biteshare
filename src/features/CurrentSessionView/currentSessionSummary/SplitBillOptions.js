@@ -45,12 +45,12 @@ const SplitBillOptions = ({ changeTab }) => {
       .then(() => readASingleDocument('transactions', sessionId))
       .then((result) => {
         const totalBill = result.data().totalBills;
-        const guestCount = guests.length;
+        const guestCount = guests.filter(guest => guest.joinRequest === 'allowed').length;
         const updatedIndividualBill = totalBill / guestCount;
         guests.forEach((guest) => {
           getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', guest.name)
             .then((qResult) => {
-              qResult.forEach((doc) => {
+              qResult.filter(doc => doc.data().joinRequest === 'allowed').forEach((doc) => {
                 updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
                   individualBills: updatedIndividualBill,
                 });
