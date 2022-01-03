@@ -6,7 +6,6 @@ import { colors } from '../../../infrastructure/colors.js';
 import { fonts } from '../../../infrastructure/fonts.js';
 import BiteshareButton from '../../../components/BiteshareButton.js';
 import { BiteShareContext } from '../../../BiteShareContext.js';
-// import MenuItemCard from '../../../components/MenuItemCard.js';
 
 //NOTE - use Checkbox.Android to show the squarebox - it works on iphone12...
 
