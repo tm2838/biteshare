@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import axios from 'axios';
 import { BiteShareContext } from '../../BiteShareContext.js';
 import mockRestaurants from '../../../fixtures/mockRestaurants.json';
@@ -29,18 +29,27 @@ const ExploreScreen = ({ navigation }) => {
   const onRestaurantNameChangeSearch = query => setRestaurantNameQuery(query);
 
   //ADD OWN API KEY
-  const APIkey = 'OWN_KEY_GOES_HERE';
+  const APIkey = '16bcb6bcff21e2fbcbad3fd5c5ca4605';
   const BASE_URL = 'https://api.documenu.com/v2/restaurants';
 
-  const { state: { restaurants, restaurantId }, dispatch } = useContext(BiteShareContext);
+  const { state: { restaurants, restaurantsImages, restaurantId }, dispatch } = useContext(BiteShareContext);
 
   //@TODO: might completely remove the initial load of explore page restaurants based on find current location functionality
   useEffect(() => {
     const restaurantsData = mockRestaurants.data;
     dispatch({ type: 'SET_RESTAURANTS', restaurants: restaurantsData });
-  }, [mockRestaurants]);
 
-  const renderRestaurant = (restaurant) => (<RestaurantInfo restaurant={restaurant.item} />);
+    //set images
+    axios.get('https://api.unsplash.com/photos/random?query=food&client_id=GHgiPIKZT9Y-KTj_C0kolwugQpmWl1rGH2AetMxwanU&count=25')
+      .then(results => {
+        const images = results.data.map(obj => obj.urls.regular);
+        dispatch({ type: 'SET_RESTAURANTS_IMAGES', restaurantsImages: images });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+  }, [mockRestaurants]);
 
   const getRestaurants = (restaurantName, zipcode) => {
 
@@ -55,21 +64,17 @@ const ExploreScreen = ({ navigation }) => {
     if (zipcode && isNaN(zipcode)) {
       axios.get(`${BASE_URL}/search/fields?restaurant_name=${restaurantName}&address=${zipcode}`, config)
         .then(results => {
-          // console.log(results.data);
           dispatch({ type: 'SET_RESTAURANTS', restaurants: results.data.data });
         })
         .catch(err => {
-          // console.log(err);
           alert('failed to load, try again');
         });
     } else {
       axios.get(`${BASE_URL}/search/fields?restaurant_name=${restaurantName}&zip_code=${zipcode}`, config)
         .then(results => {
-          // console.log(results.data);
           dispatch({ type: 'SET_RESTAURANTS', restaurants: results.data.data });
         })
         .catch(err => {
-          // console.log(err);
           alert('failed to load, try again');
         });
     }
@@ -108,7 +113,7 @@ const ExploreScreen = ({ navigation }) => {
 
               <FlatList
                 data={restaurants}
-                renderItem={renderRestaurant}
+                renderItem={({ item, index }) => <RestaurantInfo restaurant={item} image={restaurantsImages[index]} />}
                 keyExtractor={restaurant => restaurant.restaurant_id}
               />
             </>
