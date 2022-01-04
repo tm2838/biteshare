@@ -64,7 +64,7 @@ const Profile = ({ navPage }) => {
         <View style={styles.container}>
           <ProfileGreeting style={styles.greeting}/>
           <ProfileHistory style={styles.history}/>
-          <SettingButton style={styles.settings} navPage={navPage}/>
+          <SettingButton style={styles.settings} navPage={navPage} />
           <TouchableOpacity
             style={styles.logout}
             onPress={logout}>

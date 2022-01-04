@@ -2,8 +2,10 @@ import React from 'react';
 import { Appbar, Avatar } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { colors } from '../../../infrastructure/colors';
+import BackButton from '../../../components/BackButton';
+
 
 
 const styles = StyleSheet.create({
@@ -13,16 +15,28 @@ const styles = StyleSheet.create({
 });
 
 const AccountScreenHeader = ({ navPage }) => {
-  // const navigation = useNavigation();
-  // const route = useRoute();
-  // let previousScreen = route.name === 'Profile' ? 'Profile' : '';
-  // const handleBackButton = () => navigation.navigate(previousScreen);
+  const navigation = useNavigation();
+  const route = useRoute();
+  //Navigation using route
+  let previousScreen = route.name === 'Account' ? 'Profile' : '';
+
+  //Navigation using profile state
+
+
+  const handleBackButton = () => navigation.navigate(previousScreen);
+
 
   return (
     <Appbar.Header style={styles.profileScreenHeader}>
+      <BackButton screenName="Profile" />
       {/* <Appbar.BackAction onPress={navPage('Profile')} color="white" /> */}
-      <Appbar.BackAction color="white" />
 
+      {/* <Appbar.BackAction onPress={handleBackButton} color="white" /> */}
+
+
+      {/* <View style = {styles.backButton}>
+        <BackButton screenName="Profile" />
+      </View> */}
     </Appbar.Header>
   );
 };

@@ -20,21 +20,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     height: '100%',
-
   },
 });
 
 const ProfileScreen = () => {
   const { state: { authenticated }, dispatch } = useContext(BiteShareContext);
   const [currentPage, setCurrentPage] = useState('Profile');
-
-  // const navigation = useNavigation();
-
-  const renderAccountSettings = () => {
-    return (
-      <AccountScreen/>
-    );
-  };
 
   return (
     <SafeArea>
@@ -51,5 +42,4 @@ const ProfileScreen = () => {
 
 export default ProfileScreen;
 
-
-//Move ProfileScreenHeader to Profile Component -- It manages "back" button direction to currentSession
+//PASS CURRENT PAGE STATE VALUE TO ACCOUNT IN ORDER TO CHECK STATUS AND CHANGE BACK??
