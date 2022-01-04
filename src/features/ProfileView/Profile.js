@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
 
 const Profile = ({ navPage }) => {
   const { state: { authenticated }, dispatch } = useContext(BiteShareContext);
-  const [currentPage, setCurrentPage] = useState('Profile');
 
   const navigation = useNavigation();
   const logout = () => {

@@ -49,23 +49,12 @@ const ProfileScreen = () => {
   const [currentPage, setCurrentPage] = useState('Profile');
 
   // const navigation = useNavigation();
-  // const logout = () => {
-  //   signOutUser()
-  //     .then(() => {
-  //       navigation.navigate('Login');
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  //   dispatch({ type: 'SET_AUTH', authenticated: false });
-  // };
 
   const renderAccountSettings = () => {
     return (
       <AccountScreen/>
     );
   };
-
 
   return (
     <SafeArea>
@@ -74,21 +63,9 @@ const ProfileScreen = () => {
         <View style={styles.container}>
 
 
-          <Profile navPage={setCurrentPage}/>
-          {currentPage !== 'Account' && renderAccountSettings()}
-
-
-
-
-          {/* <ProfileGreeting style={styles.greeting}/>
-          <ProfileHistory style={styles.history}/>
-          <SettingButton style={styles.settings}/>
-          <TouchableOpacity
-            style={styles.logout}
-            onPress={logout}>
-            <Text>Logout</Text>
-          </TouchableOpacity> */}
-
+          {currentPage === 'Profile' && <Profile navPage={setCurrentPage}/>}
+          {currentPage === 'Account' && renderAccountSettings()}
+          {console.log(currentPage)}
         </View>
       </View>
     </SafeArea>
@@ -96,3 +73,6 @@ const ProfileScreen = () => {
 };
 
 export default ProfileScreen;
+
+
+//Move ProfileScreenHeader to Profile Component -- It manages "back" button direction to currentSession

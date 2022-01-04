@@ -33,21 +33,20 @@ const styles = StyleSheet.create({
 
 const SettingButton = ({ navPage }) => {
 
-  // Refactor Personal Info into button so that onClick calls navigatePage('Account')
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Account Settings</Text>
-      <Text style={styles.button}>Personal Information</Text>
-      {/* <Button
-        onPress={navigatePage('Account')}
-        title="Learn More"
-      /> */}
 
-      {/* <TouchableOpacity
+      <TouchableOpacity
         style={styles.button}
-        onPress={navPage('Account')}>
+        // onPress={navPage('Account')}
+        onPress={() => {
+          navPage('Account');
+          alert('You tapped the button!');
+        }}
+      >
         <Text>Personal Information</Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
 
     </View>
   );
