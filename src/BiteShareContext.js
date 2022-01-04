@@ -11,14 +11,14 @@ export const biteShareState = {
   restaurantName: '',
   restaurantId: null, //updates when user clicks See Full Menu from ExplorePage
   restaurantMenus: [],
-  accountHolderName: 'Greg',
+  accountHolderName: '',
   accountType: '',
   sessionId: '',
   orderedItems: [], //matching the name with TJ's code in Guest.js (will updated as needed after checking with TJ)
   email: '',
   authenticated: false,
   biteShareKey: '16bcb6bcff21e2fbcbad3fd5c5ca4605',
-  nickname: null
+  nickname: null,
 };
 
 export const biteShareReducer = (state, action) => {
@@ -56,6 +56,8 @@ export const biteShareReducer = (state, action) => {
       return { ...state, authenticated: action.authenticated };
     case 'SET_NICKNAME':
       return { ...state, nickname: action.nickname };
+    // case 'SET_USERID':
+    //   return { ...state, userId: action.userId };
     default:
       return state;
   }

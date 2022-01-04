@@ -73,10 +73,10 @@ const SignupScreen = () => {
 
     signUpNewUser(email, password)
       .then(userCredentials => {
-        dispatch({ type: 'SET_AUTH', authenticated: true });
-        dispatch({ type: 'SET_EMAIL', email });
-        dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName });
-        dispatch({ type: 'SET_NICKNAME', nickname });
+        // dispatch({ type: 'SET_AUTH', authenticated: true });
+        // dispatch({ type: 'SET_EMAIL', email });
+        // dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName });
+        // dispatch({ type: 'SET_NICKNAME', nickname });
         updateUserProfile();
       })
       .catch(err => {

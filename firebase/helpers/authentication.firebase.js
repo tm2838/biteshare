@@ -37,9 +37,8 @@ const googleLogin = () => {
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
       const user = result.user;
-      console.log('Token----------> ', token);
-      console.log('User ----->', user);
-
+      // console.log('Token----------> ', token);
+      // console.log('User ----->', user);
     })
     .catch((error) => {
       const errorCode = error.code;

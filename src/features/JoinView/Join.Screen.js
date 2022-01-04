@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 });
 
 const JoinScreen = ({ route, navigation }) => {
-  console.log('----Join Screen-----> route', route, 'navigation-->', navigation );
+  // console.log('----Join Screen-----> route', route, 'navigation-->', navigation );
 
   const scanQrCodeImage = '../../../assets/qr-code-image.png';
   const { state: { accountType }, dispatch } = useContext(BiteShareContext);
@@ -47,7 +47,7 @@ const JoinScreen = ({ route, navigation }) => {
         </View>)
         :
 
-        (openCamera ? <GuestQR navigation={navigation}/> :
+        (openCamera ? <GuestQR navigation={navigation} /> :
           <View>
             <JoinScreenHeader />
             <View style={styles.joinContainer}>
