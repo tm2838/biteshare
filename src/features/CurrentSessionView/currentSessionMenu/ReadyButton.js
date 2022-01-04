@@ -18,7 +18,7 @@ const ReadyButton = ({ changeTab }) => {
   const calculateItemPrice = (items) => items.reduce((totalPrice, item) => totalPrice + item.price, 0);
 
   const menuChoice = () => {
-    const newBill = calculateItemPrice(orderedItems);
+    const newBill = calculateItemPrice(orderedItems).toFixed(2);
     getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', nickname || accountHolderName)
       .then((qResult) => {
         qResult.forEach((doc) => {

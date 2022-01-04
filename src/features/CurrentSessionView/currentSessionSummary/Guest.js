@@ -75,7 +75,7 @@ const Guest = ({ guest }) => {
 
   useEffect(() => {
     if (guest.orderedItems.length && guest.orderStatus === 'ready') {
-      setItemsPrice(calculateItemPrice(guest.orderedItems));
+      setItemsPrice(calculateItemPrice(guest.orderedItems).toFixed(2));
     }
   }, [guest.orderedItems]);
 
