@@ -2,7 +2,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 import axios from 'axios';
 import { BiteShareContext } from '../../BiteShareContext.js';
-import mockRestaurants from '../../../fixtures/mockRestaurants.json';
 import { Searchbar } from 'react-native-paper';
 import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native';
 import ExploreHeader from './ExploreHeader';
