@@ -85,15 +85,15 @@ const ExploreScreen = ({ navigation }) => {
     // console.log(zipcodeQuery);
   };
 
-  useEffect(() => {
-    const restaurantsData = mockRestaurants.data;
-    dispatch({ type: 'SET_RESTAURANTS', restaurants: restaurantsData });
-    getImages();
-  }, [mockRestaurants]);
+  // useEffect(() => {
+  //   const restaurantsData = mockRestaurants.data;
+  //   dispatch({ type: 'SET_RESTAURANTS', restaurants: restaurantsData });
+  //   getImages();
+  // }, [mockRestaurants]);
 
-  useEffect(() => {
-    return getLocation();
-  }, []);
+  // useEffect(() => {
+  //   return getLocation();
+  // }, []);
 
   return (
     <SafeArea>
