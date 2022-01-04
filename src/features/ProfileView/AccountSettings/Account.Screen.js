@@ -17,14 +17,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const AccountScreen = () => {
-  const { state: { authenticated }, dispatch } = useContext(BiteShareContext);
+const AccountScreen = ({ navPage }) => {
+  // const { state: { authenticated }, dispatch } = useContext(BiteShareContext);
   // const navigation = useNavigation();
 
   return (
     <SafeArea>
       <View >
-        <AccountScreenHeader />
+        <AccountScreenHeader navPage={navPage}/>
         <View style={styles.container}>
           <Text>THIS IS THE ACCOUNT SETTINGS PAGE</Text>
 

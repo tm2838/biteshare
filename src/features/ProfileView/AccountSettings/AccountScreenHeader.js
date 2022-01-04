@@ -12,15 +12,15 @@ const styles = StyleSheet.create({
   }
 });
 
-const AccountScreenHeader = () => {
-  const navigation = useNavigation();
-  const route = useRoute();
-  let previousScreen = route.name === 'Account' ? 'Profile' : '';
-  const handleBackButton = () => navigation.navigate(previousScreen);
+const AccountScreenHeader = ({ navPage }) => {
+  // const navigation = useNavigation();
+  // const route = useRoute();
+  // let previousScreen = route.name === 'Profile' ? 'Profile' : '';
+  // const handleBackButton = () => navigation.navigate(previousScreen);
 
   return (
     <Appbar.Header style={styles.profileScreenHeader}>
-      <Appbar.BackAction onPress={handleBackButton} color="white" />
+      <Appbar.BackAction onPress={navPage('Profile')} color="white" />
     </Appbar.Header>
   );
 };

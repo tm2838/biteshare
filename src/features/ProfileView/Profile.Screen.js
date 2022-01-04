@@ -22,26 +22,6 @@ const styles = StyleSheet.create({
     height: '100%',
 
   },
-  greeting: {
-    alignItems: 'center',
-    flexDirection: 'column',
-    height: 20,
-    flex: 2
-  },
-  history: {
-
-  },
-  settings: {
-
-  },
-  logout: {
-    height: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '60%',
-    color: colors.brand.kazan,
-    backgroundColor: colors.brand.beach,
-  }
 });
 
 const ProfileScreen = () => {
@@ -59,12 +39,9 @@ const ProfileScreen = () => {
   return (
     <SafeArea>
       <View >
-        <ProfileScreenHeader />
         <View style={styles.container}>
-
-
           {currentPage === 'Profile' && <Profile navPage={setCurrentPage}/>}
-          {currentPage === 'Account' && renderAccountSettings()}
+          {currentPage === 'Account' && <AccountScreen navPage={setCurrentPage}/>}
           {console.log(currentPage)}
         </View>
       </View>

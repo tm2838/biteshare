@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     height: '90%',
-
   },
   greeting: {
     alignItems: 'center',
@@ -29,11 +28,12 @@ const styles = StyleSheet.create({
 
   },
   settings: {
+    flex: .5
 
   },
   logout: {
     flex: .1,
-    height: 30,
+    margin: 5,
     alignItems: 'center',
     justifyContent: 'center',
     width: '60%',
@@ -60,6 +60,7 @@ const Profile = ({ navPage }) => {
   return (
     <SafeArea>
       <View >
+        <ProfileScreenHeader />
         <View style={styles.container}>
           <ProfileGreeting style={styles.greeting}/>
           <ProfileHistory style={styles.history}/>

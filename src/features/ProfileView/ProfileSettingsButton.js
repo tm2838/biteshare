@@ -42,7 +42,7 @@ const SettingButton = ({ navPage }) => {
         // onPress={navPage('Account')}
         onPress={() => {
           navPage('Account');
-          alert('You tapped the button!');
+          // alert('You tapped the button!');
         }}
       >
         <Text>Personal Information</Text>
