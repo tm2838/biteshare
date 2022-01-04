@@ -5,7 +5,7 @@ import { colors } from '../../../infrastructure/colors.js';
 import BiteshareButton from '../../../components/BiteshareButton.js';
 import { BiteShareContext } from '../../../BiteShareContext.js';
 import MenuItemCard from '../../../components/MenuItemCard.js';
-import { updateADocument, getADocReferenceFromCollection } from '../../../../firebase/helpers/database.firebase.js';
+import { updateADocument, getADocReferenceFromCollection, readASingleDocument } from '../../../../firebase/helpers/database.firebase.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -52,7 +52,7 @@ const Guest = ({ guest }) => {
   const { state: { accountHolderName, accountType, guests, orderedItems, sessionId, nickname }, dispatch } = useContext(BiteShareContext);
   const [rowDisabled, setRowDisabled] = useState(false);
   const [showOrderedItem, setShowOrderedItem] = useState(false);
-  const [itemsPrice, setItemsPrice] = useState(0);
+  const [presplitBill, setPresplitBill] = useState(0);
 
   const allowButtonStyle = { margin: 0, marginRight: 10, backgroundColor: colors.brand.beachLight };
   const denyButtonStyle = { margin: 0, backgroundColor: colors.brand.kazanLight };
@@ -75,7 +75,7 @@ const Guest = ({ guest }) => {
 
   useEffect(() => {
     if (guest.orderedItems.length && guest.orderStatus === 'ready') {
-      setItemsPrice(calculateItemPrice(guest.orderedItems).toFixed(2));
+      setPresplitBill(parseFloat(calculateItemPrice(guest.orderedItems).toFixed(2)));
     }
   }, [guest.orderedItems]);
 
@@ -84,7 +84,7 @@ const Guest = ({ guest }) => {
   }, [guest.orderStatus]);
 
   const handleAllowGuest = () => {
-    // @TODO: update DB to include user as guest in transaction
+    // @TODO: update DB USERS collection to add this currenct session to 'transactions' field
     getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', guest.name)
       .then((qResult) => {
         qResult.forEach((doc) => {
@@ -100,13 +100,21 @@ const Guest = ({ guest }) => {
   };
 
   const handleDenyGuest = () => {
-    // @TODO: update DB to set 'request pending' back to false?
+    // @TODO: update DB USERS collection to remove this currenct session from 'transactions' field
     getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', guest.name)
       .then((qResult) => {
         qResult.forEach((doc) => {
           updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
-            joinRequest: 'denied'
+            joinRequest: 'denied',
+            individualBills: 0,
           });
+        });
+      })
+      .then(() => readASingleDocument('transactions', sessionId))
+      .then((result) => {
+        const originalBill = result.data().totalBills;
+        updateADocument('transactions', sessionId, {
+          totalBills: originalBill - presplitBill,
         });
       })
       .catch((error) => {
@@ -166,7 +174,7 @@ const Guest = ({ guest }) => {
             &&
             <View style={styles.buttonContainer}>
               <BiteshareButton size={70} title='Ready' buttonStyle={allowButtonStyle} disabled={true} />
-              <Text style={{ marginLeft: 70 }}>${itemsPrice}</Text>
+              <Text style={{ marginLeft: 70 }}>${presplitBill}</Text>
             </View>
           }
 
@@ -177,13 +185,13 @@ const Guest = ({ guest }) => {
               </View>
               : <View style={styles.buttonContainer}>
                 <BiteshareButton size={70} title='Ready' buttonStyle={allowButtonStyle} disabled={true} />
-                <Text style={{ marginLeft: 70 }}>${itemsPrice}</Text>
+                <Text style={{ marginLeft: 70 }}>${presplitBill}</Text>
               </View>)
           }
           {otherGuestView &&
             guest.orderStatus === 'ready' &&
             <View style={styles.buttonContainer}>
-              <Text style={{ marginLeft: 150 }}>${itemsPrice}</Text>
+              <Text style={{ marginLeft: 150 }}>${presplitBill}</Text>
             </View>
           }
         </Pressable>
