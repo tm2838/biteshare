@@ -2,7 +2,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 import axios from 'axios';
 import { BiteShareContext } from '../../BiteShareContext.js';
-import mockRestaurants from '../../../fixtures/mockRestaurants.json';
 import { Searchbar } from 'react-native-paper';
 import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native';
 import ExploreHeader from './ExploreHeader';
@@ -27,6 +26,9 @@ const ExploreScreen = ({ navigation }) => {
 
   const [restaurantNameQuery, setRestaurantNameQuery] = React.useState('');
   const onRestaurantNameChangeSearch = query => setRestaurantNameQuery(query);
+
+  //create new state for initial location load
+  const [locationZip, setLocationZip] = React.useState(94108);
 
   const { state: { restaurants, restaurantsImages, restaurantId, biteShareKey }, dispatch } = useContext(BiteShareContext);
 
@@ -81,19 +83,16 @@ const ExploreScreen = ({ navigation }) => {
     let longitude = location.coords.longitude;
     let latitude = location.coords.latitude;
     let address = await Location.reverseGeocodeAsync({ latitude, longitude });
-    setZipcodeQuery(address[0].postalCode);
-    // console.log(zipcodeQuery);
+    setLocationZip(address[0].postalCode);
   };
-
-  useEffect(() => {
-    const restaurantsData = mockRestaurants.data;
-    dispatch({ type: 'SET_RESTAURANTS', restaurants: restaurantsData });
-    getImages();
-  }, [mockRestaurants]);
 
   useEffect(() => {
     return getLocation();
   }, []);
+
+  useEffect(() => {
+    getRestaurants('', locationZip);
+  }, [locationZip]);
 
   return (
     <SafeArea>
