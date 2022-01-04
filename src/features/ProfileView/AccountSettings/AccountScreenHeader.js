@@ -20,7 +20,9 @@ const AccountScreenHeader = ({ navPage }) => {
 
   return (
     <Appbar.Header style={styles.profileScreenHeader}>
-      <Appbar.BackAction onPress={navPage('Profile')} color="white" />
+      {/* <Appbar.BackAction onPress={navPage('Profile')} color="white" /> */}
+      <Appbar.BackAction color="white" />
+
     </Appbar.Header>
   );
 };
