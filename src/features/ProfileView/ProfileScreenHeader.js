@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 const ProfileScreenHeader = ({ currentPage, navPage }) => {
   const navigation = useNavigation();
   const route = useRoute();
-  let previousScreen = route.name === 'Profile' ? 'CurrentSession' : '';
+  let previousScreen = route.name === 'Profile' ? 'Explore' : '';
   const handleBackButton = () => navigation.navigate(previousScreen);
 
 

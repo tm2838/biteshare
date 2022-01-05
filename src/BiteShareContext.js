@@ -3,6 +3,7 @@ import React from 'react';
 
 export const biteShareState = {
   isEveryoneReady: false,
+  accountHolderReady: false,
   splitMethod: '',
   totalBill: 0,
   guests: [],
@@ -26,6 +27,8 @@ export const biteShareReducer = (state, action) => {
   switch (action.type) {
     case 'SET_ORDER_STATUS':
       return { ...state, isEveryoneReady: action.isEveryoneReady };
+    case 'SET_ACCOUNT_HOLDER_READY':
+      return { ...state, accountHolderReady: action.accountHolderReady };
     case 'SET_SPLIT_METHOD':
       return { ...state, splitMethod: action.splitMethod };
     case 'SET_TOTAL_BILL':
