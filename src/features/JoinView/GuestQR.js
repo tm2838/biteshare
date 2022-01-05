@@ -57,14 +57,9 @@ export default function QRScanner() {
       joinRequest: 'pending',
       isHost: false,
       individualBills: 0,
-<<<<<<< HEAD
-      name: 'Josh',
-=======
       name: nickname || accountHolderName, //Get userName from google
->>>>>>> 2071583defc6f2b3f0fe93ab7a532a3e9debabaa
       orderStatus: 'not ready',
       orderedItems: [],
-
     })
       .then((doc) => {
         console.log('Successfully added GUEST into the database');

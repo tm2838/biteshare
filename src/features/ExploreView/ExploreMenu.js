@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 
 const ExploreMenu = ({ navigation }) => {
   // console.log('--------navigation from explore Menu----', navigation);
-  const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey, accountHolderName, accountType, nickname }, dispatch } = useContext(BiteShareContext);
+  const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey, accountHolderName, accountType, nickname, sessionId }, dispatch } = useContext(BiteShareContext);
   const API_KEY = biteShareKey;
   const [isLoading, setLoading] = useState(true);
   const [restaurantAddress, setRestaurantAddress] = useState('');
@@ -163,7 +163,7 @@ const ExploreMenu = ({ navigation }) => {
                 {/* onPress 'create a session', it will direct to the QR code -  */}
                 {/* ????? - is HOST allow to create a new session (NO) */}
                 {
-                  accountType !== 'GUEST' &&
+                  accountType !== 'GUEST' && sessionId === '' &&
                   <Button
                     icon='account-plus'
                     mode="contained"

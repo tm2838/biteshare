@@ -12,6 +12,7 @@ import BigButton from '../../components/BigButton';
 import { BiteShareContext } from '../../BiteShareContext';
 import GoogleLogin from '../LoginView/GoogleLogin';
 import FacebookLogin from '../LoginView/FacebookLogin';
+import { addANewAnonymousDocument } from '../../../firebase/helpers/database.firebase';
 
 const styles = StyleSheet.create({
   loginContainer: {
@@ -72,12 +73,21 @@ const SignupScreen = () => {
     }
 
     signUpNewUser(email, password)
-      .then(userCredentials => {
+      .then(async userCredentials => {
         dispatch({ type: 'SET_AUTH', authenticated: true });
         dispatch({ type: 'SET_EMAIL', email });
         dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName });
         dispatch({ type: 'SET_NICKNAME', nickname });
         updateUserProfile();
+        try {
+          await addANewAnonymousDocument('users', {
+            name: accountHolderName,
+            email: email,
+          });
+        } catch (error) {
+          console.log('Error creating new user in users collection when sign up for first time');
+        }
+
       })
       .catch(err => {
         setSignupError(err.message.toString());

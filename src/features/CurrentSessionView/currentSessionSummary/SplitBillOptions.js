@@ -50,10 +50,12 @@ const SplitBillOptions = ({ changeTab }) => {
         guests.forEach((guest) => {
           getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', guest.name)
             .then((qResult) => {
-              qResult.filter(doc => doc.data().joinRequest === 'allowed').forEach((doc) => {
-                updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
-                  individualBills: updatedIndividualBill,
-                });
+              qResult.forEach((doc) => {
+                if (doc.data().joinRequest === 'allowed') {
+                  updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
+                    individualBills: updatedIndividualBill,
+                  });
+                }
               });
             })
             .catch((error) => {

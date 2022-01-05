@@ -1,12 +1,15 @@
-import React, { useContext } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, { useContext, useState, useEffect} from 'react';
+import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import SafeArea from '../../components/SafeArea';
 import ProfileScreenHeader from './ProfileScreenHeader';
 import ProfileGreeting from './Profile.Greeting';
 import ProfileHistory from './Profile.History';
-import SettingButton from './Profile.Settings';
+import SettingButton from './ProfileSettingsButton';
+
+import Profile from './Profile';
+import AccountScreen from './AccountSettings/Account.Screen';
 
 import { colors } from '../../infrastructure/colors';
 import { BiteShareContext } from '../../BiteShareContext';
@@ -16,64 +19,20 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     flexDirection: 'column',
-    height: '90%',
-
+    height: '100%',
   },
-  greeting: {
-    alignItems: 'center',
-    flexDirection: 'column',
-    height: 20,
-    flex: 2
-  },
-  history: {
-
-  },
-  settings: {
-
-  },
-  logout: {
-    height: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '60%',
-    color: colors.brand.kazan,
-    backgroundColor: colors.brand.beach,
-  }
 });
 
 const ProfileScreen = () => {
-  const { state: { authenticated }, dispatch } = useContext(BiteShareContext);
-  const navigation = useNavigation();
-  const logout = () => {
-    signOutUser()
-      .then(() => {
-        navigation.navigate('Login');
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    dispatch({ type: 'SET_AUTH', authenticated: false });
-  };
+  const [currentPage, setCurrentPage] = useState('Profile');
 
   return (
     <SafeArea>
       <View >
-        <ProfileScreenHeader />
+        <ProfileScreenHeader navPage={setCurrentPage} currentPage={currentPage} />
         <View style={styles.container}>
-
-          <ProfileGreeting style={styles.greeting}/>
-
-          <ProfileHistory style={styles.history}/>
-
-
-          <SettingButton style={styles.settings}/>
-
-          <TouchableOpacity
-            style={styles.logout}
-            onPress={logout}>
-            <Text>Logout</Text>
-          </TouchableOpacity>
-
+          {currentPage === 'Profile' && <Profile navPage={setCurrentPage}/>}
+          {currentPage === 'Account' && <AccountScreen />}
         </View>
       </View>
     </SafeArea>
@@ -81,9 +40,3 @@ const ProfileScreen = () => {
 };
 
 export default ProfileScreen;
-
-
-//TODO
-//Add component for user greeting w/ image and join date
-//Map transaction history from db data
-//Click account settings button and navigate to settings page
