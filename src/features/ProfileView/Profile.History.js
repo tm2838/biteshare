@@ -47,6 +47,7 @@ const ProfileHistory = () => {
   //TODO
   //Query previous bites from db
   //Restauraunt Name - Guest / Host Status - Price
+  //Place in array in state to be rendered via Flatlist
 
   return (
     <View style={styles.container}>

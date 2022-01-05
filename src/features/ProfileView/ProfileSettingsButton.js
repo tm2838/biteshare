@@ -39,10 +39,8 @@ const SettingButton = ({ navPage }) => {
 
       <TouchableOpacity
         style={styles.button}
-        // onPress={navPage('Account')}
         onPress={() => {
           navPage('Account');
-          // alert('You tapped the button!');
         }}
       >
         <Text>Personal Information</Text>

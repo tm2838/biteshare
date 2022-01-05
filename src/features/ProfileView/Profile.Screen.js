@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -24,16 +24,15 @@ const styles = StyleSheet.create({
 });
 
 const ProfileScreen = () => {
-  const { state: { authenticated }, dispatch } = useContext(BiteShareContext);
   const [currentPage, setCurrentPage] = useState('Profile');
 
   return (
     <SafeArea>
       <View >
+        <ProfileScreenHeader navPage={setCurrentPage} currentPage={currentPage} />
         <View style={styles.container}>
           {currentPage === 'Profile' && <Profile navPage={setCurrentPage}/>}
-          {currentPage === 'Account' && <AccountScreen navPage={setCurrentPage}/>}
-          {console.log(currentPage)}
+          {currentPage === 'Account' && <AccountScreen />}
         </View>
       </View>
     </SafeArea>
@@ -41,5 +40,3 @@ const ProfileScreen = () => {
 };
 
 export default ProfileScreen;
-
-//PASS CURRENT PAGE STATE VALUE TO ACCOUNT IN ORDER TO CHECK STATUS AND CHANGE BACK??

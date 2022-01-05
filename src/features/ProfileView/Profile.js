@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
   },
   settings: {
     flex: .5
-
   },
   logout: {
     flex: .1,
@@ -43,7 +42,6 @@ const styles = StyleSheet.create({
 });
 
 const Profile = ({ navPage }) => {
-  const { state: { authenticated }, dispatch } = useContext(BiteShareContext);
 
   const navigation = useNavigation();
   const logout = () => {
@@ -60,7 +58,6 @@ const Profile = ({ navPage }) => {
   return (
     <SafeArea>
       <View >
-        <ProfileScreenHeader />
         <View style={styles.container}>
           <ProfileGreeting style={styles.greeting}/>
           <ProfileHistory style={styles.history}/>

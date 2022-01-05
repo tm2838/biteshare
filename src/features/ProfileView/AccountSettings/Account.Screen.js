@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import SafeArea from '../../../components/SafeArea';
-import AccountScreenHeader from './AccountScreenHeader';
 
 import { colors } from '../../../infrastructure/colors';
 import { BiteShareContext } from '../../../BiteShareContext';
@@ -17,14 +16,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const AccountScreen = ({ navPage }) => {
-  // const { state: { authenticated }, dispatch } = useContext(BiteShareContext);
-  // const navigation = useNavigation();
+const AccountScreen = () => {
 
   return (
     <SafeArea>
       <View >
-        <AccountScreenHeader navPage={navPage}/>
         <View style={styles.container}>
           <Text>THIS IS THE ACCOUNT SETTINGS PAGE</Text>
 
@@ -36,7 +32,3 @@ const AccountScreen = ({ navPage }) => {
 
 export default AccountScreen;
 
-
-// TODO
-// ** Ensure back nav button directs to profile page
-// ** Render Components
