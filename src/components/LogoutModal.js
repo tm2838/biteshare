@@ -95,7 +95,7 @@ const LogoutModal = ({ modalVisible, setModalVisible }) => {
     dispatch({ type: 'SET_SESSION_ID', sessionId: '' });
     dispatch({ type: 'SET_ORDER_ITEMS', orderedItems: [] });
     dispatch({ type: 'SET_EMAIL', email: '' });
-    dispatch({ type: 'SET_BITESHARE_KEY', biteShareKey: '16bcb6bcff21e2fbcbad3fd5c5ca4605' });
+    dispatch({ type: 'SET_BITESHARE_KEY', biteShareKey: '9dc8a2f81caddc80fddc41a188a4d7f1' });
     dispatch({ type: 'SET_NICKNAME', nickname: null });
   };
 
@@ -103,8 +103,8 @@ const LogoutModal = ({ modalVisible, setModalVisible }) => {
     console.log('wheat', sessionId, accountType);
     if (sessionId && accountType === 'HOST') {
       deleteADocument('transactions', sessionId)
-        .then(success => {
-          console.log('deleted transaction with host');
+        .then((success) => {
+          console.log('deleted transaction with host', success);
         })
         .catch((error) => {
           console.log('Error denying the guest: ', error);

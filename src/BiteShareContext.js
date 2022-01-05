@@ -3,8 +3,8 @@ import React from 'react';
 
 export const biteShareState = {
   isEveryoneReady: false,
+  accountHolderReady: false,
   splitMethod: '',
-  totalBill: 0,
   guests: [],
   restaurants: [], //restaurants displayed in ExplorePage
   restaurantsImages: [], //images for ExplorePage
@@ -17,18 +17,18 @@ export const biteShareState = {
   orderedItems: [], //matching the name with TJ's code in Guest.js (will updated as needed after checking with TJ)
   email: '',
   authenticated: false,
-  biteShareKey: '16bcb6bcff21e2fbcbad3fd5c5ca4605',
-  nickname: null,
+  biteShareKey: '9dc8a2f81caddc80fddc41a188a4d7f1',
+  nickname: null
 };
 
 export const biteShareReducer = (state, action) => {
   switch (action.type) {
     case 'SET_ORDER_STATUS':
       return { ...state, isEveryoneReady: action.isEveryoneReady };
+    case 'SET_ACCOUNT_HOLDER_READY':
+      return { ...state, accountHolderReady: action.accountHolderReady };
     case 'SET_SPLIT_METHOD':
       return { ...state, splitMethod: action.splitMethod };
-    case 'SET_TOTAL_BILL':
-      return { ...state, totalBill: action.totalBill };
     case 'SET_GUESTS':
       return { ...state, guests: action.guests };
     case 'SET_RESTAURANTS':

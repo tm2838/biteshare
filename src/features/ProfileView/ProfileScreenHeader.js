@@ -12,16 +12,36 @@ const styles = StyleSheet.create({
   }
 });
 
-const ProfileScreenHeader = () => {
+const ProfileScreenHeader = ({ currentPage, navPage }) => {
   const navigation = useNavigation();
   const route = useRoute();
-  let previousScreen = route.name === 'Profile' ? 'CurrentSession' : '';
+  let previousScreen = route.name === 'Profile' ? 'Explore' : '';
   const handleBackButton = () => navigation.navigate(previousScreen);
+
+
+  let handlePress = () => {
+    navPage('Profile');
+  };
+
+  const renderBackButton = () => {
+    if (currentPage === 'Profile') {
+      return (
+        <Appbar.BackAction onPress={handleBackButton} color="white" />
+      );
+    } else if (currentPage === 'Account') {
+      return (
+        <Appbar.BackAction onPress={handlePress} color="white" />
+      );
+    }
+  };
+
   return (
     <Appbar.Header style={styles.profileScreenHeader}>
-      <Appbar.BackAction onPress={handleBackButton} color="white" />
+
+      {renderBackButton()}
     </Appbar.Header>
   );
 };
 
 export default ProfileScreenHeader;
+

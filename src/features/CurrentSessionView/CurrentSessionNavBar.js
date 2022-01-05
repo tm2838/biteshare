@@ -72,7 +72,7 @@ const CurrentSessionTopNavBar = ({ changeTab, currentTab }) => {
   return (
     <View style = {styles.topBarContainer}>
       <View style = {styles.backButton}>
-        <BackButton screenName="Join" />
+        <BackButton screenName="Explore" />
       </View>
       <View style = {styles.tabs}>
         <View>
