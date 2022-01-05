@@ -1,8 +1,9 @@
 /* eslint-disable camelcase */
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
+import axios from 'axios';
 import { BiteShareContext } from '../../BiteShareContext.js';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Button, Card } from 'react-native-paper';
+import { Card } from 'react-native-paper';
 import { colors } from '../../infrastructure/colors';
 
 
@@ -33,22 +34,20 @@ const styles = StyleSheet.create({
   }
 });
 
-const RestaurantInfo = ({ restaurant }) => {
+const RestaurantInfo = ({ restaurant, image }) => {
   const { state: { restaurantId, restaurantName }, dispatch } = useContext(BiteShareContext);
 
   const seeFullMenuButtonPress = (restaurant_id, restaurant_name) => {
     dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: restaurant_id });
-    dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: restaurant_name }); //cs*- added restaurant_name to context API
+    dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: restaurant_name }); //cs*- added restaurant_name to context
     // alert(`restaurant_id: ${restaurant_id}`);
 
   };
 
-  // console.log('afterbuttonclick: ' + restaurantId);
-  // console.log('RESTAURANT: ', restaurant);
   return (
     <View style={styles.restaurantContainer}>
       <Card style={styles.card} elevation={2}>
-        <Card.Cover key={restaurant.restaurant_name} source={{ uri: 'https://loremflickr.com/320/240/food' }} />
+        <Card.Cover key={restaurant.restaurant_name} source={{ uri: image }} />
         <Card.Title
           title={restaurant.restaurant_name}
           subtitle={restaurant.price_range || '$$'}
@@ -57,7 +56,6 @@ const RestaurantInfo = ({ restaurant }) => {
           {restaurant.cuisines.length > 1 && <Text>{restaurant.cuisines.join(', ')}</Text>}
           <Text>{restaurant.restaurant_phone}</Text>
           <Text>{restaurant.address.street}</Text>
-          {/* <Text>{restaurant.restaurant_id}</Text> */}
         </Card.Content>
         <View style={{ alignItems: 'center' }}>
           <TouchableOpacity

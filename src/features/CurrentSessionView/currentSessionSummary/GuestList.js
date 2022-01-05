@@ -13,10 +13,10 @@ const styles = StyleSheet.create({
 });
 
 const GuestList = () => {
-  const { state: { guests, accountHolderName, sessionId }, dispatch } = useContext(BiteShareContext);
+  const { state: { guests, accountHolderName, sessionId, nickname }, dispatch } = useContext(BiteShareContext);
 
   useEffect(() => {
-    if (guests.length && guests.every((guest) => guest.orderStatus === 'ready')) {
+    if (guests.length && guests.filter((guest) => guest.joinRequest === 'allowed').every((guest) => guest.orderStatus === 'ready')) {
       dispatch({ type: 'SET_ORDER_STATUS', isEveryoneReady: true });
     }
   }, [guests]);
@@ -28,8 +28,8 @@ const GuestList = () => {
         result.forEach((doc) => {
           guests.push(doc.data());
         });
-        const currentAccount = guests.filter((guest) => guest.name === accountHolderName); // Might Need to change here
-        const otherAccounts = guests.filter((guest) => guest.name !== accountHolderName); // Same here as well
+        const currentAccount = guests.filter((guest) => guest.name === accountHolderName || guest.name === nickname); // Might Need to change here
+        const otherAccounts = guests.filter((guest) => guest.name !== accountHolderName && guest.name !== nickname); // Same here as well
         dispatch({ type: 'SET_GUESTS', guests: [...currentAccount, ...otherAccounts] });
       });
     }

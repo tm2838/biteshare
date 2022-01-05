@@ -47,14 +47,11 @@ const styles = StyleSheet.create({
 
 const ExploreMenu = ({ navigation }) => {
   // console.log('--------navigation from explore Menu----', navigation);
-  const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey, accountHolderName, accountType }, dispatch } = useContext(BiteShareContext);
+  const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey, accountHolderName, accountType, nickname }, dispatch } = useContext(BiteShareContext);
   const API_KEY = biteShareKey;
-
-
-  // const { state: { restaurantName, restaurantId, restaurantMenus, accountHolderName }, dispatch } = useContext(BiteShareContext);
-
   const [isLoading, setLoading] = useState(true);
   const [restaurantAddress, setRestaurantAddress] = useState('');
+  const [creatingSession, setCreatingSession] = useState(false);
 
   const parseJsonMenu = (data) => {
     let prettyMenu = [];
@@ -86,10 +83,11 @@ const ExploreMenu = ({ navigation }) => {
 
   const createSessionHandler = () => {
     //Once user click 'create Session', the AccountType change to 'HOST'
+    setCreatingSession(true);
     dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'HOST' });
 
     addANewAnonymousDocument('transactions', {
-      hostName: accountHolderName,
+      hostName: nickname || accountHolderName,
       restaurantName: restaurantName,
       splitMethod: '',
       totalBills: 0,
@@ -103,7 +101,7 @@ const ExploreMenu = ({ navigation }) => {
           joinRequest: 'allowed',
           isHost: true,
           individualBills: 0,
-          name: accountHolderName,
+          name: nickname || accountHolderName,
           orderStatus: 'not ready',
           orderedItems: [],
         })
@@ -112,14 +110,16 @@ const ExploreMenu = ({ navigation }) => {
           })
           .catch((error) => {
             console.log('Error when adding host into the database');
+          })
+          .then(() => {
+            // navigate the HOST to QR code screen - allows guest to scan
+            navigation.navigate('CurrentSession', { previous: 'create a session' });
+            setCreatingSession(false);
           });
       })
       .catch((error) => {
         console.log('Error creating a new transaction');
       });
-
-    // navigate the HOST to QR code screen - allows guest to scan
-    navigation.navigate('CurrentSession', { previous: 'create a session' });
   };
 
   return (
@@ -160,9 +160,6 @@ const ExploreMenu = ({ navigation }) => {
               </ScrollView>
 
               <View style={styles.menuContainer}>
-
-
-
                 {/* onPress 'create a session', it will direct to the QR code -  */}
                 {/* ????? - is HOST allow to create a new session (NO) */}
                 {
@@ -171,18 +168,13 @@ const ExploreMenu = ({ navigation }) => {
                     icon='account-plus'
                     mode="contained"
                     color={colors.brand.beachLight}
-                    style={{ width: 250, borderRadius: 15, height: 38}}
+                    style={{ width: 250, borderRadius: 15, height: 38 }}
                     onPress={() => createSessionHandler()}>
-                      Create a Session
+                    {creatingSession ? 'Creating session...' : 'Create a Session'}
                   </Button>}
 
               </View>
-
-
-
             </View>
-
-
           )
       }
     </View>

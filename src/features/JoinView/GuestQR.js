@@ -20,12 +20,11 @@ export default function QRScanner() {
   const navigation = useNavigation();
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  //Context API -
   const { state:
-    { restaurantName, restaurantId, restaurantMenus, biteShareKey }, dispatch }
+    { restaurantName, restaurantId, restaurantMenus, nickname, accountHolderName }, dispatch }
     = useContext(BiteShareContext);
 
-  console.log('RestsurantID----------->', restaurantId);
+  console.log('RestsurantID----------->', nickname);
 
   useEffect(() => {
     (async () => {
@@ -58,7 +57,11 @@ export default function QRScanner() {
       joinRequest: 'pending',
       isHost: false,
       individualBills: 0,
+<<<<<<< HEAD
       name: 'Josh',
+=======
+      name: nickname || accountHolderName, //Get userName from google
+>>>>>>> 2071583defc6f2b3f0fe93ab7a532a3e9debabaa
       orderStatus: 'not ready',
       orderedItems: [],
 
@@ -76,9 +79,7 @@ export default function QRScanner() {
       .catch((error) => {
         console.log('Error when adding GUEST into the database');
       });
-
   };
-
 
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
@@ -96,7 +97,7 @@ export default function QRScanner() {
           style={StyleSheet.absoluteFillObject}
         />
       }
-
+      {/* {scanned && <ExploreMenu />} */}
     </View>
   );
 }
