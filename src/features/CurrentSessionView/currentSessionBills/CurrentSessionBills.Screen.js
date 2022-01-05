@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { colors } from '../../../infrastructure/colors.js';
 import { BiteShareContext } from '../../../BiteShareContext.js';
 import { getADocReferenceFromCollection, readASingleDocument } from '../../../../firebase/helpers/database.firebase.js';
 import OrderedItemInfo from './OrderedItemInfo.js';
+import TipInfo from './TipInfo.js';
 
 
 const styles = StyleSheet.create({
@@ -27,7 +28,8 @@ const styles = StyleSheet.create({
   priceContainer: {
     alignItems: 'center',
     margin: 50,
-    marginTop: 20
+    marginTop: 20,
+    marginBottom: 35
   },
 
   individualBill: {
@@ -36,22 +38,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
 
-  tip: {
-    textAlign: 'center',
-    width: 300,
-    padding: 7,
-    marginBottom: 10,
-    backgroundColor: colors.brand.ebisu,
-    color: colors.brand.darkBlue
-  },
-
   paymentButton: {
     width: 150,
-    marginTop: 40,
+    marginBottom: 40,
     padding: 15,
     borderRadius: 50,
     backgroundColor: colors.brand.ebisuLight,
-    borderColor: colors.brand.sessionTab,
+    borderColor: colors.brand.beach,
     borderWidth: 1
   }
 });
@@ -61,6 +54,23 @@ const CurrentSessionBills = ({ changeTab }) => {
   const { state: { accountHolderName, sessionId, orderedItems }, dispatch } = useContext(BiteShareContext);
   const [individualBill, setIndividualBill] = useState(0);
   const [totalBill, setTotalBill] = useState(0);
+  const tipPercentages = [0.1, 0.15, 0.2];
+
+  //function to add tax- 7.25%
+  const addTax = (bill) => (bill * .0725) + bill;
+
+  const getIndividualBill = () => {
+    getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', accountHolderName)
+      .then((qResult) => {
+        qResult.forEach((doc) => {
+          readASingleDocument(`transactions/${sessionId}/attendees`, doc.id)
+            .then((singleDoc) => {
+              setIndividualBill(singleDoc.data().individualBills);
+            });
+        });
+      })
+      .catch(err => console.log('Error in getIndividualBill: ', err));
+  };
 
   const getTotalBill = () => {
     readASingleDocument('transactions', sessionId)
@@ -70,69 +80,39 @@ const CurrentSessionBills = ({ changeTab }) => {
       .catch(err => console.log('Error in getTotalBill: ', err));
   };
 
-  const getIndividualBill = () => {
-    getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', accountHolderName)
-      .then((qResult) => {
-        qResult.forEach((doc) => {
-          readASingleDocument(`transactions/${sessionId}/attendees`, doc.id)
-            .then((singleDoc) => {
-              // console.log('individualBills: ', singleDoc.data().individualBills);
-              setIndividualBill(singleDoc.data().individualBills);
-            });
-        });
-      })
-      .catch((err) => {
-        console.log('Error in getIndividualBill: ', err);
-      });
-  };
-
-  //function to add tax- 7.25%
-  const addTax = (bill) => (bill * .0725) + bill;
-
-  //function to add tip
-  const addTip = (bill, percent) => (bill * percent) + bill;
-
   useEffect(() => {
     getIndividualBill();
     getTotalBill();
   }, [orderedItems]);
 
-  console.log('individualBill: ', individualBill);
-  console.log('orderedItems: ', orderedItems);
-  console.log('totalBill: ', totalBill);
-
+  // console.log('individualBill: ', individualBill);
+  // console.log('orderedItems: ', orderedItems);
+  // console.log('totalBill: ', totalBill);
 
   return (
     <View style={styles.billsContainer}>
-      <View style={styles.orderedItemsContainer}>
 
+      <View style={styles.orderedItemsContainer}>
         <FlatList
           data={orderedItems}
           renderItem={({ item, index }) => <OrderedItemInfo orderedItem={item} />}
           keyExtractor={(item, index) => index}
           ItemSeparatorComponent={() => <View style={{ padding: 10 }}></View>}
         />
-
       </View>
 
       <View style={styles.priceContainer}>
         <Text style={styles.individualBill}>{`Your share is: $${Math.trunc(addTax(individualBill))} (incl. tax)`}</Text>
-        <Text>{`Total bill is: $${Math.trunc(addTax(totalBill))}`}</Text>
+        <Text>{`Total bill is: $${Math.trunc(addTax(totalBill))} (incl. tax)`}</Text>
       </View>
 
-      <View>
-        <TouchableOpacity>
-          <Text style={styles.tip}>Add 10% tip: $15</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-          <Text style={styles.tip}>Add 15% tip: $17</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-          <Text style={styles.tip}>Add 20% tip: $19</Text>
-        </TouchableOpacity>
-      </View>
+      <FlatList
+        data={tipPercentages}
+        renderItem={({ item, index }) => <TipInfo tipPercentage={item} individualBill={individualBill} />}
+        keyExtractor={(item, index) => index}
+        ItemSeparatorComponent={() => <View style={{ padding: 7 }}></View>}
+        scrollEnabled={false}
+      />
 
       <TouchableOpacity style={styles.paymentButton}>
         <Text style={{ textAlign: 'center', color: colors.brand.rausch, fontWeight: 'bold' }}>Make Payment</Text>
