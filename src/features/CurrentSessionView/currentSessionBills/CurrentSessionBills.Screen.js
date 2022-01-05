@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
 
 const CurrentSessionBills = ({ changeTab }) => {
 
-  const { state: { accountHolderName, sessionId, orderedItems }, dispatch } = useContext(BiteShareContext);
+  const { state: { accountHolderName, nickname, sessionId, orderedItems }, dispatch } = useContext(BiteShareContext);
   const [individualBill, setIndividualBill] = useState(0);
   const [totalBill, setTotalBill] = useState(0);
   const tipPercentages = [0.1, 0.15, 0.2];
@@ -60,7 +60,7 @@ const CurrentSessionBills = ({ changeTab }) => {
   const addTax = (bill) => (bill * .0725) + bill;
 
   const getIndividualBill = () => {
-    getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', accountHolderName)
+    getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', nickname || accountHolderName)
       .then((qResult) => {
         qResult.forEach((doc) => {
           readASingleDocument(`transactions/${sessionId}/attendees`, doc.id)
@@ -89,6 +89,8 @@ const CurrentSessionBills = ({ changeTab }) => {
   // console.log('orderedItems: ', orderedItems);
   // console.log('totalBill: ', totalBill);
 
+  const [selected, setSelected] = useState(null);
+
   return (
     <View style={styles.billsContainer}>
 
@@ -108,7 +110,15 @@ const CurrentSessionBills = ({ changeTab }) => {
 
       <FlatList
         data={tipPercentages}
-        renderItem={({ item, index }) => <TipInfo tipPercentage={item} individualBill={individualBill} />}
+        renderItem={
+          ({ item, index }) => <TipInfo
+            tipPercentage={item}
+            individualBill={individualBill}
+            index={index}
+            selected={selected}
+            setSelected={setSelected}
+          />
+        }
         keyExtractor={(item, index) => index}
         ItemSeparatorComponent={() => <View style={{ padding: 7 }}></View>}
         scrollEnabled={false}

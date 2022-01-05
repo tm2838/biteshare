@@ -21,15 +21,21 @@ const styles = StyleSheet.create({
   }
 });
 
-const TipInfo = ({ individualBill, tipPercentage }) => {
-  const [selected, setSelected] = useState(false);
-  const toggle = () => setSelected(prevSelected => !prevSelected);
-
+const TipInfo = ({ individualBill, tipPercentage, index, selected, setSelected }) => {
   const addTip = (bill, percent) => bill * percent;
 
   return (
-    <Pressable onPress={toggle}>
-      <Text style={selected ? styles.tipSelected : styles.tip}>{`Add ${tipPercentage * 100}% tip: $${addTip(individualBill, tipPercentage).toFixed(2)}`}</Text>
+    <Pressable onPress={() => {
+      if (index === selected) {
+        setSelected(null);
+      } else {
+        setSelected(index);
+      }
+    }}>
+      {index === selected ?
+        <Text style={styles.tipSelected}>{`Add ${tipPercentage * 100}% tip: $${addTip(individualBill, tipPercentage).toFixed(2)}`}</Text> :
+        <Text style={styles.tip}>{`Add ${tipPercentage * 100}% tip: $${addTip(individualBill, tipPercentage).toFixed(2)}`}</Text>
+      }
     </Pressable>
   );
 };
