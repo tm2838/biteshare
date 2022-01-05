@@ -6,6 +6,7 @@ import { theme } from '../../infrastructure/index';
 import { BiteShareContext } from '../../BiteShareContext';
 import * as Google from 'expo-google-app-auth';
 import googleImg from '../../../assets/google-logo.png';
+import { addANewAnonymousDocument } from '../../../firebase/helpers/database.firebase';
 
 const styles = StyleSheet.create({
   googleLogo: {
@@ -31,7 +32,14 @@ const GoogleLogin = () => {
         dispatch({ type: 'SET_EMAIL', email: user.email });
         dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName: user.name });
         dispatch({ type: 'SET_NICKNAME', nickname: user.givenName });
-
+        try {
+          await addANewAnonymousDocument('users', {
+            name: user.name,
+            email: user.email,
+          });
+        } catch (error) {
+          console.log('Error creating new user in users collections when google sign in');
+        }
         navigation.navigate('Home');
       }
     } catch (error) {
