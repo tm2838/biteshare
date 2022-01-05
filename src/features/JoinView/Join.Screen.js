@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 });
 
 const JoinScreen = ({ route, navigation }) => {
-  console.log('----Join Screen-----> route', route, 'navigation-->', navigation );
+  // console.log('----Join Screen-----> route', route, 'navigation-->', navigation );
 
   const scanQrCodeImage = '../../../assets/qr-code-image.png';
   const { state: { accountType }, dispatch } = useContext(BiteShareContext);
@@ -39,11 +39,12 @@ const JoinScreen = ({ route, navigation }) => {
   //QR code will NOT show if you are a HOST
   return (
     <SafeArea>
-      {accountType === 'HOST' ?
+
+      {(accountType === 'HOST' || accountType === 'GUEST') ?
 
         (<View style={styles.hostContainer}>
-          <Text style={styles.hostText}> You are currently a HOST.</Text>
-          <Text > Tap on CurrentSession</Text>
+          <Text style={styles.hostText}> You are currently in a Session.</Text>
+          <Text > Tap on CurrentSession to continue</Text>
         </View>)
         :
 

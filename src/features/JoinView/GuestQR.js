@@ -21,10 +21,10 @@ export default function QRScanner() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const { state:
-    { restaurantName, restaurantId, restaurantMenus, nickname, accountHolderName }, dispatch }
+    { restaurantName, restaurantId, restaurantMenus, nickname, accountHolderName, accountType }, dispatch }
     = useContext(BiteShareContext);
 
-  console.log('RestsurantID----------->', nickname);
+  console.log('nickName ----------->', nickname, 'account type-->', accountType);
 
   useEffect(() => {
     (async () => {
@@ -47,7 +47,7 @@ export default function QRScanner() {
     dispatch({type: 'SET_SESSION_ID', sessionId: sessionId});
     dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: diningPlaceId });
     dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: diningPlaceName });
-    dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'GUEST' });
+
     // alert(`Session Id: ${sessionId} \n  HostName: ${hostName} \n
     // Restaurant Name: ${diningPlaceName} \n RestaurantID: ${diningPlaceId}` );
 
@@ -64,6 +64,8 @@ export default function QRScanner() {
     })
       .then((doc) => {
         console.log('Successfully added GUEST into the database');
+        dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'GUEST' });
+        console.log('AccountType----->', accountType);
         const unsubscribe = readDocSnapshotListener(`transactions/${sessionId}/attendees`, doc.id, (doc) => {
           const docData = doc.data();
           if (docData.joinRequest === 'allowed') {
@@ -93,7 +95,7 @@ export default function QRScanner() {
           style={StyleSheet.absoluteFillObject}
         />
       }
-      {/* {scanned && <ExploreMenu />} */}
+
     </View>
   );
 }

@@ -12,13 +12,13 @@ export const biteShareState = {
   restaurantName: '',
   restaurantId: null, //updates when user clicks See Full Menu from ExplorePage
   restaurantMenus: [],
-  accountHolderName: 'Greg',
+  accountHolderName: '',
   accountType: '',
   sessionId: '',
   orderedItems: [], //matching the name with TJ's code in Guest.js (will updated as needed after checking with TJ)
   email: '',
   authenticated: false,
-  biteShareKey: 'ADD_KEY',
+  biteShareKey: '',
   nickname: null
 };
 

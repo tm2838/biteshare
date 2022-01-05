@@ -20,7 +20,7 @@ const GoogleLogin = () => {
   const { state: { authenticated, nickname }, dispatch } = useContext(BiteShareContext);
 
   const signInAsync = async () => {
-    console.log('GoogleLogin.js 6 | logging in');
+    // console.log('GoogleLogin.js 6 | logging in');
     try {
       const { type, user } = await Google.logInAsync({
         iosClientId: '90738707092-9ik3l59ad22hfghgrms9ti5cgn2da675.apps.googleusercontent.com',
