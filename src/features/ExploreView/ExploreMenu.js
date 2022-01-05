@@ -101,7 +101,7 @@ const ExploreMenu = ({ navigation }) => {
           joinRequest: 'allowed',
           isHost: true,
           individualBills: 0,
-          name: nickname, // || accountHolderName
+          name: nickname || accountHolderName,
           orderStatus: 'not ready',
           orderedItems: [],
         })

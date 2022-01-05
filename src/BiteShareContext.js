@@ -22,7 +22,6 @@ export const biteShareState = {
 };
 
 export const biteShareReducer = (state, action) => {
-
   switch (action.type) {
     case 'SET_ORDER_STATUS':
       return { ...state, isEveryoneReady: action.isEveryoneReady };
@@ -56,8 +55,6 @@ export const biteShareReducer = (state, action) => {
       return { ...state, authenticated: action.authenticated };
     case 'SET_NICKNAME':
       return { ...state, nickname: action.nickname };
-    // case 'SET_USERID':
-    //   return { ...state, userId: action.userId };
     default:
       return state;
   }

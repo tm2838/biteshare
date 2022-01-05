@@ -43,38 +43,29 @@ const styles = StyleSheet.create({
 
 const LoginScreen = () => {
   const navigation = useNavigation();
-  const { state: { authenticated, accountHolderName }, dispatch } = useContext(BiteShareContext);
+  const { state: { }, dispatch } = useContext(BiteShareContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-        // console.log('provider data:', user);
-        if (user.providerData[0].displayName) {
-          let fullName = user.providerData[0].displayName;
-          let nickname = accountHolderName.split(' ')[0];
-          dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName: fullName });
-          dispatch({ type: 'SET_NICKNAME', nickname });
-          dispatch({ type: 'SET_EMAIL', email });
-        }
         navigation.navigate('Home');
       }
     });
     return unsubscribe;
   }, []);
 
-  const checkForSession = () => {
-
-  };
-
   const handleLogin = () => {
     //isloading?
     loginUser(email, password)
       .then(userCredentials => {
-        // console.log('provider data:', userCredentials.user.uid);
-        // dispatch({ type: 'SET_AUTH', authenticated: true });
-        // dispatch({ type: 'SET_USERID', userId: userCredentials.user.uid});
+        // console.log('userCredentials in LOGIN:', userCredentials);
+        const accountHolderName = userCredentials.user.providerData[0].displayName;
+        const nickname = accountHolderName.split(' ')[0];
+        dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName });
+        dispatch({ type: 'SET_NICKNAME', nickname });
+        dispatch({ type: 'SET_EMAIL', email });
       })
       .catch(err => {
         console.log(err);

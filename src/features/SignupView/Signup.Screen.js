@@ -54,7 +54,6 @@ const SignupScreen = () => {
   const [confirmPassword, setconfirmPassword] = useState('');
   const [signupError, setSignupError] = useState(null);
   const [accountHolderName, setAccountHolderName] = useState('');
-  const nickname = accountHolderName.split(' ')[0];
 
   const updateUserProfile = () => {
     updateProfile(auth.currentUser, {
@@ -73,10 +72,11 @@ const SignupScreen = () => {
 
     signUpNewUser(email, password)
       .then(userCredentials => {
-        // dispatch({ type: 'SET_AUTH', authenticated: true });
-        // dispatch({ type: 'SET_EMAIL', email });
-        // dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName });
-        // dispatch({ type: 'SET_NICKNAME', nickname });
+        const nickname = accountHolderName.split(' ')[0];
+        console.log('num one:', accountHolderName, nickname);
+        dispatch({ type: 'SET_EMAIL', email });
+        dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName });
+        dispatch({ type: 'SET_NICKNAME', nickname });
         updateUserProfile();
       })
       .catch(err => {

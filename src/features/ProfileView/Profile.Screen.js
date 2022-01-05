@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     flexDirection: 'column',
-    height: '90%',
+    height: '85%',
 
   },
   greeting: {

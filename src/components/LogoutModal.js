@@ -5,10 +5,30 @@ import { useNavigation } from '@react-navigation/native';
 import { BiteShareContext } from '../BiteShareContext';
 import { colors } from '../infrastructure/colors';
 import { signOutUser } from '../../firebase/helpers/authentication.firebase';
-import { deleteADocument } from '../../firebase/helpers/database.firebase';
+import { deleteADocument, getADocReferenceFromCollection, updateADocument } from '../../firebase/helpers/database.firebase';
 
 const LogoutModal = ({ modalVisible, setModalVisible }) => {
-  const { state: { authenticated, sessionId, accountType, nickname }, dispatch } = useContext(BiteShareContext);
+  const {
+    state: {
+      // isEveryoneReady,
+      // splitMethod,
+      // totalBill,
+      guests,
+      // restaurants,
+      // restaurantsImages,
+      // restaurantName,
+      // restaurantId,
+      // restaurantMenus,
+      // accountHolderName,
+      accountType,
+      sessionId,
+      // orderedItems,
+      // email,
+      // authenticated,
+      // biteShareKey,
+      nickname,
+    }, dispatch } = useContext(BiteShareContext);
+
   const navigation = useNavigation();
   const styles = StyleSheet.create({
     centeredView: {
@@ -60,38 +80,58 @@ const LogoutModal = ({ modalVisible, setModalVisible }) => {
     }
   });
 
+  const resetContext = () => {
+    dispatch({ type: 'SET_ORDER_STATUS', isEveryoneReady: false });
+    dispatch({ type: 'SET_SPLIT_METHOD', splitMethod: '' });
+    dispatch({ type: 'SET_TOTAL_BILL', totalBill: 0 });
+    dispatch({ type: 'SET_GUESTS', guests: [] });
+    dispatch({ type: 'SET_RESTAURANTS', restaurants: [] });
+    dispatch({ type: 'SET_RESTAURANTS_IMAGES', restaurantsImages: [] });
+    dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: '' });
+    dispatch({ type: 'SET_RESTAURANT_INFO', restaurantId: null });
+    dispatch({ type: 'SET_RESTAURANT_MENU', restaurantMenus: [] });
+    dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName: '' });
+    dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: '' });
+    dispatch({ type: 'SET_SESSION_ID', sessionId: '' });
+    dispatch({ type: 'SET_ORDER_ITEMS', orderedItems: [] });
+    dispatch({ type: 'SET_EMAIL', email: '' });
+    dispatch({ type: 'SET_BITESHARE_KEY', biteShareKey: '16bcb6bcff21e2fbcbad3fd5c5ca4605' });
+    dispatch({ type: 'SET_NICKNAME', nickname: null });
+  };
+
   const logout = () => {
     console.log('wheat', sessionId, accountType);
     if (sessionId && accountType === 'HOST') {
       deleteADocument('transactions', sessionId)
-        .then(qResult => {
-          console.log('my q result', qResult);
+        .then(success => {
+          console.log('deleted transaction with host');
         })
         .catch((error) => {
           console.log('Error denying the guest: ', error);
         });
     } else if (sessionId && accountType === 'GUEST') {
       getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', nickname)
-        .then((qResult) => {
+        .then(qResult => {
+          console.log('my q result NUMBER 2', qResult);
           qResult.forEach((doc) => {
-            updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
-              joinRequest: 'denied'
-            });
+            console.log('this is one DOC:', doc.data());
+            // updateADocument(`transactions/${sessionId}/attendees`, {
+            //   joinRequest: 'denied'
+            // });
           });
         })
         .catch((error) => {
           console.log('Error denying the guest: ', error);
         });
-    } else {
-      signOutUser()
-        .then(() => {
-          navigation.navigate('Login');
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      // dispatch({ type: 'SET_AUTH', authenticated: false });
     }
+    signOutUser()
+      .then(() => {
+        resetContext();
+        navigation.navigate('Login');
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   return (
@@ -109,7 +149,7 @@ const LogoutModal = ({ modalVisible, setModalVisible }) => {
           <View style={styles.modalView}>
             <Text style={styles.modalText}>
               {sessionId
-                ? 'This will end current session. Would you like to proceed?'
+                ? 'This will end your current session. Would you like to proceed?'
                 : 'Are you sure you want to log out?'}
             </Text>
             <Pressable

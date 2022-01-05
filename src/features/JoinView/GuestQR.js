@@ -24,7 +24,7 @@ export default function QRScanner() {
     { restaurantName, restaurantId, restaurantMenus, nickname, accountHolderName }, dispatch }
     = useContext(BiteShareContext);
 
-  console.log('RestsurantID----------->', nickname);
+  // console.log('RestsurantID----------->', nickname);
 
   useEffect(() => {
     (async () => {
@@ -44,7 +44,7 @@ export default function QRScanner() {
     let diningPlaceName = sampleData[2];
     let diningPlaceId = sampleData[3];
 
-    dispatch({type: 'SET_SESSION_ID', sessionId: sessionId});
+    dispatch({ type: 'SET_SESSION_ID', sessionId: sessionId });
     dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: diningPlaceId });
     dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: diningPlaceName });
     dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'GUEST' });
@@ -66,7 +66,7 @@ export default function QRScanner() {
         const unsubscribe = readDocSnapshotListener(`transactions/${sessionId}/attendees`, doc.id, (doc) => {
           const docData = doc.data();
           if (docData.joinRequest === 'allowed') {
-            navigation.navigate('CurrentSession', {previous: 'coming from join tab'});
+            navigation.navigate('CurrentSession', { previous: 'coming from join tab' });
             unsubscribe();
           }
         });
