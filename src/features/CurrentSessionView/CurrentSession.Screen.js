@@ -10,7 +10,7 @@ import CurrentSessionMenu from './currentSessionMenu/CurrentSessionMenu.Screen';
 import { BiteShareContext } from '../../BiteShareContext';
 import { colors } from '../../infrastructure/colors';
 import { fonts } from '../../infrastructure/fonts';
-
+import { getADocReferenceFromCollection, readDocSnapshotListener } from '../../../firebase/helpers/database.firebase.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 });
 
 const CurrentSessionScreen = ({route, navigation}) => {
-  const { state: { accountType, sessionId, joinRequest }, dispatch } = useContext(BiteShareContext);
+  const { state: { accountType, sessionId, joinRequest, nickname, accountHolderName }, dispatch } = useContext(BiteShareContext);
   const [currentTab, setCurrentTab] = useState('Menu');
 
   useEffect(()=>{
@@ -54,6 +54,26 @@ const CurrentSessionScreen = ({route, navigation}) => {
     }
 
   }, [route.params]);
+
+  useEffect(() => {
+    if (sessionId) {
+      getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', nickname || accountHolderName)
+        .then((qResult) => {
+          qResult.forEach((doc) => {
+            readDocSnapshotListener(`transactions/${sessionId}/attendees`, doc.id, (doc) => {
+              const docData = doc.data();
+              if (docData.joinRequest === 'denied') {
+                dispatch({ type: 'SET_JOIN_REQUEST', joinRequest: '' });
+                dispatch({type: 'SET_SESSION_ID', sessionId: ''});
+                dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: '' });
+                dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: '' });
+                dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: '' });
+              }
+            });
+          });
+        });
+    }
+  }, [sessionId]);
 
   return (
     <SafeArea>

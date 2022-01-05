@@ -22,7 +22,7 @@ export default function QRScanner() {
   const [scanned, setScanned] = useState(false);
   const [denied, setDenied] = useState(true);
   const { state:
-    { restaurantName, restaurantId, restaurantMenus, nickname, accountHolderName }, dispatch }
+    { restaurantName, restaurantId, restaurantMenus, nickname, accountHolderName, joinRequest }, dispatch }
     = useContext(BiteShareContext);
 
   useEffect(() => {
@@ -60,12 +60,14 @@ export default function QRScanner() {
         console.log('Successfully added GUEST into the database');
         const unsubscribe = readDocSnapshotListener(`transactions/${sessionId}/attendees`, doc.id, (doc) => {
           const docData = doc.data();
-          if (docData.joinRequest === 'allowed') {
+          if (docData.joinRequest === 'pending') {
+            dispatch({ type: 'SET_JOIN_REQUEST', joinRequest: 'pending' });
+          } else if (docData.joinRequest === 'allowed') {
             setDenied(false);
             dispatch({ type: 'SET_JOIN_REQUEST', joinRequest: 'allowed' });
             navigation.navigate('CurrentSession', {previous: 'coming from join tab'});
             unsubscribe();
-          } else if (docData.joinRequest === 'denied') {
+          } else {
             setDenied(true);
             setScanned(false);
             navigation.navigate('Explore', {previous: 'coming from join tab'});
@@ -92,7 +94,7 @@ export default function QRScanner() {
   return (
     <View style={styles.container}>
 
-      {(scanned || !denied) ? <GuestMenu /> :
+      {(joinRequest === 'pending') ? <GuestMenu /> :
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
           style={StyleSheet.absoluteFillObject}
