@@ -7,8 +7,6 @@ import { fonts } from '../../infrastructure/fonts';
 import { BiteShareContext } from '../../BiteShareContext';
 // import Icon from 'react-native-vector-icons/FontAwesome5';
 
-
-
 const styles = StyleSheet.create({
   centerContainer: {
     alignItems: 'center',
@@ -118,7 +116,7 @@ const GuestMenu = () => {
       </View>
 
 
-      
+
     </View>
   );
 };

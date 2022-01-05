@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableOpacity, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
 import SafeArea from '../../components/SafeArea';
 import InputField from '../../components/InputField';
 import { theme } from '../../infrastructure/index';
@@ -10,6 +9,7 @@ import { BiteShareContext } from '../../BiteShareContext';
 import FacebookLogin from '../LoginView/FacebookLogin';
 import { auth } from '../../../firebase/firebase.config';
 import { signUpNewUser, loginUser, googleLogin, onAuthStateChanged } from '../../../firebase/helpers/authentication.firebase';
+import GoogleLogin from './GoogleLogin';
 
 const styles = StyleSheet.create({
   loginContainer: {
@@ -34,17 +34,14 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.heading,
     textDecorationLine: 'underline'
   },
-  googleButton: {
-    marginTop: 50,
-  },
   authProvider: {
-    flex: 1,
+    width: 130,
+    marginTop: 10,
     flexDirection: 'row',
   }
 });
 
 const LoginScreen = () => {
-  //useEffect => onAuthStateChanged
   const navigation = useNavigation();
   const { state: { authenticated }, dispatch } = useContext(BiteShareContext);
   const [email, setEmail] = useState('');
@@ -53,6 +50,13 @@ const LoginScreen = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
+        // console.log('provider data:', user.providerData[0].displayName);
+        if (user.providerData[0].displayName) {
+          let accountHolderName = user.providerData[0].displayName;
+          let nickname = accountHolderName.split(' ')[0];
+          dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName });
+          dispatch({ type: 'SET_NICKNAME', nickname });
+        }
         navigation.navigate('Home');
       }
     });
@@ -68,17 +72,6 @@ const LoginScreen = () => {
       })
       .catch(err => {
         console.log(err);
-      });
-  };
-
-  const handleGoogleLogin = () => {
-    console.log('user is:');
-    googleLogin()
-      .then((result) => {
-        const user = result.user;
-      }).catch((error) => {
-        const errorMessage = error.message;
-        console.log(errorMessage);
       });
   };
 
@@ -108,10 +101,8 @@ const LoginScreen = () => {
               <Text style={styles.signUp}> Sign Up</Text> {/*this will need "onPress => go to Sign up page"}*/}
             </Text>
           </Pressable>
-          <Pressable style={styles.googleButton} onPress={handleGoogleLogin}>
-            <Text>Google</Text>
-          </Pressable>
           <View style={styles.authProvider}>
+            <GoogleLogin />
             <FacebookLogin />
           </View>
         </KeyboardAvoidingView>
