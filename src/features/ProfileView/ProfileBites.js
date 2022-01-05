@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
     height: 40,
     marginRight: 20,
     marginTop: 10,
+
   },
   text: {
     flex: 1,
