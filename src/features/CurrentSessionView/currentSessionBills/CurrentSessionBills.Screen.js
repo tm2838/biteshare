@@ -24,14 +24,10 @@ const styles = StyleSheet.create({
     borderRadius: 40
   },
 
-  orderedItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-
   priceContainer: {
     alignItems: 'center',
-    margin: 50
+    margin: 50,
+    marginTop: 20
   },
 
   individualBill: {
@@ -90,9 +86,11 @@ const CurrentSessionBills = ({ changeTab }) => {
       });
   };
 
-  //function to add tax
+  //function to add tax- 7.25%
+  const addTax = (bill) => (bill * .0725) + bill;
 
   //function to add tip
+  const addTip = (bill, percent) => (bill * percent) + bill;
 
   useEffect(() => {
     getIndividualBill();
@@ -118,8 +116,8 @@ const CurrentSessionBills = ({ changeTab }) => {
       </View>
 
       <View style={styles.priceContainer}>
-        <Text style={styles.individualBill}>Your share is: $14.95 (incl. tax)</Text>
-        <Text>Total bill is: $50.99</Text>
+        <Text style={styles.individualBill}>{`Your share is: $${Math.trunc(addTax(individualBill))} (incl. tax)`}</Text>
+        <Text>{`Total bill is: $${Math.trunc(addTax(totalBill))}`}</Text>
       </View>
 
       <View>
