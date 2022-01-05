@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Button, TouchableOpacity, FlatList } from 'react-native';
 import { colors } from '../../../infrastructure/colors.js';
 import { BiteShareContext } from '../../../BiteShareContext.js';
 import { getADocReferenceFromCollection, readASingleDocument } from '../../../../firebase/helpers/database.firebase.js';
-
+import OrderedItemInfo from './OrderedItemInfo.js';
 
 
 const styles = StyleSheet.create({
@@ -14,11 +14,13 @@ const styles = StyleSheet.create({
   },
 
   orderedItemsContainer: {
+    height: 200,
     backgroundColor: colors.brand.kazanLight2,
+    margin: 15,
     marginTop: 40,
     padding: 40,
-    paddingTop: 60,
-    paddingBottom: 60,
+    paddingTop: 20,
+    paddingBottom: 20,
     borderRadius: 40
   },
 
@@ -88,6 +90,10 @@ const CurrentSessionBills = ({ changeTab }) => {
       });
   };
 
+  //function to add tax
+
+  //function to add tip
+
   useEffect(() => {
     getIndividualBill();
     getTotalBill();
@@ -101,11 +107,14 @@ const CurrentSessionBills = ({ changeTab }) => {
   return (
     <View style={styles.billsContainer}>
       <View style={styles.orderedItemsContainer}>
-        <View style={styles.orderedItem}>
-          <Text style={{ fontWeight: 'bold' }}>Mexican Food Item</Text>
-          <Text style={{ fontWeight: 'bold' }}>$13.95</Text>
-        </View>
-        <Text>the description of the menu item goes here</Text>
+
+        <FlatList
+          data={orderedItems}
+          renderItem={({ item, index }) => <OrderedItemInfo orderedItem={item} />}
+          keyExtractor={(item, index) => index}
+          ItemSeparatorComponent={() => <View style={{ padding: 10 }}></View>}
+        />
+
       </View>
 
       <View style={styles.priceContainer}>
