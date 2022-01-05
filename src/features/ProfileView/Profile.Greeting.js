@@ -35,7 +35,7 @@ const ProfileGreeting = () => {
         />
       </View>
 
-      <Text style={styles.profileName}>Welcome back {accountHolderName}</Text>
+      <Text style={styles.profileName}>Welcome{accountHolderName}</Text>
 
     </View>
   );
