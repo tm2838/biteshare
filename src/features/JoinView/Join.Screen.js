@@ -30,8 +30,6 @@ const styles = StyleSheet.create({
 });
 
 const JoinScreen = ({ route, navigation }) => {
-  console.log('----Join Screen-----> route', route, 'navigation-->', navigation );
-
   const scanQrCodeImage = '../../../assets/qr-code-image.png';
   const { state: { accountType }, dispatch } = useContext(BiteShareContext);
   const [openCamera, setOpenCamera] = useState(false);
@@ -43,7 +41,7 @@ const JoinScreen = ({ route, navigation }) => {
 
         (<View style={styles.hostContainer}>
           <Text style={styles.hostText}> You are currently a HOST.</Text>
-          <Text > Tap on CurrentSession</Text>
+          <Text > Tap on Current Session</Text>
         </View>)
         :
 

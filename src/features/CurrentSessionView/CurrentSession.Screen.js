@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 });
 
 const CurrentSessionScreen = ({route, navigation}) => {
-  const { state: { accountType, sessionId }, dispatch } = useContext(BiteShareContext);
+  const { state: { accountType, sessionId, joinRequest }, dispatch } = useContext(BiteShareContext);
   const [currentTab, setCurrentTab] = useState('Menu');
 
   useEffect(()=>{
@@ -59,11 +59,11 @@ const CurrentSessionScreen = ({route, navigation}) => {
     <SafeArea>
       <View style={styles.container}>
         <CurrentSessionHeader />
-        {sessionId === '' && <View style={styles.messageContainer}>
+        {(sessionId === '' || joinRequest !== 'allowed') && <View style={styles.messageContainer}>
           <Text style={styles.messageText}> You are not in an active meal session.</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center'}}>
             <TouchableOpacity onPress={() => navigation.navigate('Explore')}>
-              <Text style={styles.navigationText}>  Create a session    </Text>
+              <Text style={styles.navigationText}>Create a session    </Text>
             </TouchableOpacity>
             <Text>or</Text>
             <TouchableOpacity onPress={() => navigation.navigate('Join')}>
@@ -72,7 +72,7 @@ const CurrentSessionScreen = ({route, navigation}) => {
             <Text>one.</Text>
           </View>
         </View>}
-        {sessionId !== '' && <>
+        {(sessionId !== '' && joinRequest === 'allowed') && <>
           <CurrentSessionTopNavBar changeTab={setCurrentTab} currentTab={currentTab} />
           {currentTab === 'Menu' && <CurrentSessionMenu changeTab={setCurrentTab} />}
           {currentTab === 'Bills' && <CurrentSessionBills changeTab={setCurrentTab} />}

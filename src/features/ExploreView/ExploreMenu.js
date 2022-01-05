@@ -6,8 +6,6 @@ import { StyleSheet, View, Text, SafeAreaView, ScrollView, StatusBar } from 'rea
 import { colors } from '../../infrastructure/colors';
 import { fonts } from '../../infrastructure/fonts';
 import { BiteShareContext } from '../../BiteShareContext';
-// import { useNavigation } from '@react-navigation/native';
-// import mockMenu from '../../../fixtures/mockMenu.json';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { addANewAnonymousDocument } from '../../../firebase/helpers/database.firebase';
 import { Timestamp } from 'firebase/firestore';
@@ -46,7 +44,6 @@ const styles = StyleSheet.create({
 });
 
 const ExploreMenu = ({ navigation }) => {
-  // console.log('--------navigation from explore Menu----', navigation);
   const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey, accountHolderName, accountType, nickname, sessionId }, dispatch } = useContext(BiteShareContext);
   const API_KEY = biteShareKey;
   const [isLoading, setLoading] = useState(true);
@@ -113,6 +110,7 @@ const ExploreMenu = ({ navigation }) => {
           })
           .then(() => {
             // navigate the HOST to QR code screen - allows guest to scan
+            dispatch({ type: 'SET_JOIN_REQUEST', joinRequest: 'allowed' });
             navigation.navigate('CurrentSession', { previous: 'create a session' });
             setCreatingSession(false);
           });

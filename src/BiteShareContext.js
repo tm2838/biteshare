@@ -14,6 +14,7 @@ export const biteShareState = {
   restaurantMenus: [],
   accountHolderName: 'Greg',
   accountType: '',
+  joinRequest: '',
   sessionId: '',
   orderedItems: [], //matching the name with TJ's code in Guest.js (will updated as needed after checking with TJ)
   email: '',
@@ -49,6 +50,8 @@ export const biteShareReducer = (state, action) => {
       return { ...state, accountHolderName: action.accountHolderName };
     case 'SET_ACCOUNT_TYPE':
       return { ...state, accountType: action.accountType };
+    case 'SET_JOIN_REQUEST':
+      return { ...state, joinRequest: action.joinRequest };
     case 'SET_SESSION_ID':
       return { ...state, sessionId: action.sessionId };
     case 'SET_ORDERED_ITEMS':
