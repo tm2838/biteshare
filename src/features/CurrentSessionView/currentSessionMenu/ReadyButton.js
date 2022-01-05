@@ -6,22 +6,19 @@ import { BiteShareContext } from '../../../BiteShareContext.js';
 import { updateADocument, getADocReferenceFromCollection, readASingleDocument } from '../../../../firebase/helpers/database.firebase.js';
 
 const styles = StyleSheet.create({
-
   container: {
     alignItems: 'center',
     marginTop: 5,
   },
-
 });
 
-const ReadyButton = ({changeTab}) => {
-
-  const { state: { sessionId, orderedItems, accountHolderName, nickname }, dispatch } = useContext(BiteShareContext);
+const ReadyButton = ({ changeTab }) => {
+  const { state: { sessionId, orderedItems, accountHolderName, nickname, accountHolderReady }, dispatch } = useContext(BiteShareContext);
   const [orderReady, SetOrderReady] = useState(false);
   const calculateItemPrice = (items) => items.reduce((totalPrice, item) => totalPrice + item.price, 0);
 
   const menuChoice = () => {
-    const newBill = calculateItemPrice(orderedItems);
+    const newBill = parseFloat(calculateItemPrice(orderedItems).toFixed(2));
     getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', nickname || accountHolderName)
       .then((qResult) => {
         qResult.forEach((doc) => {
@@ -44,8 +41,11 @@ const ReadyButton = ({changeTab}) => {
       })
       .catch((error) => {
         console.log('Error updating total bill: ', error);
+      })
+      .then(() => {
+        dispatch({ type: 'SET_ACCOUNT_HOLDER_READY', accountHolderReady: true });
+        changeTab('Summary');
       });
-    changeTab('Summary');
   };
 
   return (
@@ -53,7 +53,9 @@ const ReadyButton = ({changeTab}) => {
       <BiteshareButton
         title={'I\'m Ready'}
         buttonStyle={orderedItems.length === 0 ? { backgroundColor: 'lightgrey' } : { backgroundColor: colors.brand.beachLight } }
-        onPress={menuChoice} />
+        onPress={menuChoice}
+        disabled={orderedItems.length === 0}
+      />
     </View>
   );
 };

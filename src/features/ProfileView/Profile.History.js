@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
     justifyContent: 'flex-start',
-
   },
   title: {
     flex: .1,
@@ -33,7 +32,6 @@ const styles = StyleSheet.create({
 
 const ProfileHistory = () => {
 
-
   const mockBites = [
     {restauraunt: 'Grey Ghost', hostStatus: 'Host', bill: 32.42},
     {restauraunt: 'Barda', hostStatus: 'Guest', bill: 22.42},
@@ -44,28 +42,23 @@ const ProfileHistory = () => {
     {restauraunt: 'Taqueria El Rey', hostStatus: 'Host', bill: 8.49}
   ];
 
-
   const renderBite = ({item, index}) => (<PreviousBite meal={item} index={index}/>);
 
+  //TODO
   //Query previous bites from db
   //Restauraunt Name - Guest / Host Status - Price
-
-
+  //Place in array in state to be rendered via Flatlist
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Bites Shared </Text>
-
       <FlatList
         style={styles.list}
         data={ mockBites }
         renderItem={renderBite}
+        // keyExtractor={mockBites.index}
+        keyExtractor={(mockBites, index) => index.toString()}
       />
-
-
-
-
-
     </View>
 
   );
