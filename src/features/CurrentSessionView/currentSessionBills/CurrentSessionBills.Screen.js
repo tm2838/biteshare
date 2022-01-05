@@ -102,8 +102,8 @@ const CurrentSessionBills = ({ changeTab }) => {
       </View>
 
       <View style={styles.priceContainer}>
-        <Text style={styles.individualBill}>{`Your share is: $${Math.trunc(addTax(individualBill))} (incl. tax)`}</Text>
-        <Text>{`Total bill is: $${Math.trunc(addTax(totalBill))} (incl. tax)`}</Text>
+        <Text style={styles.individualBill}>{`Your share is: $${addTax(individualBill).toFixed(2)} (incl. tax)`}</Text>
+        <Text>{`Total bill is: $${addTax(totalBill).toFixed(2)} (incl. tax)`}</Text>
       </View>
 
       <FlatList

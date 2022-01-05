@@ -29,7 +29,7 @@ const TipInfo = ({ individualBill, tipPercentage }) => {
 
   return (
     <Pressable onPress={toggle}>
-      <Text style={selected ? styles.tipSelected : styles.tip}>{`Add ${tipPercentage * 100}% tip: $${Math.trunc(addTip(individualBill, tipPercentage))}`}</Text>
+      <Text style={selected ? styles.tipSelected : styles.tip}>{`Add ${tipPercentage * 100}% tip: $${addTip(individualBill, tipPercentage).toFixed(2)}`}</Text>
     </Pressable>
   );
 };
