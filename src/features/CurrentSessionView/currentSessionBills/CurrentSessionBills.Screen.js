@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import { colors } from '../../../infrastructure/colors.js';
+import { BiteShareContext } from '../../../BiteShareContext.js';
+import { getADocReferenceFromCollection, readASingleDocument } from '../../../../firebase/helpers/database.firebase.js';
+
 
 
 const styles = StyleSheet.create({
@@ -10,7 +13,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  menuItemsContainer: {
+  orderedItemsContainer: {
     backgroundColor: colors.brand.kazanLight2,
     marginTop: 40,
     padding: 40,
@@ -19,7 +22,7 @@ const styles = StyleSheet.create({
     borderRadius: 40
   },
 
-  menuItem: {
+  orderedItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -56,10 +59,49 @@ const styles = StyleSheet.create({
 });
 
 const CurrentSessionBills = ({ changeTab }) => {
+
+  const { state: { accountHolderName, sessionId, orderedItems }, dispatch } = useContext(BiteShareContext);
+  const [individualBill, setIndividualBill] = useState(0);
+  const [totalBill, setTotalBill] = useState(0);
+
+  const getTotalBill = () => {
+    readASingleDocument('transactions', sessionId)
+      .then((doc) => {
+        setTotalBill(doc.data().totalBills);
+      })
+      .catch(err => console.log('Error in getTotalBill: ', err));
+  };
+
+  const getIndividualBill = () => {
+    getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', accountHolderName)
+      .then((qResult) => {
+        qResult.forEach((doc) => {
+          readASingleDocument(`transactions/${sessionId}/attendees`, doc.id)
+            .then((singleDoc) => {
+              // console.log('individualBills: ', singleDoc.data().individualBills);
+              setIndividualBill(singleDoc.data().individualBills);
+            });
+        });
+      })
+      .catch((err) => {
+        console.log('Error in getIndividualBill: ', err);
+      });
+  };
+
+  useEffect(() => {
+    getIndividualBill();
+    getTotalBill();
+  }, [orderedItems]);
+
+  console.log('individualBill: ', individualBill);
+  console.log('orderedItems: ', orderedItems);
+  console.log('totalBill: ', totalBill);
+
+
   return (
     <View style={styles.billsContainer}>
-      <View style={styles.menuItemsContainer}>
-        <View style={styles.menuItem}>
+      <View style={styles.orderedItemsContainer}>
+        <View style={styles.orderedItem}>
           <Text style={{ fontWeight: 'bold' }}>Mexican Food Item</Text>
           <Text style={{ fontWeight: 'bold' }}>$13.95</Text>
         </View>
