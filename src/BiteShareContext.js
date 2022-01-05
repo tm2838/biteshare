@@ -5,7 +5,6 @@ export const biteShareState = {
   isEveryoneReady: false,
   accountHolderReady: false,
   splitMethod: '',
-  totalBill: 0,
   guests: [],
   restaurants: [], //restaurants displayed in ExplorePage
   restaurantsImages: [], //images for ExplorePage
@@ -31,8 +30,6 @@ export const biteShareReducer = (state, action) => {
       return { ...state, accountHolderReady: action.accountHolderReady };
     case 'SET_SPLIT_METHOD':
       return { ...state, splitMethod: action.splitMethod };
-    case 'SET_TOTAL_BILL':
-      return { ...state, totalBill: action.totalBill };
     case 'SET_GUESTS':
       return { ...state, guests: action.guests };
     case 'SET_RESTAURANTS':
