@@ -176,33 +176,17 @@ const ExploreMenu = ({ navigation }) => {
               <Text style={styles.text}> Menu </Text>
               <View style={styles.scrollView}>
                 <FlatList
-                // ListHeaderComponent={header}
                   data= {restaurantMenus}
                   renderItem={renderMenus}
                   keyExtractor={item => item.key}
                 />
               </View>
-              {/* <ScrollView style={styles.scrollView}>
-
-                <List.Subheader>
-                  <Text style={styles.text}>Menu</Text>
-                </List.Subheader>
-                {restaurantMenus.map((one) => {
-                  return (<List.Item
-                    key={one.key}
-                    title={one.name}
-                    description={one.description}
-                    right={() => (<Text> $ {one.price}</Text>)}
-                  />);
-                })}
-
-              </ScrollView> */}
 
               <View style={styles.menuContainer}>
                 {/* onPress 'create a session', it will direct to the QR code -  */}
                 {/* once accountType is assigned, the button type will not be shown */}
                 {
-                  accountType === '' && sessionId === '' &&
+                  (accountType === '' || accountType === 'HOST') && sessionId === '' &&
                   <Button
                     icon='account-plus'
                     mode="contained"

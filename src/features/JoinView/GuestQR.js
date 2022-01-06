@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
   },
 });
 export default function QRScanner() {
-
   const navigation = useNavigation();
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
@@ -41,11 +40,8 @@ export default function QRScanner() {
 
     alert('Please wait until the host allows you to join the session');
 
-    let sampleData = data.split('&');
-    let sessionId = sampleData[0];
-    let hostName = sampleData[1];
-    let diningPlaceName = sampleData[2];
-    let diningPlaceId = sampleData[3];
+    const sessionData = data.split('&');
+    const [ sessionId, hostName, diningPlaceName, diningPlaceId ] = sessionData;
 
     dispatch({type: 'SET_SESSION_ID', sessionId: sessionId});
     dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: diningPlaceId });
@@ -74,25 +70,10 @@ export default function QRScanner() {
           } else {
             setScanned(false);
             navigation.navigate('Explore', {previous: 'coming from join tab'});
-            dispatch({ type: 'SET_JOIN_REQUEST', joinRequest: '' });
-            dispatch({type: 'SET_SESSION_ID', sessionId: ''});
-            dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: '' });
-            dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: '' });
-            dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: '' });
-          }
-          //If Host deny the guest
-          if (docData.joinRequest === 'denied') {
-            console.log('access denied', accountHolderName, accountType );
             alert(`Access denied.\n Please contact your host ${hostName} to try again`);
-            //Reset the accountType
-            //Need to check DB if the user is being removed...
-            //What if the host accidently click deny and asked the guest to rejoin the session
-            //db will have the same user name (warning message in console.log)
-            dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: '' });
-
+            dispatch({ type: 'SET_CLEAR_CONTEXT' });
             unsubscribe();
           }
-
         });
       })
       .catch((error) => {

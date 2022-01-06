@@ -47,13 +47,9 @@ const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  //Testing the accountType at login
-  console.log('accountType at Login.screen.js- L51->', accountType);
-
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-        // console.log('provider data:', user.providerData[0].displayName);
         if (user.providerData[0].displayName) {
           let accountHolderName = user.providerData[0].displayName;
           let nickname = accountHolderName.split(' ')[0];

@@ -85,10 +85,6 @@ const CurrentSessionBills = ({ changeTab }) => {
     getTotalBill();
   }, [orderedItems]);
 
-  // console.log('individualBill: ', individualBill);
-  // console.log('orderedItems: ', orderedItems);
-  // console.log('totalBill: ', totalBill);
-
   const [selected, setSelected] = useState(null);
 
   return (

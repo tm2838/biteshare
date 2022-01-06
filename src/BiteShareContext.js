@@ -18,9 +18,15 @@ export const biteShareState = {
   orderedItems: [], //matching the name with TJ's code in Guest.js (will updated as needed after checking with TJ)
   email: '',
   authenticated: false,
-  biteShareKey: 'bfc9ce6081fb3526e0d3ee882fadbaba',
+  biteShareKey: 'ef09326728f1d8f42f313fd7add1d6f6',
   nickname: null,
   openCamera: false,
+};
+
+const clearContextReducer = (state, action) => {
+  if (action.type === 'SET_CLEAR_CONTEXT') {
+    return { ...state, sessionId: '', joinRequest: '', restaurantId: '', restaurantName: '', accountType: '' };
+  }
 };
 
 export const biteShareReducer = (state, action) => {
@@ -62,6 +68,8 @@ export const biteShareReducer = (state, action) => {
       return { ...state, nickname: action.nickname };
     case 'SET_OPEN_CAMERA':
         return { ...state, openCamera: action.openCamera };
+    case 'SET_CLEAR_CONTEXT':
+        return clearContextReducer(state, action);
     default:
       return state;
   }

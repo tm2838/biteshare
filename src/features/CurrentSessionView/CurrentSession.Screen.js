@@ -63,11 +63,7 @@ const CurrentSessionScreen = ({route, navigation}) => {
             readDocSnapshotListener(`transactions/${sessionId}/attendees`, doc.id, (doc) => {
               const docData = doc.data();
               if (docData.joinRequest === 'denied') {
-                dispatch({ type: 'SET_JOIN_REQUEST', joinRequest: '' });
-                dispatch({type: 'SET_SESSION_ID', sessionId: ''});
-                dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: '' });
-                dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: '' });
-                dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: '' });
+                dispatch({ type: 'SET_CLEAR_CONTEXT' });
               }
             });
           });
