@@ -10,6 +10,8 @@ const styles = StyleSheet.create({
   headerContainer: {
     flex: 1,
     flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
   header: {
     backgroundColor: colors.brand.kazan,
@@ -24,15 +26,13 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    marginLeft: 20,
   },
   profileAvatar: {
-    marginRight: 15
+    alignItems: 'center'
   },
   profileName: {
     color: 'white'
-  },
-  profileLogo: {
-    paddingBottom: 10
   },
 
 });
@@ -42,7 +42,6 @@ const JoinScreenHeader = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const profilePicturePath = '../../../assets/profilePicture.png';
-  const profileLogoPath = '../../../assets/profile-logo.png';
   let previousScreen = route.name === 'Join' ? 'Explore' : '';
   const handleBackButton = () => navigation.navigate(previousScreen);
   return (
@@ -57,12 +56,8 @@ const JoinScreenHeader = () => {
               source = {require(profilePicturePath)}
               size = {40}
             />
+            {/* Is it possible to change to just nickname, (like firstName?) */}
             <Text style={styles.profileName}>{accountHolderName}</Text>
-          </View>
-          <View style={styles.profileLogo}>
-            <Image
-              source = {require(profileLogoPath)}
-            />
           </View>
         </View>
       </View>

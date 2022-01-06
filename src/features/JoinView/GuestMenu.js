@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 
   scrollView: {
 
-    height: 535,
+    height: 500,
     marginHorizontal: 20,
   },
 
@@ -49,7 +49,6 @@ const GuestMenu = () => {
   const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey }, dispatch } = useContext(BiteShareContext);
   const API_KEY = biteShareKey;
 
-  const [joinRequest, setJoinRequest] = useState('allowed');
   const [isLoading, setLoading] = useState(true);
   const [restaurantAddress, setRestaurantAddress] = useState('');
 

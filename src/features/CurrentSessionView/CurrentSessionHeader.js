@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
   restaurantName: {
     color: 'white',
     fontSize: 15,
+    marginLeft: 10,
   },
   profile: {
     flex: 1,
