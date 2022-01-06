@@ -24,7 +24,7 @@ export default function QRScanner() {
     { restaurantName, restaurantId, restaurantMenus, nickname, accountHolderName, accountType, openCamera }, dispatch }
     = useContext(BiteShareContext);
 
-  console.log(`GuestQR.js-----nickname : ${nickname} , account type--> ${accountType}`);
+  // console.log(`GuestQR.js-----nickname : ${nickname} , account type--> ${accountType}`);
 
   useEffect(() => {
     (async () => {
@@ -53,8 +53,6 @@ export default function QRScanner() {
     dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: diningPlaceId });
     dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: diningPlaceName });
 
-    // alert(`Session Id: ${sessionId} \n  HostName: ${hostName} \n
-    // Restaurant Name: ${diningPlaceName} \n RestaurantID: ${diningPlaceId}` );
 
 
 
@@ -69,7 +67,6 @@ export default function QRScanner() {
       .then((doc) => {
         console.log('Successfully added GUEST into the database');
 
-        console.log('AccountType----->', accountType);
         const unsubscribe = readDocSnapshotListener(`transactions/${sessionId}/attendees`, doc.id, (doc) => {
           const docData = doc.data();
           if (docData.joinRequest === 'allowed') {
@@ -78,7 +75,7 @@ export default function QRScanner() {
             navigation.navigate('CurrentSession', {previous: 'coming from join tab'});
             unsubscribe();
           }
-          //If Host deny the guesy
+          //If Host deny the guest
           if (docData.joinRequest === 'denied') {
             console.log('access denied', accountHolderName, accountType );
             alert(`Access denied.\n Please contact your host ${hostName} to try again`);
