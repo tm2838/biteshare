@@ -119,7 +119,7 @@ const LogoutModal = ({ modalVisible, setModalVisible }) => {
       try {
         const qResult = await getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', nickname);
         qResult.forEach((doc) => {
-          // console.log('DOCSSS', doc.data());
+          console.log('Guest has left');
           updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
             joinRequest: 'denied',
           });

@@ -43,13 +43,21 @@ const styles = StyleSheet.create({
 
 const LoginScreen = () => {
   const navigation = useNavigation();
-  const { state: { }, dispatch } = useContext(BiteShareContext);
+  const { state: { accountHolderName, nickname }, dispatch } = useContext(BiteShareContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
+        // console.log('provider data:', user.providerData[0].displayName);
+        if (user.providerData[0].displayName) {
+          let accountHolderName = user.providerData[0].displayName;
+          let nickname = accountHolderName.split(' ')[0];
+          dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName });
+          dispatch({ type: 'SET_NICKNAME', nickname });
+          dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: '' }); //reset the accountType to null
+        }
         navigation.navigate('Home');
       }
     });

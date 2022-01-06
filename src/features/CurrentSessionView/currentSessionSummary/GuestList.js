@@ -26,7 +26,7 @@ const GuestList = () => {
       readCollectionSnapshotListener(`transactions/${sessionId}/attendees`, (result) => {
         const guests = [];
         result.forEach((doc) => {
-          console.log('Listening attenee doc:', doc);
+          // console.log('Listening attenee doc:', doc);
           guests.push(doc.data());
         });
         const currentAccount = guests.filter((guest) => guest.name === accountHolderName || guest.name === nickname); // Might Need to change here
