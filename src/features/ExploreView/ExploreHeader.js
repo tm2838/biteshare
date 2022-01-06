@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Appbar } from 'react-native-paper';
+import { Appbar, Avatar } from 'react-native-paper';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { colors } from '../../infrastructure/colors';
 import { BiteShareContext } from '../../BiteShareContext';
@@ -11,7 +11,8 @@ const styles = StyleSheet.create({
   exploreHeaderContainer: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
   headerText: {
     color: 'white',
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
 
 const ExploreHeader = () => {
   const { state: { nickname, accountHolderName }, dispatch } = useContext(BiteShareContext);
-  const profileLogoPath = '../../../assets/profile-logo.png';
+  const profilePicturePath = '../../../assets/profilePicture.png';
   return (
     <Appbar.Header style={styles.exploreHeader}>
       <View style={styles.exploreHeaderContainer}>
@@ -29,8 +30,9 @@ const ExploreHeader = () => {
           <Text style={styles.headerText}>Welcome {nickname || accountHolderName}</Text>
         </View>
         <View>
-          <Image
-            source={require(profileLogoPath)}
+          <Avatar.Image
+            source={require(profilePicturePath)}
+            size = {40}
           />
         </View>
       </View>
