@@ -21,10 +21,10 @@ export default function QRScanner() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const { state:
-    { restaurantName, restaurantId, restaurantMenus, nickname, accountHolderName }, dispatch }
+    { restaurantName, restaurantId, restaurantMenus, nickname, accountHolderName, accountType, openCamera }, dispatch }
     = useContext(BiteShareContext);
 
-  console.log('RestsurantID----------->', nickname);
+  // console.log(`GuestQR.js-----nickname : ${nickname} , account type--> ${accountType}`);
 
   useEffect(() => {
     (async () => {
@@ -36,6 +36,11 @@ export default function QRScanner() {
   const handleBarCodeScanned = ({ type, data }) => {
 
     setScanned(true);
+    //Once it it scanned, turn off the camera
+    dispatch({ type: 'SET_OPEN_CAMERA', openCamera: false });
+    //Setting accountType to pending to show the menu while waiting
+    dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'PENDING' });
+
     alert('Please wait until the host allows you to join the session');
 
     let sampleData = data.split('&');
@@ -47,9 +52,7 @@ export default function QRScanner() {
     dispatch({type: 'SET_SESSION_ID', sessionId: sessionId});
     dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: diningPlaceId });
     dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: diningPlaceName });
-    dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'GUEST' });
-    // alert(`Session Id: ${sessionId} \n  HostName: ${hostName} \n
-    // Restaurant Name: ${diningPlaceName} \n RestaurantID: ${diningPlaceId}` );
+
 
 
 
@@ -63,12 +66,28 @@ export default function QRScanner() {
     })
       .then((doc) => {
         console.log('Successfully added GUEST into the database');
+
         const unsubscribe = readDocSnapshotListener(`transactions/${sessionId}/attendees`, doc.id, (doc) => {
           const docData = doc.data();
           if (docData.joinRequest === 'allowed') {
+            // change the accountType to 'Guest'
+            dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'GUEST' });
             navigation.navigate('CurrentSession', {previous: 'coming from join tab'});
             unsubscribe();
           }
+          //If Host deny the guest
+          if (docData.joinRequest === 'denied') {
+            console.log('access denied', accountHolderName, accountType );
+            alert(`Access denied.\n Please contact your host ${hostName} to try again`);
+            //Reset the accountType
+            //Need to check DB if the user is being removed...
+            //What if the host accidently click deny and asked the guest to rejoin the session
+            //db will have the same user name (warning message in console.log)
+            dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: '' });
+
+            unsubscribe();
+          }
+
         });
       })
       .catch((error) => {
@@ -86,13 +105,14 @@ export default function QRScanner() {
   return (
     <View style={styles.container}>
 
-      {scanned === true ? <GuestMenu /> :
-        <BarCodeScanner
-          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          style={StyleSheet.absoluteFillObject}
-        />
-      }
-      {/* {scanned && <ExploreMenu />} */}
+      {scanned === true && accountType === 'PENDING' && <GuestMenu /> }
+
+      <BarCodeScanner
+        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        style={StyleSheet.absoluteFillObject}
+      />
+
+
     </View>
   );
 }

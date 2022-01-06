@@ -20,7 +20,7 @@ const GoogleLogin = () => {
   const { state: { authenticated, nickname }, dispatch } = useContext(BiteShareContext);
 
   const signInAsync = async () => {
-    console.log('GoogleLogin.js 6 | logging in');
+    // console.log('GoogleLogin.js 6 | logging in');
     try {
       const { type, user } = await Google.logInAsync({
         iosClientId: '90738707092-9ik3l59ad22hfghgrms9ti5cgn2da675.apps.googleusercontent.com',
@@ -32,6 +32,8 @@ const GoogleLogin = () => {
         dispatch({ type: 'SET_EMAIL', email: user.email });
         dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName: user.name });
         dispatch({ type: 'SET_NICKNAME', nickname: user.givenName });
+        dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: '' }); //reset the accountType to null
+        dispatch({ type: 'SET_OPEN_CAMERA', openCamera: false }); //reset the openCamera
         try {
           const userDocs = await getADocReferenceFromCollection('users', 'email', '==', user.email);
           if (userDocs.size === 0) {

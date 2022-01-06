@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 
   scrollView: {
 
-    height: 535,
+    height: 500,
     marginHorizontal: 20,
   },
 

@@ -43,9 +43,12 @@ const styles = StyleSheet.create({
 
 const LoginScreen = () => {
   const navigation = useNavigation();
-  const { state: { authenticated }, dispatch } = useContext(BiteShareContext);
+  const { state: { authenticated, accountType }, dispatch } = useContext(BiteShareContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  //Testing the accountType at login
+  console.log('accountType at Login.screen.js- L51->', accountType);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -56,6 +59,7 @@ const LoginScreen = () => {
           let nickname = accountHolderName.split(' ')[0];
           dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName });
           dispatch({ type: 'SET_NICKNAME', nickname });
+          dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: '' }); //reset the accountType to null
         }
         navigation.navigate('Home');
       }

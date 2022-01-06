@@ -11,14 +11,15 @@ export const biteShareState = {
   restaurantName: '',
   restaurantId: null, //updates when user clicks See Full Menu from ExplorePage
   restaurantMenus: [],
-  accountHolderName: 'Greg',
-  accountType: '',
+  accountHolderName: '',
+  accountType: '', //'PENDING', 'HOST', 'GUEST', '' ('pending' is used in join tab while waiting to join a session)
   sessionId: '',
   orderedItems: [], //matching the name with TJ's code in Guest.js (will updated as needed after checking with TJ)
   email: '',
   authenticated: false,
-  biteShareKey: 'ADD_KEY',
-  nickname: null
+  biteShareKey: 'bfc9ce6081fb3526e0d3ee882fadbaba',
+  nickname: null,
+  openCamera: false,
 };
 
 export const biteShareReducer = (state, action) => {
@@ -56,6 +57,8 @@ export const biteShareReducer = (state, action) => {
       return { ...state, authenticated: action.authenticated };
     case 'SET_NICKNAME':
       return { ...state, nickname: action.nickname };
+    case 'SET_OPEN_CAMERA':
+        return { ...state, openCamera: action.openCamera };
     default:
       return state;
   }
