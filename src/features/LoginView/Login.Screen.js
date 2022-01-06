@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 
 const LoginScreen = () => {
   const navigation = useNavigation();
-  const { state: { authenticated, accountType, accountHolderName, nickname }, dispatch } = useContext(BiteShareContext);
+  const { state: { accountType, accountHolderName, nickname }, dispatch } = useContext(BiteShareContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 

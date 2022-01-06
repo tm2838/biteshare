@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 
 const SignupScreen = () => {
   const navigation = useNavigation();
-  const { state: { authenticated }, dispatch } = useContext(BiteShareContext);
+  const { state: { }, dispatch } = useContext(BiteShareContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setconfirmPassword] = useState('');
@@ -74,7 +74,7 @@ const SignupScreen = () => {
     signUpNewUser(email, password)
       .then(async userCredentials => {
         const nickname = accountHolderName.split(' ')[0];
-        console.log('num one:', accountHolderName, nickname);
+        // console.log('num one:', accountHolderName, nickname);
         dispatch({ type: 'SET_EMAIL', email });
         dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName });
         dispatch({ type: 'SET_NICKNAME', nickname });

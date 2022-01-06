@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { BiteShareContext, biteShareState } from '../BiteShareContext';
 import { colors } from '../infrastructure/colors';
 import { signOutUser } from '../../firebase/helpers/authentication.firebase';
-import { deleteADocument, getADocReferenceFromCollection, updateADocument } from '../../firebase/helpers/database.firebase';
+import { deleteADocument, getADocReferenceFromCollection, updateADocument, getAllDocuments } from '../../firebase/helpers/database.firebase';
 
 const LogoutModal = ({ modalVisible, setModalVisible }) => {
   const { state: { guests, accountType, sessionId, nickname }, dispatch } = useContext(BiteShareContext);
@@ -60,25 +60,6 @@ const LogoutModal = ({ modalVisible, setModalVisible }) => {
     }
   });
 
-  const resetContext = () => {
-    dispatch({ type: 'SET_ORDER_STATUS', isEveryoneReady: false });
-    dispatch({ type: 'SET_SPLIT_METHOD', splitMethod: '' });
-    dispatch({ type: 'SET_TOTAL_BILL', totalBill: 0 });
-    dispatch({ type: 'SET_GUESTS', guests: [] });
-    dispatch({ type: 'SET_RESTAURANTS', restaurants: [] });
-    dispatch({ type: 'SET_RESTAURANTS_IMAGES', restaurantsImages: [] });
-    dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: '' });
-    dispatch({ type: 'SET_RESTAURANT_INFO', restaurantId: null });
-    dispatch({ type: 'SET_RESTAURANT_MENU', restaurantMenus: [] });
-    dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName: '' });
-    dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: '' });
-    dispatch({ type: 'SET_SESSION_ID', sessionId: '' });
-    dispatch({ type: 'SET_ORDER_ITEMS', orderedItems: [] });
-    dispatch({ type: 'SET_EMAIL', email: '' });
-    dispatch({ type: 'SET_BITESHARE_KEY', biteShareKey: '9dc8a2f81caddc80fddc41a188a4d7f1' });
-    dispatch({ type: 'SET_NICKNAME', nickname: null });
-  };
-
   const logout = async () => {
     console.log('logout Data', sessionId, accountType);
     if (sessionId && accountType === 'HOST') {
@@ -90,8 +71,13 @@ const LogoutModal = ({ modalVisible, setModalVisible }) => {
             isSessionActive: false
           });
         });
+        const getAttendees = await getAllDocuments(`transactions/${sessionId}/attendees`);
+        getAttendees.forEach(async (attendee) => {
+          await updateADocument(`transactions/${sessionId}/attendees`, attendee.id, {
+            joinRequest: 'denied'
+          });
+        });
         await deleteADocument('transactions', sessionId);
-        console.log('deleted transaction with host');
       } catch (err) {
         console.log('Error denying the host: ', err);
       }
@@ -124,10 +110,6 @@ const LogoutModal = ({ modalVisible, setModalVisible }) => {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
@@ -154,11 +136,8 @@ const LogoutModal = ({ modalVisible, setModalVisible }) => {
           </View>
         </View>
       </Modal>
-
     </View>
   );
 };
-
-
 
 export default LogoutModal;
