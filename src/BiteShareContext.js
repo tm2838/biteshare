@@ -12,14 +12,22 @@ export const biteShareState = {
   restaurantId: null, //updates when user clicks See Full Menu from ExplorePage
   restaurantMenus: [],
   accountHolderName: '',
-  accountType: '',
+  accountType: '', //'PENDING', 'HOST', 'GUEST', '' ('pending' is used in join tab while waiting to join a session)
+  joinRequest: '',
   sessionId: '',
   orderedItems: [], //matching the name with TJ's code in Guest.js (will updated as needed after checking with TJ)
   email: '',
   authenticated: false,
   biteShareKey: '9dc8a2f81caddc80fddc41a188a4d7f1',
+  isSessionActive: false,
   nickname: null,
-  isSessionActive: false
+  openCamera: false,
+};
+
+const clearContextReducer = (state, action) => {
+  if (action.type === 'SET_CLEAR_CONTEXT') {
+    return { ...state, sessionId: '', joinRequest: '', restaurantId: '', restaurantName: '', accountType: '' };
+  }
 };
 
 export const biteShareReducer = (state, action) => {
@@ -46,6 +54,8 @@ export const biteShareReducer = (state, action) => {
       return { ...state, accountHolderName: action.accountHolderName };
     case 'SET_ACCOUNT_TYPE':
       return { ...state, accountType: action.accountType };
+    case 'SET_JOIN_REQUEST':
+      return { ...state, joinRequest: action.joinRequest };
     case 'SET_SESSION_ID':
       return { ...state, sessionId: action.sessionId };
     case 'SET_ORDERED_ITEMS':
@@ -58,6 +68,10 @@ export const biteShareReducer = (state, action) => {
       return { ...state, nickname: action.nickname };
     case 'SET_IS_SESSION_ACTIVE':
       return { ...state, isSessionActive: action.isSessionActive };
+    case 'SET_OPEN_CAMERA':
+        return { ...state, openCamera: action.openCamera };
+    case 'SET_CLEAR_CONTEXT':
+        return clearContextReducer(state, action);
     default:
       return state;
   }

@@ -16,16 +16,21 @@ const styles = StyleSheet.create({
   },
 });
 export default function QRScanner() {
-
   const navigation = useNavigation();
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const { state:
+<<<<<<< HEAD
     { restaurantName, restaurantId, restaurantMenus, nickname, accountHolderName, isSessionActive }, dispatch }
     = useContext(BiteShareContext);
 
   // console.log('RestsurantID----------->', nickname);
 
+=======
+    { restaurantName, restaurantId, restaurantMenus, nickname, accountHolderName, accountType, openCamera, joinRequest }, dispatch }
+    = useContext(BiteShareContext);
+
+>>>>>>> 68f5f3d3a3a1b09a69731a1095c0f9aba7e9aff4
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -36,22 +41,19 @@ export default function QRScanner() {
   const handleBarCodeScanned = ({ type, data }) => {
 
     setScanned(true);
+    //Once it it scanned, turn off the camera
+    dispatch({ type: 'SET_OPEN_CAMERA', openCamera: false });
+    //Setting accountType to pending to show the menu while waiting
+    dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'PENDING' });
+
     alert('Please wait until the host allows you to join the session');
 
-    let sampleData = data.split('&');
-    let sessionId = sampleData[0];
-    let hostName = sampleData[1];
-    let diningPlaceName = sampleData[2];
-    let diningPlaceId = sampleData[3];
+    const sessionData = data.split('&');
+    const [ sessionId, hostName, diningPlaceName, diningPlaceId ] = sessionData;
 
     dispatch({ type: 'SET_SESSION_ID', sessionId: sessionId });
     dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: diningPlaceId });
     dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: diningPlaceName });
-    dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'GUEST' });
-    // alert(`Session Id: ${sessionId} \n  HostName: ${hostName} \n
-    // Restaurant Name: ${diningPlaceName} \n RestaurantID: ${diningPlaceId}` );
-
-
 
     addANewAnonymousDocument(`transactions/${sessionId}/attendees`, {
       joinRequest: 'pending',
@@ -60,6 +62,7 @@ export default function QRScanner() {
       name: nickname || accountHolderName, //Get userName from google
       orderStatus: 'not ready',
       orderedItems: [],
+<<<<<<< HEAD
       isSessionActive: true
     })
       .then((doc) => {
@@ -69,6 +72,26 @@ export default function QRScanner() {
           const docData = doc.data();
           if (docData.joinRequest === 'allowed') {
             navigation.navigate('CurrentSession', { previous: 'coming from join tab' });
+=======
+    })
+      .then((doc) => {
+        console.log('Successfully added GUEST into the database');
+
+        const unsubscribe = readDocSnapshotListener(`transactions/${sessionId}/attendees`, doc.id, (doc) => {
+          const docData = doc.data();
+          if (docData.joinRequest === 'pending') {
+            dispatch({ type: 'SET_JOIN_REQUEST', joinRequest: 'pending' });
+          } else if (docData.joinRequest === 'allowed') {
+            dispatch({ type: 'SET_JOIN_REQUEST', joinRequest: 'allowed' });
+            dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'GUEST' });
+            navigation.navigate('CurrentSession', {previous: 'coming from join tab'});
+>>>>>>> 68f5f3d3a3a1b09a69731a1095c0f9aba7e9aff4
+            unsubscribe();
+          } else {
+            setScanned(false);
+            navigation.navigate('Explore', {previous: 'coming from join tab'});
+            alert(`Access denied.\n Please contact your host ${hostName} to try again`);
+            dispatch({ type: 'SET_CLEAR_CONTEXT' });
             unsubscribe();
           }
         });
@@ -88,13 +111,14 @@ export default function QRScanner() {
   return (
     <View style={styles.container}>
 
-      {scanned === true ? <GuestMenu /> :
-        <BarCodeScanner
-          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          style={StyleSheet.absoluteFillObject}
-        />
-      }
-      {/* {scanned && <ExploreMenu />} */}
+      {scanned === true && accountType === 'PENDING' && <GuestMenu /> }
+
+      <BarCodeScanner
+        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        style={StyleSheet.absoluteFillObject}
+      />
+
+
     </View>
   );
 }

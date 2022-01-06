@@ -44,6 +44,8 @@ const styles = StyleSheet.create({
 
 const Profile = ({ navPage }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const { dispatch } = useContext(BiteShareContext);
+
   const navigation = useNavigation();
 
   return (
