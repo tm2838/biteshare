@@ -37,9 +37,6 @@ const googleLogin = () => {
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
       const user = result.user;
-      console.log('Token----------> ', token);
-      console.log('User ----->', user);
-
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -58,15 +55,17 @@ const signOutUser = () => {
   return signOut(auth);
 };
 
+// Old app Id -> 243179384596845
+// Old app Name -> BiteShare
 const fbLogin = async () => {
   try {
-    await Facebook.initializeAsync({ appId: '243179384596845', appName: 'BiteShare' }); // appId from facebook developer account
+    await Facebook.initializeAsync({ appId: '2096741587165731', appName: 'Biteshare30' }); // appId from facebook developer account
     const { type, token } = await Facebook.logInWithReadPermissionsAsync({
-      permissions: ['public_profile'],
+      permissions: ['public_profile', 'email'],
     });
     if (type === 'success') {
       // Get the user's info using Facebook's Graph API
-      const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+      const response = await fetch(`https://graph.facebook.com/me?fields=email,name&access_token=${token}`);
       const jsonResponse = await response.json();
       return Promise.resolve(jsonResponse);
     } else {

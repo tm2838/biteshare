@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Appbar, List, Button, Avatar } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
-import { StyleSheet, View, Text, SafeAreaView, ScrollView, StatusBar } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView, ScrollView, FlatList, StatusBar, Divider} from 'react-native';
 import { colors } from '../../infrastructure/colors';
 import { fonts } from '../../infrastructure/fonts';
 import { BiteShareContext } from '../../BiteShareContext';
@@ -25,11 +25,13 @@ const styles = StyleSheet.create({
   },
 
   scrollView: {
-
-    height: 535,
+    paddingTop: 10,
+    height: 520,
     marginHorizontal: 20,
   },
-
+  itemContainer: {
+    paddingBottom: 10
+  },
   button: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -37,11 +39,37 @@ const styles = StyleSheet.create({
 
   },
   text: {
-    fontSize: 20,
+    fontSize: 25,
     fontFamily: fonts.subHeading,
     textAlign: 'center',
   },
+  one: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+
+  },
+  name: {
+    fontSize: 16,
+    fontFamily: fonts.body,
+  },
+  description: {
+    fontSize: 13,
+    fontFamily: fonts.light,
+  }
 });
+
+const Item = ({ name, description, price }) => (
+
+  <View style={styles.itemContainer}>
+    <View style={styles.one}>
+      <Text style={styles.name}>{name}</Text>
+      <Text style={styles.name}> $ {price}</Text>
+    </View>
+    <Text style={styles.description}>{description}</Text>
+
+  </View>
+);
 
 const ExploreMenu = ({ navigation }) => {
   const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey, accountHolderName, accountType, nickname, sessionId }, dispatch } = useContext(BiteShareContext);
@@ -49,6 +77,10 @@ const ExploreMenu = ({ navigation }) => {
   const [isLoading, setLoading] = useState(true);
   const [restaurantAddress, setRestaurantAddress] = useState('');
   const [creatingSession, setCreatingSession] = useState(false);
+
+  const renderMenus = ({item}) => {
+    return (<Item name={item.name} description={item.description} price={item.price} />);
+  };
 
   const parseJsonMenu = (data) => {
     let prettyMenu = [];
@@ -141,7 +173,16 @@ const ExploreMenu = ({ navigation }) => {
                 <Appbar.Content title={restaurantName} subtitle={restaurantAddress} style={styles.restaurantHeading} />
               </Appbar.Header>
               {/* implentation with FLATLIST */}
-              <ScrollView style={styles.scrollView}>
+              <Text style={styles.text}> Menu </Text>
+              <View style={styles.scrollView}>
+                <FlatList
+                // ListHeaderComponent={header}
+                  data= {restaurantMenus}
+                  renderItem={renderMenus}
+                  keyExtractor={item => item.key}
+                />
+              </View>
+              {/* <ScrollView style={styles.scrollView}>
 
                 <List.Subheader>
                   <Text style={styles.text}>Menu</Text>
@@ -155,13 +196,13 @@ const ExploreMenu = ({ navigation }) => {
                   />);
                 })}
 
-              </ScrollView>
+              </ScrollView> */}
 
               <View style={styles.menuContainer}>
                 {/* onPress 'create a session', it will direct to the QR code -  */}
-                {/* ????? - is HOST allow to create a new session (NO) */}
+                {/* once accountType is assigned, the button type will not be shown */}
                 {
-                  accountType !== 'GUEST' && sessionId === '' &&
+                  accountType === '' && sessionId === '' &&
                   <Button
                     icon='account-plus'
                     mode="contained"

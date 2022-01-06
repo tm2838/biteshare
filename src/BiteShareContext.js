@@ -5,22 +5,22 @@ export const biteShareState = {
   isEveryoneReady: false,
   accountHolderReady: false,
   splitMethod: '',
-  totalBill: 0,
   guests: [],
   restaurants: [], //restaurants displayed in ExplorePage
   restaurantsImages: [], //images for ExplorePage
   restaurantName: '',
   restaurantId: null, //updates when user clicks See Full Menu from ExplorePage
   restaurantMenus: [],
-  accountHolderName: 'Greg',
-  accountType: '',
+  accountHolderName: '',
+  accountType: '', //'PENDING', 'HOST', 'GUEST', '' ('pending' is used in join tab while waiting to join a session)
   joinRequest: '',
   sessionId: '',
   orderedItems: [], //matching the name with TJ's code in Guest.js (will updated as needed after checking with TJ)
   email: '',
   authenticated: false,
-  biteShareKey: 'ADD_KEY',
-  nickname: null
+  biteShareKey: 'bfc9ce6081fb3526e0d3ee882fadbaba',
+  nickname: null,
+  openCamera: false,
 };
 
 export const biteShareReducer = (state, action) => {
@@ -32,8 +32,6 @@ export const biteShareReducer = (state, action) => {
       return { ...state, accountHolderReady: action.accountHolderReady };
     case 'SET_SPLIT_METHOD':
       return { ...state, splitMethod: action.splitMethod };
-    case 'SET_TOTAL_BILL':
-      return { ...state, totalBill: action.totalBill };
     case 'SET_GUESTS':
       return { ...state, guests: action.guests };
     case 'SET_RESTAURANTS':
@@ -62,6 +60,8 @@ export const biteShareReducer = (state, action) => {
       return { ...state, authenticated: action.authenticated };
     case 'SET_NICKNAME':
       return { ...state, nickname: action.nickname };
+    case 'SET_OPEN_CAMERA':
+        return { ...state, openCamera: action.openCamera };
     default:
       return state;
   }

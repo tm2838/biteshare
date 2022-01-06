@@ -4,6 +4,7 @@ import facebookLogo from '../../../assets/facebook-logo.png';
 import { useNavigation } from '@react-navigation/native';
 import { fbLogin } from '../../../firebase/helpers/authentication.firebase';
 import { BiteShareContext } from '../../BiteShareContext';
+import { getADocReferenceFromCollection, addANewAnonymousDocument } from '../../../firebase/helpers/database.firebase';
 
 const styles = StyleSheet.create({
   fbLogo: {
@@ -24,6 +25,21 @@ const FacebookLogin = () => {
         dispatch({ type: 'SET_AUTH', authenticated: true });
         dispatch({ type: 'SET_NICKNAME', nickname: fbUserName.split(' ')[0] });
         dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName: fbUserName });
+        // add this user into the users collection if not exists
+        try {
+          const userDocs = await getADocReferenceFromCollection('users', 'email', '==', fbLogInResult.email);
+          if (userDocs.size === 0) {
+            // create a new document in users collection for this user
+            await addANewAnonymousDocument('users', {
+              name: fbLogInResult.name,
+              email: fbLogInResult.email,
+            });
+
+          }
+        } catch (error) {
+          console.log('Unable to create/find the user in users collection', error);
+        }
+
         navigation.navigate('Home');
       }
     } catch (error) {
