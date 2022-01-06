@@ -6,6 +6,8 @@ import JoinScreenHeader from './JoinScreenHeader';
 import { colors } from '../../infrastructure/colors';
 import { fonts } from '../../infrastructure/fonts';
 import { BiteShareContext } from '../../BiteShareContext';
+import GuestMenu from './GuestMenu';
+
 
 const styles = StyleSheet.create({
   joinContainer: {
@@ -33,34 +35,51 @@ const JoinScreen = ({ route, navigation }) => {
   // console.log('----Join Screen-----> route', route, 'navigation-->', navigation );
 
   const scanQrCodeImage = '../../../assets/qr-code-image.png';
-  const { state: { accountType }, dispatch } = useContext(BiteShareContext);
-  const [openCamera, setOpenCamera] = useState(false);
+  const { state: { accountType, openCamera}, dispatch } = useContext(BiteShareContext);
+  // const [openCamera, setOpenCamera] = useState(false);
+
+  console.log('JoinScreen L 39---> accountType: ', accountType, 'openCamera-->', openCamera);
 
   //QR code will NOT show if you are a HOST
   return (
     <SafeArea>
+      <View>
 
-      {(accountType === 'HOST' || accountType === 'GUEST') ?
+
+      </View>
+      {/* If user waiting - show menu */}
+      {
+        accountType === 'PENDING' &&
+        (<View>
+          <GuestMenu />
+        </View>)
+      }
+
+      {/* If user is host OR guest */}
+      { (accountType === 'GUEST' || accountType === 'HOST') &&
 
         (<View style={styles.hostContainer}>
-          <Text style={styles.hostText}> You are currently in a Session.</Text>
+          <Text style={styles.hostText}> {`You are currently a ${accountType}`}</Text>
           <Text > Tap on CurrentSession to continue</Text>
         </View>)
-        :
-
-        (openCamera ? <GuestQR navigation={navigation}/> :
-          <View>
-            <JoinScreenHeader />
-            <View style={styles.joinContainer}>
-              <TouchableOpacity onPress={() => setOpenCamera(true)}>
-                <Image
-                  source={require(scanQrCodeImage)}
-                />
-              </TouchableOpacity>
-              <Text>Scan QR code to join</Text>
-            </View>
-          </View>)
       }
+
+
+      {openCamera ? <GuestQR navigation={navigation}/> :
+        <View>
+          
+          <View style={styles.joinContainer}>
+            <TouchableOpacity onPress={() => dispatch({ type: 'SET_OPEN_CAMERA', openCamera: true })}>
+              <Image
+                source={require(scanQrCodeImage)}
+              />
+            </TouchableOpacity>
+            <Text>Scan QR code to join</Text>
+          </View>
+        </View>}
+
+
+
 
     </SafeArea>
   );

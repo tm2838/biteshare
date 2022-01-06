@@ -57,6 +57,7 @@ const JoinScreenHeader = () => {
               source = {require(profilePicturePath)}
               size = {40}
             />
+            {/* Is it possible to change to just nickname, (like firstName?) */}
             <Text style={styles.profileName}>{accountHolderName}</Text>
           </View>
           <View style={styles.profileLogo}>
