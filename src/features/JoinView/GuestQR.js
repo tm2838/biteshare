@@ -65,7 +65,6 @@ export default function QRScanner() {
       name: nickname || accountHolderName, //Get userName from google
       orderStatus: 'not ready',
       orderedItems: [],
-
     })
       .then((doc) => {
         console.log('Successfully added GUEST into the database');
