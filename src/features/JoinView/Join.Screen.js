@@ -8,34 +8,33 @@ import { fonts } from '../../infrastructure/fonts';
 import { BiteShareContext } from '../../BiteShareContext';
 import GuestMenu from './GuestMenu';
 
-
 const styles = StyleSheet.create({
   joinContainer: {
     flexDirection: 'column',
     alignItems: 'center',
     marginTop: 200
   },
-  hostContainer: {
-
+  messageContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 350,
-
+    marginTop: 300,
   },
-  hostText: {
+  messageText: {
     textAlign: 'center',
     fontFamily: fonts.heading,
     height: 50,
     fontSize: 20,
+  },
+  navigationText: {
+    textAlign: 'center',
+    fontSize: 15,
     color: colors.brand.rausch
   }
 });
 
 const JoinScreen = ({ route, navigation }) => {
-  
   const scanQrCodeImage = '../../../assets/qr-code-image.png';
-  const { state: { accountType, openCamera}, dispatch } = useContext(BiteShareContext);
-
+  const { state: { accountType, openCamera }, dispatch } = useContext(BiteShareContext);
 
   //QR code will NOT show if you are a HOST
   return (
@@ -53,16 +52,20 @@ const JoinScreen = ({ route, navigation }) => {
       {/* If user is host OR guest */}
       { (accountType === 'GUEST' || accountType === 'HOST') &&
 
-        (<View style={styles.hostContainer}>
-          <Text style={styles.hostText}> {`You are currently a ${accountType}`}</Text>
-          <Text > Tap on CurrentSession to continue</Text>
+        (<View style={styles.messageContainer}>
+          <Text style={styles.messageText}>You are currently a <Text style={{ color: colors.brand.rausch }}>{`${accountType}`}</Text></Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+            <Text > Tap on</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('CurrentSession')}>
+              <Text style={styles.navigationText}>Current Session  </Text>
+            </TouchableOpacity>
+            <Text>to continue.</Text>
+          </View>
         </View>)
       }
 
-
       {openCamera ? <GuestQR navigation={navigation}/> :
         <View>
-
           {accountType === '' && <View style={styles.joinContainer}>
             <TouchableOpacity onPress={() => dispatch({ type: 'SET_OPEN_CAMERA', openCamera: true })}>
               <Image
@@ -71,11 +74,7 @@ const JoinScreen = ({ route, navigation }) => {
             </TouchableOpacity>
             <Text>Scan QR code to join</Text>
           </View>}
-
         </View>}
-
-
-
 
     </SafeArea>
   );

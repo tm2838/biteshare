@@ -6,8 +6,6 @@ import { StyleSheet, View, Text, SafeAreaView, ScrollView, FlatList, StatusBar, 
 import { colors } from '../../infrastructure/colors';
 import { fonts } from '../../infrastructure/fonts';
 import { BiteShareContext } from '../../BiteShareContext';
-// import { useNavigation } from '@react-navigation/native';
-// import mockMenu from '../../../fixtures/mockMenu.json';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { addANewAnonymousDocument } from '../../../firebase/helpers/database.firebase';
 import { Timestamp } from 'firebase/firestore';
@@ -74,7 +72,6 @@ const Item = ({ name, description, price }) => (
 );
 
 const ExploreMenu = ({ navigation }) => {
-  // console.log('--------navigation from explore Menu----', navigation);
   const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey, accountHolderName, accountType, nickname, sessionId }, dispatch } = useContext(BiteShareContext);
   const API_KEY = biteShareKey;
   const [isLoading, setLoading] = useState(true);
@@ -145,6 +142,7 @@ const ExploreMenu = ({ navigation }) => {
           })
           .then(() => {
             // navigate the HOST to QR code screen - allows guest to scan
+            dispatch({ type: 'SET_JOIN_REQUEST', joinRequest: 'allowed' });
             navigation.navigate('CurrentSession', { previous: 'create a session' });
             setCreatingSession(false);
           });
@@ -178,33 +176,17 @@ const ExploreMenu = ({ navigation }) => {
               <Text style={styles.text}> Menu </Text>
               <View style={styles.scrollView}>
                 <FlatList
-                // ListHeaderComponent={header}
                   data= {restaurantMenus}
                   renderItem={renderMenus}
                   keyExtractor={item => item.key}
                 />
               </View>
-              {/* <ScrollView style={styles.scrollView}>
-
-                <List.Subheader>
-                  <Text style={styles.text}>Menu</Text>
-                </List.Subheader>
-                {restaurantMenus.map((one) => {
-                  return (<List.Item
-                    key={one.key}
-                    title={one.name}
-                    description={one.description}
-                    right={() => (<Text> $ {one.price}</Text>)}
-                  />);
-                })}
-
-              </ScrollView> */}
 
               <View style={styles.menuContainer}>
                 {/* onPress 'create a session', it will direct to the QR code -  */}
                 {/* once accountType is assigned, the button type will not be shown */}
                 {
-                  accountType === '' && sessionId === '' &&
+                  (accountType === '' || accountType === 'HOST') && sessionId === '' &&
                   <Button
                     icon='account-plus'
                     mode="contained"
