@@ -8,27 +8,7 @@ import { signOutUser } from '../../firebase/helpers/authentication.firebase';
 import { deleteADocument, getADocReferenceFromCollection, updateADocument } from '../../firebase/helpers/database.firebase';
 
 const LogoutModal = ({ modalVisible, setModalVisible }) => {
-  const {
-    state: {
-      // isEveryoneReady,
-      // splitMethod,
-      // totalBill,
-      guests,
-      // restaurants,
-      // restaurantsImages,
-      // restaurantName,
-      // restaurantId,
-      // restaurantMenus,
-      // accountHolderName,
-      accountType,
-      sessionId,
-      // orderedItems,
-      // email,
-      // authenticated,
-      // biteShareKey,
-      nickname,
-    }, dispatch } = useContext(BiteShareContext);
-
+  const { state: { guests, accountType, sessionId, nickname }, dispatch } = useContext(BiteShareContext);
   const navigation = useNavigation();
   const styles = StyleSheet.create({
     centeredView: {
@@ -130,7 +110,7 @@ const LogoutModal = ({ modalVisible, setModalVisible }) => {
     }
     signOutUser()
       .then(() => {
-        resetContext();
+        dispatch({ type: 'SET_CLEAR_CONTEXT' });
         navigation.navigate('Login');
       })
       .catch(err => {

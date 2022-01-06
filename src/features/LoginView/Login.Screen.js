@@ -68,10 +68,10 @@ const LoginScreen = () => {
     loginUser(email, password)
       .then(userCredentials => {
         console.log('userCredentials in LOGIN:', userCredentials.user.providerData[0].displayName);
-        const accountHolderName = userCredentials.user.providerData[0].displayName;
-        const nickname = accountHolderName.split(' ')[0];
-        dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName });
-        dispatch({ type: 'SET_NICKNAME', nickname });
+        // const accountHolderName = userCredentials.user.providerData[0].displayName;
+        // const nickname = accountHolderName.split(' ')[0];
+        // dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName });
+        // dispatch({ type: 'SET_NICKNAME', nickname });
         dispatch({ type: 'SET_EMAIL', email });
       })
       .catch(err => {

@@ -19,7 +19,7 @@ export const biteShareState = {
   email: '',
   authenticated: false,
   biteShareKey: '9dc8a2f81caddc80fddc41a188a4d7f1',
-  isSessionActive: false,
+  // isSessionActive: false,
   nickname: null,
   openCamera: false,
 };

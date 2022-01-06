@@ -87,7 +87,6 @@ const SignupScreen = () => {
         } catch (error) {
           console.log('Error creating new user in users collection when sign up for first time');
         }
-
       })
       .catch(err => {
         setSignupError(err.message.toString());

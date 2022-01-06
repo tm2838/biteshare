@@ -133,8 +133,8 @@ const Guest = ({ guest }) => {
   const handleShowOrderedItem = () => {
     setShowOrderedItem(!showOrderedItem);
   };
-
-  return guest.joinRequest !== 'denied' && guest.isSessionActive && (
+  // joinRequest !== 'denied'
+  return guest.joinRequest !== 'denied' && (
     <View style={styles.container}>
       <SwipeRow
         rightOpenValue={-80}

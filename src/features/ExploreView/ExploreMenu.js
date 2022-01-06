@@ -133,7 +133,7 @@ const ExploreMenu = ({ navigation }) => {
           name: nickname || accountHolderName,
           orderStatus: 'not ready',
           orderedItems: [],
-          isSessionActive: true
+          // isSessionActive: true
         })
           .then((doc) => {
             console.log('Successfully added the host into the database');

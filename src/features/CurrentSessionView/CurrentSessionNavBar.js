@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 
 
 const CurrentSessionTopNavBar = ({ changeTab, currentTab }) => {
-  const { state: { accountType, sessionId, splitMethod, guests }, dispatch } = useContext(BiteShareContext);
+  const { state: { accountType, sessionId, splitMethod }, dispatch } = useContext(BiteShareContext);
   const [bills, setBills] = useState('Bills');
   const [menu, setMenu] = useState('Menu');
   const [qrCode, setQrCode] = useState('QR Code');
@@ -56,9 +56,7 @@ const CurrentSessionTopNavBar = ({ changeTab, currentTab }) => {
   useEffect(() => {
     if (sessionId) {
       readDocSnapshotListener('transactions', sessionId, (doc) => {
-        if (splitMethod) {
-          dispatch({ type: 'SET_SPLIT_METHOD', splitMethod: doc.data().splitMethod });
-        }
+        dispatch({ type: 'SET_SPLIT_METHOD', splitMethod: doc.data().splitMethod });
       });
     }
   }, [sessionId]);

@@ -20,7 +20,7 @@ export default function QRScanner() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const { state:
-    { restaurantName, restaurantId, restaurantMenus, nickname, accountHolderName, accountType, openCamera, joinRequest, isSessionActive }, dispatch }
+    { restaurantName, restaurantId, restaurantMenus, nickname, accountHolderName, accountType, openCamera, joinRequest }, dispatch }
     = useContext(BiteShareContext);
 
   useEffect(() => {
@@ -54,12 +54,12 @@ export default function QRScanner() {
       name: nickname || accountHolderName, //Get userName from google
       orderStatus: 'not ready',
       orderedItems: [],
-      isSessionActive: true
+      // isSessionActive: true
     })
 
       .then((doc) => {
         console.log('Successfully added GUEST into the database');
-        dispatch({ type: 'SET_IS_SESSION_ACTIVE', isSessionActive: true });
+        // dispatch({ type: 'SET_IS_SESSION_ACTIVE', isSessionActive: true });
 
         const unsubscribe = readDocSnapshotListener(`transactions/${sessionId}/attendees`, doc.id, (doc) => {
           const docData = doc.data();
