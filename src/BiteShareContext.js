@@ -17,7 +17,7 @@ export const biteShareState = {
   orderedItems: [], //matching the name with TJ's code in Guest.js (will updated as needed after checking with TJ)
   email: '',
   authenticated: false,
-  biteShareKey: 'ADD_KEY',
+  biteShareKey: 'e7be5f6d3ee722ee8db6d54677b04eaf',
   nickname: null
 };
 
