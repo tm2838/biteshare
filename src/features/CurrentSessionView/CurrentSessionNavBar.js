@@ -56,7 +56,9 @@ const CurrentSessionTopNavBar = ({ changeTab, currentTab }) => {
   useEffect(() => {
     if (sessionId) {
       readDocSnapshotListener('transactions', sessionId, (doc) => {
-        dispatch({ type: 'SET_SPLIT_METHOD', splitMethod: doc.data().splitMethod });
+        if (doc.data()) {
+          dispatch({ type: 'SET_SPLIT_METHOD', splitMethod: doc.data().splitMethod });
+        }
       });
     }
   }, [sessionId]);
