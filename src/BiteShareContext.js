@@ -18,7 +18,8 @@ export const biteShareState = {
   email: '',
   authenticated: false,
   biteShareKey: '9dc8a2f81caddc80fddc41a188a4d7f1',
-  nickname: null
+  nickname: null,
+  isSessionActive: false
 };
 
 export const biteShareReducer = (state, action) => {
@@ -55,6 +56,8 @@ export const biteShareReducer = (state, action) => {
       return { ...state, authenticated: action.authenticated };
     case 'SET_NICKNAME':
       return { ...state, nickname: action.nickname };
+    case 'SET_IS_SESSION_ACTIVE':
+      return { ...state, isSessionActive: action.isSessionActive };
     default:
       return state;
   }

@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { BiteShareContext } from '../BiteShareContext';
+import { BiteShareContext, biteShareState } from '../BiteShareContext';
 import { colors } from '../infrastructure/colors';
 import { signOutUser } from '../../firebase/helpers/authentication.firebase';
 import { deleteADocument, getADocReferenceFromCollection, updateADocument } from '../../firebase/helpers/database.firebase';
@@ -99,30 +99,34 @@ const LogoutModal = ({ modalVisible, setModalVisible }) => {
     dispatch({ type: 'SET_NICKNAME', nickname: null });
   };
 
-  const logout = () => {
-    console.log('wheat', sessionId, accountType);
+  const logout = async () => {
+    console.log('logout Data', sessionId, accountType);
     if (sessionId && accountType === 'HOST') {
-      deleteADocument('transactions', sessionId)
-        .then((success) => {
-          console.log('deleted transaction with host', success);
-        })
-        .catch((error) => {
-          console.log('Error denying the guest: ', error);
-        });
-    } else if (sessionId && accountType === 'GUEST') {
-      getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', nickname)
-        .then(qResult => {
-          console.log('my q result NUMBER 2', qResult);
-          qResult.forEach((doc) => {
-            console.log('this is one DOC:', doc.data());
-            // updateADocument(`transactions/${sessionId}/attendees`, {
-            //   joinRequest: 'denied'
-            // });
+      try {
+        const qResult = await getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', nickname);
+        qResult.forEach((doc) => {
+          // console.log('DOCSSS', doc.data());
+          updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
+            isSessionActive: false
           });
-        })
-        .catch((error) => {
-          console.log('Error denying the guest: ', error);
         });
+        await deleteADocument('transactions', sessionId);
+        console.log('deleted transaction with host');
+      } catch (err) {
+        console.log('Error denying the host: ', err);
+      }
+    } else if (sessionId && accountType === 'GUEST') {
+      try {
+        const qResult = await getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', nickname);
+        qResult.forEach((doc) => {
+          // console.log('DOCSSS', doc.data());
+          updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
+            joinRequest: 'denied',
+          });
+        });
+      } catch (err) {
+        console.log('Error denying the guest: ', err);
+      }
     }
     signOutUser()
       .then(() => {

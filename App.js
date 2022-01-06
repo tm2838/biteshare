@@ -6,6 +6,9 @@ import { ThemeProvider } from 'styled-components/native';
 import { theme } from './src/infrastructure/index.js';
 import DummyComponent from './src/features/Dummy.js';
 import { BiteShareContext, biteShareReducer, biteShareState } from './src/BiteShareContext';
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Warning: ...']);
 // import { addANewAnonymousDocument, getAllDocuments, readDocSnapshotListener, readQuerySnapshotListener, updateADocument } from './firebase/helpers/database.firebase.js';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './src/features/HomeView/Home.Screen.js';

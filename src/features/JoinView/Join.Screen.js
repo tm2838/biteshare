@@ -37,7 +37,7 @@ const JoinScreen = ({ route, navigation }) => {
   const [openCamera, setOpenCamera] = useState(false);
 
   //QR code will NOT show if you are a HOST
-  return (
+  return ( 
     <SafeArea>
       {accountType === 'HOST' ?
 

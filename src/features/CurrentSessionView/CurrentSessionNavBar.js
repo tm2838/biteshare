@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 
 
 const CurrentSessionTopNavBar = ({ changeTab, currentTab }) => {
-  const { state: { accountType, sessionId, splitMethod }, dispatch } = useContext(BiteShareContext);
+  const { state: { accountType, sessionId, splitMethod, guests }, dispatch } = useContext(BiteShareContext);
   const [bills, setBills] = useState('Bills');
   const [menu, setMenu] = useState('Menu');
   const [qrCode, setQrCode] = useState('QR Code');
@@ -70,32 +70,32 @@ const CurrentSessionTopNavBar = ({ changeTab, currentTab }) => {
   }, [splitMethod]);
 
   return (
-    <View style = {styles.topBarContainer}>
-      <View style = {styles.backButton}>
+    <View style={styles.topBarContainer}>
+      <View style={styles.backButton}>
         <BackButton screenName="Explore" />
       </View>
-      <View style = {styles.tabs}>
+      <View style={styles.tabs}>
         <View>
           <TouchableOpacity onPress={() => handleTabRouting(bills)} style={styles.tabsImages} disabled={!hasSplitMethod} >
-            <Image style={currentTab === 'Bills' ? [styles.activeImages, { opacity: 1 }] : [styles.images, hasSplitMethod ? { opacity: 1 } : { opacity: 0.3 }]} source={require('../../../assets/bill-image.png')}/>
-            <Text style={ hasSplitMethod ? { opacity: 1 } : { opacity: 0.3 }}>{bills}</Text>
+            <Image style={currentTab === 'Bills' ? [styles.activeImages, { opacity: 1 }] : [styles.images, hasSplitMethod ? { opacity: 1 } : { opacity: 0.3 }]} source={require('../../../assets/bill-image.png')} />
+            <Text style={hasSplitMethod ? { opacity: 1 } : { opacity: 0.3 }}>{bills}</Text>
           </TouchableOpacity>
         </View>
         <View>
           <TouchableOpacity onPress={() => handleTabRouting(menu)} style={styles.tabsImages}>
-            <Image style = {currentTab === 'Menu' ? styles.activeImages : styles.images} source={require('../../../assets/menu-image.png')}/>
+            <Image style={currentTab === 'Menu' ? styles.activeImages : styles.images} source={require('../../../assets/menu-image.png')} />
             <Text>{menu}</Text>
           </TouchableOpacity>
         </View>
         {accountType === 'HOST' && <View>
           <TouchableOpacity onPress={() => handleTabRouting(qrCode)} style={styles.tabsImages}>
-            <Image style = {currentTab === 'QR Code' ? styles.activeImages : styles.images} source={require('../../../assets/qr-code-image.png')}/>
+            <Image style={currentTab === 'QR Code' ? styles.activeImages : styles.images} source={require('../../../assets/qr-code-image.png')} />
             <Text>{qrCode}</Text>
           </TouchableOpacity>
         </View>}
         <View>
           <TouchableOpacity onPress={() => handleTabRouting(summary)} style={styles.tabsImages}>
-            <Image style = {currentTab === 'Summary' ? styles.activeImages : styles.images} source={require('../../../assets/summary-image.png')}/>
+            <Image style={currentTab === 'Summary' ? styles.activeImages : styles.images} source={require('../../../assets/summary-image.png')} />
             <Text>{summary}</Text>
           </TouchableOpacity>
         </View>
