@@ -54,13 +54,10 @@ export default function QRScanner() {
       name: nickname || accountHolderName, //Get userName from google
       orderStatus: 'not ready',
       orderedItems: [],
-      // isSessionActive: true
     })
 
       .then((doc) => {
         console.log('Successfully added GUEST into the database');
-        // dispatch({ type: 'SET_IS_SESSION_ACTIVE', isSessionActive: true });
-
         const unsubscribe = readDocSnapshotListener(`transactions/${sessionId}/attendees`, doc.id, (doc) => {
           const docData = doc.data();
           if (docData.joinRequest === 'pending') {

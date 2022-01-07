@@ -64,13 +64,6 @@ const LogoutModal = ({ modalVisible, setModalVisible }) => {
     console.log('logout Data', sessionId, accountType);
     if (sessionId && accountType === 'HOST') {
       try {
-        const qResult = await getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', nickname);
-        qResult.forEach((doc) => {
-          // console.log('DOCSSS', doc.data());
-          updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
-            isSessionActive: false
-          });
-        });
         const getAttendees = await getAllDocuments(`transactions/${sessionId}/attendees`);
         getAttendees.forEach(async (attendee) => {
           await updateADocument(`transactions/${sessionId}/attendees`, attendee.id, {

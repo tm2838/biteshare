@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Appbar, List, Button, Avatar } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
-import { StyleSheet, View, Text, SafeAreaView, ScrollView, FlatList, StatusBar, Divider} from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView, ScrollView, FlatList, StatusBar, Divider } from 'react-native';
 import { colors } from '../../infrastructure/colors';
 import { fonts } from '../../infrastructure/fonts';
 import { BiteShareContext } from '../../BiteShareContext';
@@ -78,7 +78,7 @@ const ExploreMenu = ({ navigation }) => {
   const [restaurantAddress, setRestaurantAddress] = useState('');
   const [creatingSession, setCreatingSession] = useState(false);
 
-  const renderMenus = ({item}) => {
+  const renderMenus = ({ item }) => {
     return (<Item name={item.name} description={item.description} price={item.price} />);
   };
 
@@ -133,7 +133,6 @@ const ExploreMenu = ({ navigation }) => {
           name: nickname || accountHolderName,
           orderStatus: 'not ready',
           orderedItems: [],
-          // isSessionActive: true
         })
           .then((doc) => {
             console.log('Successfully added the host into the database');
@@ -177,7 +176,7 @@ const ExploreMenu = ({ navigation }) => {
               <Text style={styles.text}> Menu </Text>
               <View style={styles.scrollView}>
                 <FlatList
-                  data= {restaurantMenus}
+                  data={restaurantMenus}
                   renderItem={renderMenus}
                   keyExtractor={item => item.key}
                 />
