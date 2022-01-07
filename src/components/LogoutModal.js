@@ -83,7 +83,7 @@ const LogoutModal = ({ modalVisible, setModalVisible }) => {
       }
     } else if (sessionId && accountType === 'GUEST') {
       try {
-        const qResult = await getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', nickname);
+        const qResult = await getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', nickname || accountHolderName);
         qResult.forEach((doc) => {
           console.log('Guest has left');
           updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
