@@ -1,15 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Appbar, List, Button, Avatar } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
-import { useRoute } from '@react-navigation/native';
-import { StyleSheet, View, Text, SafeAreaView, ScrollView, FlatList, StatusBar, Divider } from 'react-native';
+import { Appbar, Button } from 'react-native-paper';
+import { StyleSheet, View, Text, SafeAreaView, FlatList } from 'react-native';
 import { colors } from '../../infrastructure/colors';
 import { fonts } from '../../infrastructure/fonts';
 import { BiteShareContext } from '../../BiteShareContext';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import { addANewAnonymousDocument } from '../../../firebase/helpers/database.firebase';
 import { Timestamp } from 'firebase/firestore';
-
+import Loading from '../../components/Loading.js';
 
 const styles = StyleSheet.create({
   menuContainer: {
@@ -17,13 +14,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   restaurantHeader: {
-
     backgroundColor: colors.brand.login,
     alignItems: 'center',
     justifyContent: 'center',
     height: 60,
   },
-
   scrollView: {
     paddingTop: 10,
     height: 520,
@@ -36,7 +31,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: 70
-
   },
   text: {
     fontSize: 25,
@@ -47,7 +41,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-
   },
   name: {
     fontSize: 16,
@@ -64,7 +57,7 @@ const Item = ({ name, description, price }) => (
   <View style={styles.itemContainer}>
     <View style={styles.one}>
       <Text style={styles.name}>{name}</Text>
-      <Text style={styles.name}> $ {price}</Text>
+      <Text style={styles.name}> ${price}</Text>
     </View>
     <Text style={styles.description}>{description}</Text>
 
@@ -156,7 +149,7 @@ const ExploreMenu = ({ navigation }) => {
     <View >
       {
         isLoading
-          ? <Text>Loading...</Text>
+          ? <Loading primaryMessage='Loading...' />
           : (
             <View >
 
