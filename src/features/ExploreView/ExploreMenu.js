@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, SafeAreaView, FlatList } from 'react-native';
 import { colors } from '../../infrastructure/colors';
 import { fonts } from '../../infrastructure/fonts';
 import { BiteShareContext } from '../../BiteShareContext';
-import { addANewAnonymousDocument } from '../../../firebase/helpers/database.firebase';
+import { addANewAnonymousDocument, getADocReferenceFromCollection, updateADocument } from '../../../firebase/helpers/database.firebase';
 import { Timestamp } from 'firebase/firestore';
 import Loading from '../../components/Loading.js';
 
@@ -65,7 +65,7 @@ const Item = ({ name, description, price }) => (
 );
 
 const ExploreMenu = ({ navigation }) => {
-  const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey, accountHolderName, accountType, nickname, sessionId }, dispatch } = useContext(BiteShareContext);
+  const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey, accountHolderName, accountType, nickname, sessionId, email, userId }, dispatch } = useContext(BiteShareContext);
   const API_KEY = biteShareKey;
   const [isLoading, setLoading] = useState(true);
   const [restaurantAddress, setRestaurantAddress] = useState('');
@@ -126,8 +126,9 @@ const ExploreMenu = ({ navigation }) => {
           name: nickname || accountHolderName,
           orderStatus: 'not ready',
           orderedItems: [],
+          userId: userId,
         })
-          .then((doc) => {
+          .then(() => {
             console.log('Successfully added the host into the database');
           })
           .catch((error) => {
@@ -138,6 +139,21 @@ const ExploreMenu = ({ navigation }) => {
             dispatch({ type: 'SET_JOIN_REQUEST', joinRequest: 'allowed' });
             navigation.navigate('CurrentSession', { previous: 'create a session' });
             setCreatingSession(false);
+          })
+          .then(() => {
+            addANewAnonymousDocument(`users/${userId}/transactions`, {
+              sessionId: doc.id,
+              isCurrent: true,
+              individualBills: 0,
+              date: Timestamp.fromDate(new Date()),
+              role: 'Host',
+            })
+              .then(() => {
+                console.log('Successfully added the transaction for current user');
+              })
+              .catch((error) => {
+                console.log('Error adding the transaction for current user');
+              });
           });
       })
       .catch((error) => {

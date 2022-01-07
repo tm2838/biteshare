@@ -35,6 +35,8 @@ const FacebookLogin = () => {
               email: fbLogInResult.email,
             });
 
+          } else {
+            await userDocs.forEach((doc) => dispatch({ type: 'SET_USER_ID', userId: doc.id }));
           }
         } catch (error) {
           console.log('Unable to create/find the user in users collection', error);
