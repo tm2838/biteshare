@@ -16,12 +16,14 @@ const ReadyButton = ({ changeTab }) => {
   const { state: { sessionId, orderedItems, accountHolderName, nickname, accountHolderReady }, dispatch } = useContext(BiteShareContext);
   const [orderReady, SetOrderReady] = useState(false);
   const calculateItemPrice = (items) => items.reduce((totalPrice, item) => totalPrice + item.price, 0);
+  let differenceInBill = 0;
 
   const menuChoice = () => {
     const newBill = parseFloat(calculateItemPrice(orderedItems).toFixed(2));
     getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', nickname || accountHolderName)
       .then((qResult) => {
         qResult.forEach((doc) => {
+          differenceInBill = newBill - doc.data().individualBills;
           updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
             orderStatus: 'ready',
             individualBills: newBill,
@@ -36,7 +38,7 @@ const ReadyButton = ({ changeTab }) => {
       .then((result) => {
         const originalBill = result.data().totalBills;
         updateADocument('transactions', sessionId, {
-          totalBills: originalBill + newBill,
+          totalBills: originalBill + differenceInBill,
         });
       })
       .catch((error) => {
