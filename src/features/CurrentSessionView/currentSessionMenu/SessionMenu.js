@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect} from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, SafeAreaView, FlatList} from 'react-native';
 import { BiteShareContext } from '../../../BiteShareContext';
 import Menu from './Menu';
@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
 });
 
 const SessionMenu = () => {
-  const { state: { restaurantName, restaurantId, restaurantMenus}, dispatch } = useContext(BiteShareContext);
+  const { state: { restaurantMenus }, dispatch } = useContext(BiteShareContext);
 
   const renderMenus = ({item}) => {
     return (<Menu menu={item} />);
