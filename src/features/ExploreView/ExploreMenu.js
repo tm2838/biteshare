@@ -149,7 +149,7 @@ const ExploreMenu = ({ navigation }) => {
     <View >
       {
         isLoading
-          ? <Loading primaryMessage='Loading' />
+          ? <Loading primaryMessage='Loading...' />
           : (
             <View >
 
