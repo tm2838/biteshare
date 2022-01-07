@@ -5,7 +5,7 @@ import { colors } from '../../../infrastructure/colors.js';
 import BiteshareButton from '../../../components/BiteshareButton.js';
 import { BiteShareContext } from '../../../BiteShareContext.js';
 import MenuItemCard from '../../../components/MenuItemCard.js';
-import { updateADocument, getADocReferenceFromCollection, readASingleDocument } from '../../../../firebase/helpers/database.firebase.js';
+import { updateADocument, getADocReferenceFromCollection, readASingleDocument, deleteADocument } from '../../../../firebase/helpers/database.firebase.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -101,9 +101,11 @@ const Guest = ({ guest }) => {
 
   const handleDenyGuest = () => {
     // @TODO: update DB USERS collection to remove this currenct session from 'transactions' field
+    let guestId;
     getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', guest.name)
       .then((qResult) => {
         qResult.forEach((doc) => {
+          guestId = doc.data().userId;
           updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
             joinRequest: 'denied',
             individualBills: 0,
@@ -119,6 +121,20 @@ const Guest = ({ guest }) => {
       })
       .catch((error) => {
         console.log('Error denying the guest: ', error);
+      })
+      .then(() => {
+        getADocReferenceFromCollection(`users/${guestId}/transactions`, 'sessionId', '==', sessionId)
+          .then((results) => {
+            results.forEach((doc) => {
+              deleteADocument(`users/${guestId}/transactions`, doc.id)
+                .then(() => {
+                  console.log('Successfully removed the current transaction from user');
+                })
+                .catch((err) => {
+                  console.log('Error removing the current transaction from user');
+                });
+            });
+          });
       });
   };
 
