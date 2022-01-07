@@ -4,7 +4,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { BiteShareContext } from '../../BiteShareContext';
-import { addANewAnonymousDocument, readDocSnapshotListener } from '../../../firebase/helpers/database.firebase';
+import { addANewAnonymousDocument, readDocSnapshotListener, getADocReferenceFromCollection, updateADocument } from '../../../firebase/helpers/database.firebase';
+import { Timestamp } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
 import GuestMenu from './GuestMenu';
 
@@ -20,7 +21,7 @@ export default function QRScanner() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const { state:
-    { restaurantName, restaurantId, nickname, accountHolderName, accountType, openCamera, joinRequest }, dispatch }
+    { restaurantName, restaurantId, nickname, accountHolderName, accountType, openCamera, joinRequest, userId }, dispatch }
     = useContext(BiteShareContext);
 
   useEffect(() => {
@@ -29,6 +30,26 @@ export default function QRScanner() {
       setHasPermission(status === 'granted');
     })();
   }, []);
+
+  const listenToDBForJoinRequest = (transactionId, guestId, hostName) => {
+    const unsubscribe = readDocSnapshotListener(`transactions/${transactionId}/attendees`, guestId, (newdoc) => {
+      const docData = newdoc.data();
+      if (docData.joinRequest === 'pending') {
+        dispatch({ type: 'SET_JOIN_REQUEST', joinRequest: 'pending' });
+      } else if (docData.joinRequest === 'allowed') {
+        dispatch({ type: 'SET_JOIN_REQUEST', joinRequest: 'allowed' });
+        dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'GUEST' });
+        navigation.navigate('CurrentSession', {previous: 'coming from join tab'});
+        unsubscribe();
+      } else {
+        setScanned(false);
+        navigation.navigate('Explore', {previous: 'coming from join tab'});
+        alert(`Access denied.\n Please contact your host ${hostName} to try again`);
+        dispatch({ type: 'SET_CLEAR_CONTEXT' });
+        unsubscribe();
+      }
+    });
+  };
 
   const handleBarCodeScanned = ({ type, data }) => {
 
@@ -47,34 +68,47 @@ export default function QRScanner() {
     dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: diningPlaceId });
     dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: diningPlaceName });
 
-    addANewAnonymousDocument(`transactions/${sessionId}/attendees`, {
-      joinRequest: 'pending',
-      isHost: false,
-      individualBills: 0,
-      name: nickname || accountHolderName, //Get userName from google
-      orderStatus: 'not ready',
-      orderedItems: [],
-    })
-      .then((doc) => {
-        console.log('Successfully added GUEST into the database');
-
-        const unsubscribe = readDocSnapshotListener(`transactions/${sessionId}/attendees`, doc.id, (doc) => {
-          const docData = doc.data();
-          if (docData.joinRequest === 'pending') {
-            dispatch({ type: 'SET_JOIN_REQUEST', joinRequest: 'pending' });
-          } else if (docData.joinRequest === 'allowed') {
-            dispatch({ type: 'SET_JOIN_REQUEST', joinRequest: 'allowed' });
-            dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'GUEST' });
-            navigation.navigate('CurrentSession', {previous: 'coming from join tab'});
-            unsubscribe();
-          } else {
-            setScanned(false);
-            navigation.navigate('Explore', {previous: 'coming from join tab'});
-            alert(`Access denied.\n Please contact your host ${hostName} to try again`);
-            dispatch({ type: 'SET_CLEAR_CONTEXT' });
-            unsubscribe();
-          }
-        });
+    getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'userId', '==', userId)
+      .then((qResult) => {
+        if (!qResult.empty) {
+          qResult.forEach((doc) => {
+            updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
+              joinRequest: 'pending',
+            })
+              .then(() => {
+                listenToDBForJoinRequest(sessionId, doc.id, hostName);
+              });
+          });
+        } else {
+          addANewAnonymousDocument(`transactions/${sessionId}/attendees`, {
+            joinRequest: 'pending',
+            isHost: false,
+            individualBills: 0,
+            name: nickname || accountHolderName, //Get userName from google
+            orderStatus: 'not ready',
+            orderedItems: [],
+            userId: userId,
+          })
+            .then((guestDoc) => {
+              console.log('Successfully added GUEST into the database');
+              listenToDBForJoinRequest(sessionId, guestDoc.id, hostName);
+            });
+        }
+      })
+      .then(() => {
+        addANewAnonymousDocument(`users/${userId}/transactions`, {
+          sessionId: sessionId,
+          isCurrent: true,
+          individualBills: 0,
+          date: Timestamp.fromDate(new Date()),
+          role: 'GUEST',
+        })
+          .then(() => {
+            console.log('Successfully added the transaction for current user');
+          })
+          .catch((error) => {
+            console.log('Error adding the transaction for current user');
+          });
       })
       .catch((error) => {
         console.log('Error when adding GUEST into the database');
