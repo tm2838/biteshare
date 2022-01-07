@@ -5,7 +5,6 @@ import { StyleSheet, View, Text, SafeAreaView, ScrollView, StatusBar, ActivityIn
 import { colors } from '../../infrastructure/colors';
 import { fonts } from '../../infrastructure/fonts';
 import { BiteShareContext } from '../../BiteShareContext';
-// import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const styles = StyleSheet.create({
   centerContainer: {
@@ -18,24 +17,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   restaurantHeader: {
-
     backgroundColor: colors.brand.login,
     alignItems: 'center',
     justifyContent: 'center',
     height: 60,
   },
-
   scrollView: {
-
     height: 500,
     marginHorizontal: 20,
   },
-
   button: {
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: 70
-
   },
   text: {
     fontSize: 20,
@@ -113,8 +107,6 @@ const GuestMenu = () => {
         </View>
 
       </View>
-
-
 
     </View>
   );
