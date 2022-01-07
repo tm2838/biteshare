@@ -6,6 +6,7 @@ import { fonts } from '../../infrastructure/fonts';
 import { BiteShareContext } from '../../BiteShareContext';
 import { addANewAnonymousDocument } from '../../../firebase/helpers/database.firebase';
 import { Timestamp } from 'firebase/firestore';
+import Loading from '../../components/Loading.js';
 
 const styles = StyleSheet.create({
   menuContainer: {
@@ -148,7 +149,7 @@ const ExploreMenu = ({ navigation }) => {
     <View >
       {
         isLoading
-          ? <Text>Loading...</Text>
+          ? <Loading primaryMessage='Loading' />
           : (
             <View >
 

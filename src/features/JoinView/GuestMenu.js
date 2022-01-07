@@ -6,16 +6,13 @@ import { colors } from '../../infrastructure/colors';
 import { fonts } from '../../infrastructure/fonts';
 import { BiteShareContext } from '../../BiteShareContext';
 import { readASingleDocument } from '../../../firebase/helpers/database.firebase.js';
+import Loading from '../../components/Loading.js';
 
 const styles = StyleSheet.create({
   centerContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     height: 400,
-  },
-  buttomContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   restaurantHeader: {
     backgroundColor: colors.brand.login,
@@ -79,13 +76,7 @@ const GuestMenu = () => {
 
         </ScrollView>
 
-        <View style={styles.buttomContainer}>
-
-          < ActivityIndicator size="small" color="darkblue"/>
-          <Text style={styles.text}> Still waiting for host to connect</Text>
-          <Text> Feel free to look at menu while waiting </Text>
-
-        </View>
+        <Loading primaryMessage='Still waiting for host to connect' secondaryMessage='Feel free to look at the menu while waiting'/>
 
       </View>
 
