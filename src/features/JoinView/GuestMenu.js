@@ -5,6 +5,7 @@ import { StyleSheet, View, Text, SafeAreaView, ScrollView, StatusBar, ActivityIn
 import { colors } from '../../infrastructure/colors';
 import { fonts } from '../../infrastructure/fonts';
 import { BiteShareContext } from '../../BiteShareContext';
+import { readASingleDocument } from '../../../firebase/helpers/database.firebase.js';
 
 const styles = StyleSheet.create({
   centerContainer: {
@@ -40,38 +41,18 @@ const styles = StyleSheet.create({
 
 const GuestMenu = () => {
 
-  const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey }, dispatch } = useContext(BiteShareContext);
+  const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey, sessionId }, dispatch } = useContext(BiteShareContext);
   const API_KEY = biteShareKey;
 
   const [isLoading, setLoading] = useState(true);
   const [restaurantAddress, setRestaurantAddress] = useState('');
 
-  const parseJsonMenu = (data) => {
-    let prettyMenu = [];
-    let menuId = 1;
-    for (let i = 0; i < data.length; i++) {
-      let section = data[i].menu_items;
-      for (let j = 0; j < section.length; j++) {
-        let item = section[j];
-        prettyMenu.push({ key: menuId, name: item.name, description: item.description, price: item.price });
-        menuId++; //to remove the warning from react console - providing KEY for each component
-      }
-    }
-
-    dispatch({ type: 'SET_RESTAURANT_MENU', restaurantMenus: prettyMenu });
-  };
-
   useEffect(() => {
-    fetch(`https://api.documenu.com/v2/restaurant/${restaurantId}?key=${API_KEY}`)
-      .then((response) => response.json())
-      .then((json) => {
-
-        setRestaurantAddress(json.result.address.formatted);
-        parseJsonMenu(json.result.menus[0].menu_sections);
-
+    readASingleDocument('transactions', sessionId)
+      .then((doc) => {
+        dispatch({ type: 'SET_RESTAURANT_MENU', restaurantMenus: doc.data().menu });
       })
-      .catch((error => console.error(error)))
-      .finally(() => setLoading(false));
+      .catch(err => console.log('Error getting menu'));
   }, []);
 
   return (
