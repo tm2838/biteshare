@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableOpacity, Pressable } from 'react-native';
+import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableOpacity, Pressable, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+// import { colors } from '../../infrastructure/colors';
 
 import { auth } from '../../../firebase/firebase.config';
 import { signUpNewUser, googleLogin, updateProfile } from '../../../firebase/helpers/authentication.firebase';
@@ -17,19 +18,46 @@ import { addANewAnonymousDocument } from '../../../firebase/helpers/database.fir
 const styles = StyleSheet.create({
   loginContainer: {
     flex: 1,
-    backgroundColor: theme.colors.brand.login,
+    backgroundColor: 'rgb(255, 252, 242)',
   },
   biteshareTitle: {
-    flex: 1,
-    textAlign: 'center',
-    fontFamily: theme.fonts.heading,
-    fontSize: 64,
-    marginTop: 70
+    marginTop: 70,
+    width: 300,
+    height: 100
+  },
+  biteshareTitleContainer: {
+    width: '100%',
+    alignItems: 'center'
   },
   loginEntries: {
-    flex: 4.5,
-    margin: 20,
+    margin: 30,
+    // alignItems: 'center',
+    // flex: 4.5,
+  },
+  InputFieldsContainer: {
+    backgroundColor: 'rgb(245, 242, 232)',
+    padding: 20,
     alignItems: 'center',
+    borderRadius: 50
+
+  },
+  buttonsContainer: {
+    marginTop: 10,
+    width: '100%',
+    alignItems: 'center'
+  },
+  createAccountButton: {
+    margin: 10,
+    width: '80%',
+    height: 40,
+    borderRadius: 10,
+    backgroundColor: theme.colors.brand.rausch,
+    justifyContent: 'center'
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: 'white',
+    letterSpacing: 1
   },
   signUp: {
     margin: 0,
@@ -38,7 +66,8 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline'
   },
   error: {
-    color: 'red'
+    color: 'red',
+    textAlign: 'center'
   },
   authProvider: {
     width: 130,
@@ -101,40 +130,55 @@ const SignupScreen = () => {
   return (
     <SafeArea>
       <View style={styles.loginContainer}>
-        <Text style={styles.biteshareTitle}>BITESHARE</Text>
+        {/* <Text style={styles.biteshareTitle}>BITESHARE</Text>
+         */}
+        <View style={styles.biteshareTitleContainer}>
+          <Image source={require('../../../assets/signuplogo.png')} style={styles.biteshareTitle} />
+
+        </View>
         <KeyboardAvoidingView
           style={styles.loginEntries}>
-          <InputField
-            placeholder={'Name'}
-            secureText={false}
-            inputValue={accountHolderName}
-            setInputValue={setAccountHolderName} />
-          <InputField
-            placeholder={'Email'}
-            secureText={false}
-            inputValue={email}
-            setInputValue={setEmail} />
-          <InputField
-            placeholder={'Password'}
-            secureText={true}
-            inputValue={password}
-            setInputValue={setPassword} />
-          <InputField
-            placeholder={'Confirm Password'}
-            secureText={true}
-            inputValue={confirmPassword}
-            setInputValue={setconfirmPassword} />
+          <View style={styles.InputFieldsContainer}>
+            <InputField
+              placeholder={'Name'}
+              secureText={false}
+              inputValue={accountHolderName}
+              setInputValue={setAccountHolderName} />
+            <InputField
+              placeholder={'Email'}
+              secureText={false}
+              inputValue={email}
+              setInputValue={setEmail} />
+            <InputField
+              placeholder={'Password'}
+              secureText={true}
+              inputValue={password}
+              setInputValue={setPassword} />
+            <InputField
+              placeholder={'Confirm Password'}
+              secureText={true}
+              inputValue={confirmPassword}
+              setInputValue={setconfirmPassword} />
+          </View>
+
           {signupError &&
             <Text style={styles.error} variant={'error'}>{signupError}</Text>}
-          <BigButton title={'Sign up'} handleLogin={handleCreateNewUser} />
-          <Pressable onPress={goToLoginPage}>
-            <Text>Have an account?
-              <Text style={styles.signUp}> Log in</Text>
-            </Text>
-          </Pressable>
-          <View style={styles.authProvider}>
-            <GoogleLogin />
-            <FacebookLogin />
+          <View style={styles.buttonsContainer}>
+            <TouchableOpacity
+              style={styles.createAccountButton}
+              onPress={handleCreateNewUser}>
+              <Text style={styles.buttonText}>CREATE ACCOUNT</Text>
+            </TouchableOpacity>
+            <Pressable onPress={goToLoginPage}>
+              <Text>Have an account?
+                <Text style={styles.signUp}> Log in</Text>
+              </Text>
+            </Pressable>
+            <View style={styles.authProvider}>
+              <GoogleLogin />
+              <FacebookLogin />
+            </View>
+
           </View>
         </KeyboardAvoidingView>
       </View>

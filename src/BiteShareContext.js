@@ -18,7 +18,7 @@ export const biteShareState = {
   orderedItems: [], //matching the name with TJ's code in Guest.js (will updated as needed after checking with TJ)
   email: '',
   authenticated: false,
-  biteShareKey: 'ADD_KEY',
+  biteShareKey: '16bcb6bcff21e2fbcbad3fd5c5ca4605',
   nickname: null,
   openCamera: false,
 };
@@ -67,9 +67,9 @@ export const biteShareReducer = (state, action) => {
     case 'SET_NICKNAME':
       return { ...state, nickname: action.nickname };
     case 'SET_OPEN_CAMERA':
-        return { ...state, openCamera: action.openCamera };
+      return { ...state, openCamera: action.openCamera };
     case 'SET_CLEAR_CONTEXT':
-        return clearContextReducer(state, action);
+      return clearContextReducer(state, action);
     default:
       return state;
   }
