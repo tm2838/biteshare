@@ -9,6 +9,7 @@ import { BiteShareContext } from '../../BiteShareContext';
 import FacebookLogin from '../LoginView/FacebookLogin';
 import { auth } from '../../../firebase/firebase.config';
 import { signUpNewUser, loginUser, googleLogin, onAuthStateChanged } from '../../../firebase/helpers/authentication.firebase';
+import { getADocReferenceFromCollection } from '../../../firebase/helpers/database.firebase';
 import GoogleLogin from './GoogleLogin';
 
 const styles = StyleSheet.create({
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
 
 const LoginScreen = () => {
   const navigation = useNavigation();
-  const { state: { authenticated, accountType }, dispatch } = useContext(BiteShareContext);
+  const { state: { accountType, accountHolderName, nickname }, dispatch } = useContext(BiteShareContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -67,8 +68,17 @@ const LoginScreen = () => {
     //isloading?
     loginUser(email, password)
       .then(userCredentials => {
-        dispatch({ type: 'SET_AUTH', authenticated: true });
+        console.log('userCredentials in LOGIN:', userCredentials.user.providerData[0].displayName);
         dispatch({ type: 'SET_EMAIL', email });
+        getADocReferenceFromCollection('users', 'email', '==', email)
+          .then((qResult) => {
+            qResult.forEach((doc) => {
+              dispatch({ type: 'SET_USER_ID', userId: doc.id });
+            });
+          })
+          .catch((error) => {
+            console.log('fail to set user id');
+          });
       })
       .catch(err => {
         console.log(err);
@@ -98,7 +108,7 @@ const LoginScreen = () => {
           <BigButton title={'Login'} handleLogin={handleLogin} />
           <Pressable onPress={goToSignup}>
             <Text>Don't have an account?
-              <Text style={styles.signUp}> Sign Up</Text> {/*this will need "onPress => go to Sign up page"}*/}
+              <Text style={styles.signUp}> Sign Up</Text>
             </Text>
           </Pressable>
           <View style={styles.authProvider}>

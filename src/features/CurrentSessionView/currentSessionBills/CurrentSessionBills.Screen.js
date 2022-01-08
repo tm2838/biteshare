@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { colors } from '../../../infrastructure/colors.js';
 import { BiteShareContext } from '../../../BiteShareContext.js';
-import { getADocReferenceFromCollection, readASingleDocument, readDocSnapshotListener } from '../../../../firebase/helpers/database.firebase.js';
+import { getADocReferenceFromCollection, readASingleDocument, readDocSnapshotListener, updateADocument } from '../../../../firebase/helpers/database.firebase.js';
 import OrderedItemInfo from './OrderedItemInfo.js';
 import TipInfo from './TipInfo.js';
 
@@ -51,9 +51,10 @@ const styles = StyleSheet.create({
 
 const CurrentSessionBills = ({ changeTab }) => {
 
-  const { state: { accountHolderName, nickname, sessionId, orderedItems }, dispatch } = useContext(BiteShareContext);
+  const { state: { accountHolderName, nickname, sessionId, orderedItems, email, userId }, dispatch } = useContext(BiteShareContext);
   const [individualBill, setIndividualBill] = useState(0);
   const [totalBill, setTotalBill] = useState(0);
+  const [selected, setSelected] = useState(null);
   const tipPercentages = [0.1, 0.15, 0.2];
 
   //function to add tax- 7.25%
@@ -63,10 +64,9 @@ const CurrentSessionBills = ({ changeTab }) => {
     getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', nickname || accountHolderName)
       .then((qResult) => {
         qResult.forEach((doc) => {
-          readASingleDocument(`transactions/${sessionId}/attendees`, doc.id)
-            .then((singleDoc) => {
-              setIndividualBill(singleDoc.data().individualBills);
-            });
+          readDocSnapshotListener(`transactions/${sessionId}/attendees`, doc.id, (singleDoc) => {
+            setIndividualBill(singleDoc.data().individualBills);
+          });
         });
       })
       .catch(err => console.log('Error in getIndividualBill: ', err));
@@ -81,14 +81,27 @@ const CurrentSessionBills = ({ changeTab }) => {
   useEffect(() => {
     if (sessionId) {
       getTotalBill();
+      getIndividualBill();
     }
   }, [sessionId]);
 
-  useEffect(() => {
-    getIndividualBill();
-  }, []);
-
-  const [selected, setSelected] = useState(null);
+  const handleEndSession = () => {
+    getADocReferenceFromCollection(`users/${userId}/transactions`, 'sessionId', '==', sessionId)
+      .then((results) => {
+        results.forEach((sessionDoc) => {
+          updateADocument(`users/${userId}/transactions`, sessionDoc.id, {
+            isCurrent: false,
+            individualBills: individualBill,
+          })
+            .then(() => {
+              console.log('Successfully added the transaction for current user');
+            })
+            .catch((error) => {
+              console.log('Error adding the transaction for current user');
+            });
+        });
+      });
+  };
 
   return (
     <View style={styles.billsContainer}>
@@ -123,7 +136,7 @@ const CurrentSessionBills = ({ changeTab }) => {
         scrollEnabled={false}
       />
 
-      <TouchableOpacity style={styles.paymentButton}>
+      <TouchableOpacity style={styles.paymentButton} onPress={handleEndSession}>
         <Text style={{ textAlign: 'center', color: colors.brand.rausch, fontWeight: 'bold' }}>Make Payment</Text>
       </TouchableOpacity>
 

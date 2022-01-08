@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 
 const GoogleLogin = () => {
   const navigation = useNavigation();
-  const { state: { authenticated, nickname }, dispatch } = useContext(BiteShareContext);
+  const { state: { nickname }, dispatch } = useContext(BiteShareContext);
 
   const signInAsync = async () => {
     try {
@@ -26,7 +26,6 @@ const GoogleLogin = () => {
         // androidClientId: '<YOUR_ANDROID_CLIENT_ID>',
       });
       if (type === 'success') {
-        dispatch({ type: 'SET_AUTH', authenticated: true });
         dispatch({ type: 'SET_EMAIL', email: user.email });
         dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName: user.name });
         dispatch({ type: 'SET_NICKNAME', nickname: user.givenName });
@@ -39,6 +38,8 @@ const GoogleLogin = () => {
               name: user.name,
               email: user.email,
             });
+          } else {
+            await userDocs.forEach((doc) => dispatch({ type: 'SET_USER_ID', userId: doc.id }));
           }
         } catch (error) {
           console.log('Error creating new user in users collections when google sign in');
