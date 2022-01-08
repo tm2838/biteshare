@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Icon } from 'react-native-elements';
 
 import { colors } from '../../../infrastructure/colors';
@@ -24,12 +24,16 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 15
   },
-  icon: {
-
+  title: {
+    flex: 1,
+    fontSize: 15,
+    fontWeight: 'bold'
   }
 });
 
 const AccountInfo = ({ heading, info }) => {
+
+  const [display, setDisplay] = useState('text');
 
   //TODO
   //Create state variable to conditionally render row
@@ -41,37 +45,33 @@ const AccountInfo = ({ heading, info }) => {
   //MAY NEED TO PLACE THIS FX() IN PARENT COMPONENT TO RERENDER WITH PROPER INFO
 
 
-  const renderInfo = (view) => {
-    if (view === 'form') {
-      return (
-        <TextInput
-          style={styles.text}
-          placeholder={info}
-          // onChangeText={update text field fx}
-          // onFormSubmit={}?
-        />
-      );
-    }
-
-    return (
-      <Text style={styles.text}>{info}</Text>
-    );
-
+  const handleTextClick = () => {
+    setDisplay('form');
   };
+
+  useEffect(() => {
+    console.log('Account state changed: ', display);
+  }, [display]);
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>{heading}:</Text>
 
-      <Text style={styles.text}>{heading}</Text>
-      {renderInfo()}
+      {display === 'text' && <Text style={styles.text}>{info}</Text>}
+      {display === 'form' && <TextInput
+        style={styles.text}
+        placeholder={info}
+        // onChangeText={update text field fx}
+        // onFormSubmit={}?
+      />}
 
       <Icon
         name='build'
         size={20}
-        onClick={renderInfo('form')}
+        onPress={
+          handleTextClick
+        }
       />
-
-
     </View>
   );
 };

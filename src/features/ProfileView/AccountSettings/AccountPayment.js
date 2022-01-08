@@ -30,8 +30,6 @@ const UserBilling = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Payment Method </Text>
-
-      <Text>Security Code: </Text>
       <AccountInfo heading={'CardNumber'} info={'5555 5555 5555 5555'}></AccountInfo>
       <AccountInfo heading={'Expiration'} info={'01/22'}></AccountInfo>
       <AccountInfo heading={'Security Code'} info={'123'}></AccountInfo>
