@@ -3,6 +3,8 @@ import { colors } from '../../../infrastructure/colors';
 import { StyleSheet, Text, View, FlatList} from 'react-native';
 import { BiteShareContext } from '../../../BiteShareContext';
 
+import AccountInfo from './AccountInputRow';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -17,10 +19,13 @@ const styles = StyleSheet.create({
     borderColor: 'black'
   },
   title: {
-    flex: .2,
+    flex: 1,
     fontSize: 25,
     fontWeight: 'bold',
   },
+  info: {
+
+  }
 });
 
 
@@ -32,9 +37,9 @@ const UserInfo = () => {
 
       <Text style={styles.title}>Account Information </Text>
 
-      <Text>Username</Text>
-      <Text>Email</Text>
-      <Text>Password</Text>
+      <AccountInfo heading={'Username'} info={'User'}></AccountInfo>
+      <AccountInfo heading={'Email'} info={'user@user.com'}></AccountInfo>
+      <AccountInfo heading={'Password'} info={'12345'}></AccountInfo>
 
     </View>
 
