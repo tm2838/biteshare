@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import React, { useContext, useState, useEffect } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import SafeArea from '../../components/SafeArea';
@@ -13,7 +13,7 @@ import AccountScreen from './AccountSettings/Account.Screen';
 
 import { colors } from '../../infrastructure/colors';
 import { BiteShareContext } from '../../BiteShareContext';
-import { signOutUser } from '../../../firebase/helpers/authentication.firebase';
+import { updateADocument } from '../../../firebase/helpers/database.firebase';
 
 const styles = StyleSheet.create({
   container: {
@@ -31,7 +31,7 @@ const ProfileScreen = () => {
       <View >
         <ProfileScreenHeader navPage={setCurrentPage} currentPage={currentPage} />
         <View style={styles.container}>
-          {currentPage === 'Profile' && <Profile navPage={setCurrentPage}/>}
+          {currentPage === 'Profile' && <Profile navPage={setCurrentPage} />}
           {currentPage === 'Account' && <AccountScreen />}
         </View>
       </View>

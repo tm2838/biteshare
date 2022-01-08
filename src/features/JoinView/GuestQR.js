@@ -20,7 +20,7 @@ export default function QRScanner() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const { state:
-    { restaurantName, restaurantId, restaurantMenus, nickname, accountHolderName, accountType, openCamera, joinRequest }, dispatch }
+    { restaurantName, restaurantId, nickname, accountHolderName, accountType, openCamera, joinRequest }, dispatch }
     = useContext(BiteShareContext);
 
   useEffect(() => {
@@ -41,9 +41,9 @@ export default function QRScanner() {
     alert('Please wait until the host allows you to join the session');
 
     const sessionData = data.split('&');
-    const [ sessionId, hostName, diningPlaceName, diningPlaceId ] = sessionData;
+    const [sessionId, hostName, diningPlaceName, diningPlaceId] = sessionData;
 
-    dispatch({type: 'SET_SESSION_ID', sessionId: sessionId});
+    dispatch({ type: 'SET_SESSION_ID', sessionId: sessionId });
     dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: diningPlaceId });
     dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: diningPlaceName });
 
@@ -55,9 +55,9 @@ export default function QRScanner() {
       orderStatus: 'not ready',
       orderedItems: [],
     })
+
       .then((doc) => {
         console.log('Successfully added GUEST into the database');
-
         const unsubscribe = readDocSnapshotListener(`transactions/${sessionId}/attendees`, doc.id, (doc) => {
           const docData = doc.data();
           if (docData.joinRequest === 'pending') {
@@ -65,11 +65,11 @@ export default function QRScanner() {
           } else if (docData.joinRequest === 'allowed') {
             dispatch({ type: 'SET_JOIN_REQUEST', joinRequest: 'allowed' });
             dispatch({ type: 'SET_ACCOUNT_TYPE', accountType: 'GUEST' });
-            navigation.navigate('CurrentSession', {previous: 'coming from join tab'});
+            navigation.navigate('CurrentSession', { previous: 'coming from join tab' });
             unsubscribe();
           } else {
             setScanned(false);
-            navigation.navigate('Explore', {previous: 'coming from join tab'});
+            navigation.navigate('Explore', { previous: 'coming from join tab' });
             alert(`Access denied.\n Please contact your host ${hostName} to try again`);
             dispatch({ type: 'SET_CLEAR_CONTEXT' });
             unsubscribe();
@@ -91,7 +91,7 @@ export default function QRScanner() {
   return (
     <View style={styles.container}>
 
-      {scanned === true && accountType === 'PENDING' && <GuestMenu /> }
+      {scanned === true && accountType === 'PENDING' && <GuestMenu />}
 
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}

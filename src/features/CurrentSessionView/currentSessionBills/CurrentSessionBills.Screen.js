@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { colors } from '../../../infrastructure/colors.js';
 import { BiteShareContext } from '../../../BiteShareContext.js';
-import { getADocReferenceFromCollection, readASingleDocument } from '../../../../firebase/helpers/database.firebase.js';
+import { getADocReferenceFromCollection, readASingleDocument, readDocSnapshotListener } from '../../../../firebase/helpers/database.firebase.js';
 import OrderedItemInfo from './OrderedItemInfo.js';
 import TipInfo from './TipInfo.js';
 
@@ -73,17 +73,20 @@ const CurrentSessionBills = ({ changeTab }) => {
   };
 
   const getTotalBill = () => {
-    readASingleDocument('transactions', sessionId)
-      .then((doc) => {
-        setTotalBill(doc.data().totalBills);
-      })
-      .catch(err => console.log('Error in getTotalBill: ', err));
+    readDocSnapshotListener('transactions', sessionId, (doc) => {
+      setTotalBill(doc.data().totalBills);
+    });
   };
 
   useEffect(() => {
+    if (sessionId) {
+      getTotalBill();
+    }
+  }, [sessionId]);
+
+  useEffect(() => {
     getIndividualBill();
-    getTotalBill();
-  }, [orderedItems]);
+  }, []);
 
   const [selected, setSelected] = useState(null);
 
