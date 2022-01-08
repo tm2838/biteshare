@@ -25,9 +25,6 @@ const styles = StyleSheet.create({
     height: 20,
     flex: 2
   },
-  history: {
-
-  },
   settings: {
     flex: .5
   },
