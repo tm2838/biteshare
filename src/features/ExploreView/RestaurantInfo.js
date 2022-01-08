@@ -2,7 +2,7 @@
 import React, { useContext } from 'react';
 import axios from 'axios';
 import { BiteShareContext } from '../../BiteShareContext.js';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Card } from 'react-native-paper';
 import { colors } from '../../infrastructure/colors';
 
@@ -50,10 +50,12 @@ const RestaurantInfo = ({ restaurant, image }) => {
         <Card.Cover key={restaurant.restaurant_name} source={{ uri: image }} />
         <Card.Title
           title={restaurant.restaurant_name}
+          left={() => <Image source={require('../../../assets/explorelogo.png')} style={{ width: 30, height: 30 }} />}
+          leftStyle={{ width: 20 }}
           subtitle={restaurant.price_range || '$$'}
           subtitleStyle={{ color: colors.brand.rausch }} />
         <Card.Content>
-          {restaurant.cuisines.length > 1 && <Text>{restaurant.cuisines.join(', ')}</Text>}
+          {restaurant.cuisines.length > 0 && restaurant.cuisines[0].length > 0 && <Text>{restaurant.cuisines.join(', ')}</Text>}
           <Text>{restaurant.restaurant_phone}</Text>
           <Text>{restaurant.address.street}</Text>
         </Card.Content>

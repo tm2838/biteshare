@@ -13,9 +13,25 @@ import * as Location from 'expo-location';
 
 const styles = StyleSheet.create({
   search: {
+    width: '100%',
+    alignItems: 'center',
     padding: 30,
-    paddingBottom: 10
-  }
+    paddingBottom: 2,
+  },
+  button: {
+    margin: 10,
+    marginBottom: 5,
+    width: '50%',
+    height: 40,
+    borderRadius: 10,
+    backgroundColor: colors.brand.rausch,
+    justifyContent: 'center'
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: 'white',
+    letterSpacing: 1
+  },
 });
 
 
@@ -107,7 +123,7 @@ const ExploreScreen = ({ navigation }) => {
                   onChangeText={onRestaurantNameChangeSearch}
                   value={restaurantNameQuery}
                   icon={() => null}
-                  style={{ elevation: 0 }}
+                  style={{ elevation: 0, marginBottom: 5 }}
                 />
                 <Searchbar
                   placeholder="Enter Zip Code or City"
@@ -122,7 +138,7 @@ const ExploreScreen = ({ navigation }) => {
                   onPress={() => {
                     getRestaurants(restaurantNameQuery, zipcodeQuery);
                   }}>
-                  <Text style={{ color: colors.brand.kazan, fontWeight: '600' }}>Search</Text>
+                  <Text style={styles.buttonText}>SEARCH</Text>
                 </TouchableOpacity>
 
               </View>
