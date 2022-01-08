@@ -49,13 +49,12 @@ const styles = StyleSheet.create({
 
 const SignupScreen = () => {
   const navigation = useNavigation();
-  const { state: { authenticated }, dispatch } = useContext(BiteShareContext);
+  const { state: { }, dispatch } = useContext(BiteShareContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setconfirmPassword] = useState('');
   const [signupError, setSignupError] = useState(null);
   const [accountHolderName, setAccountHolderName] = useState('');
-  const nickname = accountHolderName.split(' ')[0];
 
   const updateUserProfile = () => {
     updateProfile(auth.currentUser, {
@@ -74,7 +73,8 @@ const SignupScreen = () => {
 
     signUpNewUser(email, password)
       .then(async userCredentials => {
-        dispatch({ type: 'SET_AUTH', authenticated: true });
+        const nickname = accountHolderName.split(' ')[0];
+        // console.log('num one:', accountHolderName, nickname);
         dispatch({ type: 'SET_EMAIL', email });
         dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName });
         dispatch({ type: 'SET_NICKNAME', nickname });
@@ -87,7 +87,6 @@ const SignupScreen = () => {
         } catch (error) {
           console.log('Error creating new user in users collection when sign up for first time');
         }
-
       })
       .catch(err => {
         setSignupError(err.message.toString());

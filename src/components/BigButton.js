@@ -4,6 +4,10 @@ import { theme } from '../infrastructure/index';
 
 const styles = StyleSheet.create({
   button: {
+    shadowColor: 'rgba(0,0,0, .4)',
+    shadowOffset: { height: 1, width: 1 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
     backgroundColor: theme.colors.brand.beach,
     borderRadius: 4,
     width: '40%',
@@ -11,7 +15,6 @@ const styles = StyleSheet.create({
     marginVertical: 10
   },
   title: {
-    // flex: 1,
     textAlign: 'center',
     fontFamily: theme.fonts.heading,
     fontSize: 32,

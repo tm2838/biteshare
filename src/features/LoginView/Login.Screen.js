@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 
 const LoginScreen = () => {
   const navigation = useNavigation();
-  const { state: { authenticated, accountType }, dispatch } = useContext(BiteShareContext);
+  const { state: { accountType, accountHolderName, nickname }, dispatch } = useContext(BiteShareContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -67,7 +67,7 @@ const LoginScreen = () => {
     //isloading?
     loginUser(email, password)
       .then(userCredentials => {
-        dispatch({ type: 'SET_AUTH', authenticated: true });
+        console.log('userCredentials in LOGIN:', userCredentials.user.providerData[0].displayName);
         dispatch({ type: 'SET_EMAIL', email });
       })
       .catch(err => {
@@ -98,7 +98,7 @@ const LoginScreen = () => {
           <BigButton title={'Login'} handleLogin={handleLogin} />
           <Pressable onPress={goToSignup}>
             <Text>Don't have an account?
-              <Text style={styles.signUp}> Sign Up</Text> {/*this will need "onPress => go to Sign up page"}*/}
+              <Text style={styles.signUp}> Sign Up</Text>
             </Text>
           </Pressable>
           <View style={styles.authProvider}>
