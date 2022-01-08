@@ -64,10 +64,9 @@ const CurrentSessionBills = ({ changeTab }) => {
     getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', nickname || accountHolderName)
       .then((qResult) => {
         qResult.forEach((doc) => {
-          readASingleDocument(`transactions/${sessionId}/attendees`, doc.id)
-            .then((singleDoc) => {
-              setIndividualBill(singleDoc.data().individualBills);
-            });
+          readDocSnapshotListener(`transactions/${sessionId}/attendees`, doc.id, (singleDoc) => {
+            setIndividualBill(singleDoc.data().individualBills);
+          });
         });
       })
       .catch(err => console.log('Error in getIndividualBill: ', err));
@@ -82,12 +81,9 @@ const CurrentSessionBills = ({ changeTab }) => {
   useEffect(() => {
     if (sessionId) {
       getTotalBill();
+      getIndividualBill();
     }
   }, [sessionId]);
-
-  useEffect(() => {
-    getIndividualBill();
-  }, []);
 
   const handleEndSession = () => {
     getADocReferenceFromCollection(`users/${userId}/transactions`, 'sessionId', '==', sessionId)
