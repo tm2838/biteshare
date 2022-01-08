@@ -17,7 +17,8 @@ export const biteShareState = {
   sessionId: '',
   orderedItems: [], //matching the name with TJ's code in Guest.js (will updated as needed after checking with TJ)
   email: '',
-  biteShareKey: '9dc8a2f81caddc80fddc41a188a4d7f1',
+  userId: '',
+  biteShareKey: 'ADD_KEY',
   nickname: null,
   openCamera: false,
 };
@@ -58,6 +59,8 @@ export const biteShareReducer = (state, action) => {
       return { ...state, sessionId: action.sessionId };
     case 'SET_ORDERED_ITEMS':
       return { ...state, orderedItems: action.orderedItems };
+    case 'SET_USER_ID':
+      return { ...state, userId: action.userId };
     case 'SET_EMAIL':
       return { ...state, email: action.email };
     case 'SET_NICKNAME':
