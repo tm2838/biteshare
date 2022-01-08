@@ -15,10 +15,10 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     flexDirection: 'column',
-    height: '90%',
+    height: '92%',
 
-    borderWidth: 1,
-    borderColor: 'black'
+    // borderWidth: 1,
+    // borderColor: 'black'
   },
   picture: {
     flex: .1,

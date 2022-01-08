@@ -28,16 +28,17 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 15,
     fontWeight: 'bold'
+  },
+  form: {
+    flex: 1,
+    fontSize: 15,
+    //Optional background color to differentiate form entry
+    // backgroundColor: colors.brand.kazanLight2,
   }
 });
 
 const AccountInfo = ({ heading, info }) => {
-
   const [display, setDisplay] = useState('text');
-
-  //TODO
-  //Create state variable to conditionally render row
-  //Edit state from icon click
 
   //TODO
   //ON SUBMIT FX() TO UPDATE USER COLLECTION IN DATABASE
@@ -45,13 +46,10 @@ const AccountInfo = ({ heading, info }) => {
   //MAY NEED TO PLACE THIS FX() IN PARENT COMPONENT TO RERENDER WITH PROPER INFO
 
 
-  const handleTextClick = () => {
-    setDisplay('form');
+  const handleTextClick = (val) => {
+    console.log(val);
+    setDisplay(val);
   };
-
-  useEffect(() => {
-    console.log('Account state changed: ', display);
-  }, [display]);
 
   return (
     <View style={styles.container}>
@@ -59,19 +57,22 @@ const AccountInfo = ({ heading, info }) => {
 
       {display === 'text' && <Text style={styles.text}>{info}</Text>}
       {display === 'form' && <TextInput
-        style={styles.text}
+        style={styles.form}
         placeholder={info}
-        // onChangeText={update text field fx}
-        // onFormSubmit={}?
+        onSubmitEditing={() => {
+          // alert('Submitted form data');
+          handleTextClick('text');
+        }}
       />}
 
-      <Icon
+      {display === 'text' && <Icon
         name='build'
         size={20}
-        onPress={
-          handleTextClick
-        }
-      />
+        onPress={() => {
+          handleTextClick('form');
+        }}
+      />}
+
     </View>
   );
 };

@@ -15,8 +15,8 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: 'space-around',
 
-    borderWidth: 1,
-    borderColor: 'black'
+    // borderWidth: 1,
+    // borderColor: 'black'
   },
   title: {
     flex: 1,
