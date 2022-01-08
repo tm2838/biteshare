@@ -9,18 +9,21 @@ import { theme } from '../../../infrastructure/index';
 import BigButton from '../../../components/BigButton';
 
 const styles = StyleSheet.create({
-  view: {
-    flex: .25,
+  container: {
+    flex: .6,
     height: 30,
     flexDirection: 'row',
     alignItems: 'center',
+
+    borderWidth: 1,
+    borderColor: 'black'
   },
   photo: {
     marginRight: 15
   },
   button: {
     backgroundColor: theme.colors.brand.beach,
-    borderRadius: 4,
+
     width: '65%',
     height: 50,
     marginVertical: 10,
@@ -40,10 +43,10 @@ const UserPhoto = () => {
 
   //TODO
   //ADD FUNCTION TO UPDATE PROFILE PHOTO IN USERS COLLECTION
-
+  //WILL NEED TO ACCESS DEVICES FILE SYSTEM TO SELECT PHOTO
 
   return (
-    <View style={styles.view}>
+    <View style={styles.container}>
       <View style = {styles.photo}>
         <Avatar.Image
           source = {require(profilePicturePath)}
