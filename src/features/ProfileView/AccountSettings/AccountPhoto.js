@@ -1,13 +1,12 @@
-import React, { useContext } from 'react';
-import { Appbar, Avatar } from 'react-native-paper';
+import React from 'react';
+import { Avatar } from 'react-native-paper';
 import { colors } from '../../../infrastructure/colors';
-import { StyleSheet, Text, View, TouchableOpacity, Pressable} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import { BiteShareContext } from '../../../BiteShareContext';
 import { theme } from '../../../infrastructure/index';
 
 
 import BigButton from '../../../components/BigButton';
-
 
 const styles = StyleSheet.create({
   view: {
@@ -37,9 +36,11 @@ const styles = StyleSheet.create({
 });
 
 const UserPhoto = () => {
-  const { dispatch } = useContext(BiteShareContext);
-
   const profilePicturePath = '../../../../assets/profilePicture.png';
+
+  //TODO
+  //ADD FUNCTION TO UPDATE PROFILE PHOTO IN USERS COLLECTION
+
 
   return (
     <View style={styles.view}>
@@ -50,17 +51,12 @@ const UserPhoto = () => {
         />
       </View>
 
-
       <TouchableOpacity
         style={styles.button}
         // onPress={updatePhoto}
       >
         <Text style={styles.text}>Update Profile Photo</Text>
       </TouchableOpacity>
-
-
-      {/* <Text style={styles.profileName}>Update Profile Photo</Text> */}
-      {/* <BigButton title={'Update Profile Photo'}></BigButton> */}
 
     </View>
   );
