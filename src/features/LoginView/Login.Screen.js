@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableOpacity, Pressable } from 'react-native';
+import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableOpacity, Pressable, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import SafeArea from '../../components/SafeArea';
 import InputField from '../../components/InputField';
@@ -17,16 +17,48 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.brand.login,
   },
   biteshareTitle: {
-    flex: 1,
-    textAlign: 'center',
-    fontFamily: theme.fonts.heading,
-    fontSize: 64,
-    marginTop: 70
+    // flex: 1,
+    // textAlign: 'center',
+    // fontFamily: theme.fonts.heading,
+    // fontSize: 64,
+    marginTop: 70,
+    width: 285,
+    height: 250
+  },
+  biteshareTitleContainer: {
+    // marginTop: 70,
+    width: '100%',
+    alignItems: 'center'
   },
   loginEntries: {
-    flex: 2.5,
+    // flex: 2.5,
     margin: 20,
+    marginTop: 10
+    // alignItems: 'center',
+  },
+  InputFieldsContainer: {
+    backgroundColor: 'rgb(247, 228, 213)',
+    padding: 20,
     alignItems: 'center',
+    borderRadius: 50
+  },
+  buttonsContainer: {
+    marginTop: 10,
+    width: '100%',
+    alignItems: 'center'
+  },
+  loginButton: {
+    margin: 10,
+    width: '80%',
+    height: 40,
+    borderRadius: 10,
+    backgroundColor: theme.colors.brand.rausch,
+    justifyContent: 'center'
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: 'white',
+    letterSpacing: 1
   },
   signUp: {
     margin: 0,
@@ -82,28 +114,42 @@ const LoginScreen = () => {
   return (
     <SafeArea>
       <View style={styles.loginContainer}>
-        <Text style={styles.biteshareTitle}>BITESHARE</Text>
+        {/* <Text style={styles.biteshareTitle}>BITESHARE</Text> */}
+        <View style={styles.biteshareTitleContainer}>
+          <Image source={require('../../../assets/loginlogo.png')} style={styles.biteshareTitle} />
+        </View>
         <KeyboardAvoidingView
           style={styles.loginEntries}>
-          <InputField
-            placeholder={'Email'}
-            secureText={false}
-            inputValue={email}
-            setInputValue={setEmail} />
-          <InputField
-            placeholder={'Password'}
-            secureText={true}
-            inputValue={password}
-            setInputValue={setPassword} />
-          <BigButton title={'Login'} handleLogin={handleLogin} />
-          <Pressable onPress={goToSignup}>
-            <Text>Don't have an account?
-              <Text style={styles.signUp}> Sign Up</Text> {/*this will need "onPress => go to Sign up page"}*/}
-            </Text>
-          </Pressable>
-          <View style={styles.authProvider}>
-            <GoogleLogin />
-            <FacebookLogin />
+          <View style={styles.InputFieldsContainer}>
+
+            <InputField
+              placeholder={'Email'}
+              secureText={false}
+              inputValue={email}
+              setInputValue={setEmail} />
+            <InputField
+              placeholder={'Password'}
+              secureText={true}
+              inputValue={password}
+              setInputValue={setPassword} />
+          </View>
+
+          <View style={styles.buttonsContainer}>
+
+            <TouchableOpacity
+              style={styles.loginButton}
+              onPress={handleLogin}>
+              <Text style={styles.buttonText}>LOGIN</Text>
+            </TouchableOpacity>
+            <Pressable onPress={goToSignup}>
+              <Text>Don't have an account?
+                <Text style={styles.signUp}> Sign Up</Text> {/*this will need "onPress => go to Sign up page"}*/}
+              </Text>
+            </Pressable>
+            <View style={styles.authProvider}>
+              <GoogleLogin />
+              <FacebookLogin />
+            </View>
           </View>
         </KeyboardAvoidingView>
       </View>
