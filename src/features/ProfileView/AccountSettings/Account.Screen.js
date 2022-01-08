@@ -2,11 +2,12 @@ import React, { useContext } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import SafeArea from '../../../components/SafeArea';
-
 import { colors } from '../../../infrastructure/colors';
 import { BiteShareContext } from '../../../BiteShareContext';
 import { signOutUser } from '../../../../firebase/helpers/authentication.firebase';
+
+import SafeArea from '../../../components/SafeArea';
+import UserPhoto from './AccountPhoto';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,7 +23,7 @@ const AccountScreen = () => {
     <SafeArea>
       <View >
         <View style={styles.container}>
-          <Text>THIS IS THE ACCOUNT SETTINGS PAGE</Text>
+          <UserPhoto></UserPhoto>
 
         </View>
       </View>
@@ -32,3 +33,5 @@ const AccountScreen = () => {
 
 export default AccountScreen;
 
+//photo
+//
