@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     flex: 2
   },
   settings: {
-    flex: .5
+    flex: .1
   },
   logout: {
     flex: .1,

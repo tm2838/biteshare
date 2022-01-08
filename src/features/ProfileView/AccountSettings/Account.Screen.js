@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     flexDirection: 'column',
-    height: '92%',
+    height: '70%',
 
     // borderWidth: 1,
     // borderColor: 'black'
