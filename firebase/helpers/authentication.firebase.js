@@ -8,7 +8,8 @@ import {
   signInWithRedirect,
   onAuthStateChanged,
   updateProfile,
-  signOut
+  signOut,
+  setPersistence
 } from 'firebase/auth';
 import * as Facebook from 'expo-facebook';
 /**

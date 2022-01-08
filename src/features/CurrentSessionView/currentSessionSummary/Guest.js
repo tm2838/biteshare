@@ -90,7 +90,7 @@ const Guest = ({ guest }) => {
         qResult.forEach((doc) => {
           updateADocument(`transactions/${sessionId}/attendees`, doc.id, {
             orderStatus: 'not ready',
-            joinRequest: 'allowed'
+            joinRequest: 'allowed',
           });
         });
       })
@@ -149,7 +149,7 @@ const Guest = ({ guest }) => {
   const handleShowOrderedItem = () => {
     setShowOrderedItem(!showOrderedItem);
   };
-
+  // joinRequest !== 'denied'
   return guest.joinRequest !== 'denied' && (
     <View style={styles.container}>
       <SwipeRow
@@ -166,8 +166,8 @@ const Guest = ({ guest }) => {
 
         <Pressable style={styles.guestContainer} onPress={handleShowOrderedItem} disabled={rowDisabled}>
           <View style={styles.profileContainer}>
-            <Image source={require(profilePicturePath)} style={styles.profile}/>
-            <Text>{(guest.name === accountHolderName || guest.name === nickname) ? 'You' : guest.name }</Text>
+            <Image source={require(profilePicturePath)} style={styles.profile} />
+            <Text>{(guest.name === accountHolderName || guest.name === nickname) ? 'You' : guest.name}</Text>
 
           </View>
 

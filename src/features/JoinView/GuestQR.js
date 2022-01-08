@@ -62,9 +62,9 @@ export default function QRScanner() {
     alert('Please wait until the host allows you to join the session');
 
     const sessionData = data.split('&');
-    const [ sessionId, hostName, diningPlaceName, diningPlaceId ] = sessionData;
+    const [sessionId, hostName, diningPlaceName, diningPlaceId] = sessionData;
 
-    dispatch({type: 'SET_SESSION_ID', sessionId: sessionId});
+    dispatch({ type: 'SET_SESSION_ID', sessionId: sessionId });
     dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: diningPlaceId });
     dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: diningPlaceName });
 
@@ -125,7 +125,7 @@ export default function QRScanner() {
   return (
     <View style={styles.container}>
 
-      {scanned === true && accountType === 'PENDING' && <GuestMenu /> }
+      {scanned === true && accountType === 'PENDING' && <GuestMenu />}
 
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
