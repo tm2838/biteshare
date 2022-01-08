@@ -7,58 +7,59 @@ import { colors } from '../infrastructure/colors';
 import { signOutUser } from '../../firebase/helpers/authentication.firebase';
 import { deleteADocument, getADocReferenceFromCollection, updateADocument, getAllDocuments } from '../../firebase/helpers/database.firebase';
 
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: colors.brand.login,
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    width: 100,
+    elevation: 2
+  },
+  buttonLogout: {
+    backgroundColor: colors.brand.kazan,
+    marginBottom: 10
+  },
+  logout: {
+    color: 'white'
+  },
+  buttonClose: {
+    backgroundColor: colors.brand.beach,
+  },
+  textStyle: {
+    color: 'black',
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  modalText: {
+    fontSize: 16,
+    marginBottom: 15,
+    textAlign: 'center'
+  }
+});
+
 const LogoutModal = ({ modalVisible, setModalVisible }) => {
   const { state: { guests, accountType, sessionId, nickname }, dispatch } = useContext(BiteShareContext);
   const navigation = useNavigation();
-  const styles = StyleSheet.create({
-    centeredView: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: 22,
-    },
-    modalView: {
-      margin: 20,
-      backgroundColor: colors.brand.login,
-      borderRadius: 20,
-      padding: 35,
-      alignItems: 'center',
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 2
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 5
-    },
-    button: {
-      borderRadius: 20,
-      padding: 10,
-      width: 100,
-      elevation: 2
-    },
-    buttonLogout: {
-      backgroundColor: colors.brand.kazan,
-      marginBottom: 10
-    },
-    logout: {
-      color: 'white'
-    },
-    buttonClose: {
-      backgroundColor: colors.brand.beach,
-    },
-    textStyle: {
-      color: 'black',
-      fontWeight: 'bold',
-      textAlign: 'center'
-    },
-    modalText: {
-      fontSize: 16,
-      marginBottom: 15,
-      textAlign: 'center'
-    }
-  });
 
   const logout = async () => {
     console.log('logout Data', sessionId, accountType);
