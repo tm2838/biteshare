@@ -1,6 +1,6 @@
 export const colors = {
   brand: {
-    login: '#F3E1D2',
+    login: 'rgb(247, 228, 213)',
     body: 'rgba(243,225,210,0.4)',
     sessionTab: 'rgba(246, 194, 73, 0.4)',
     rausch: '#F06868',

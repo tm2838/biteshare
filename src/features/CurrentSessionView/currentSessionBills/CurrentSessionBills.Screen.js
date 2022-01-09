@@ -39,14 +39,19 @@ const styles = StyleSheet.create({
   },
 
   paymentButton: {
-    width: 150,
-    marginBottom: 40,
-    padding: 15,
-    borderRadius: 50,
-    backgroundColor: colors.brand.ebisuLight,
-    borderColor: colors.brand.beach,
-    borderWidth: 1
-  }
+    margin: 10,
+    marginBottom: 60,
+    width: '80%',
+    height: 40,
+    borderRadius: 10,
+    backgroundColor: colors.brand.rausch,
+    justifyContent: 'center'
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: 'white',
+    letterSpacing: 1
+  },
 });
 
 const CurrentSessionBills = ({ changeTab }) => {
@@ -137,7 +142,7 @@ const CurrentSessionBills = ({ changeTab }) => {
       />
 
       <TouchableOpacity style={styles.paymentButton} onPress={handleEndSession}>
-        <Text style={{ textAlign: 'center', color: colors.brand.rausch, fontWeight: 'bold' }}>Make Payment</Text>
+        <Text style={styles.buttonText}>MAKE PAYMENT</Text>
       </TouchableOpacity>
 
     </View>
