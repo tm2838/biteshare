@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
 
 const ExploreScreen = ({ navigation }) => {
 
-  // const [zipcodeQuery, setZipcodeQuery] = React.useState('');
+  const [zipcodeQuery, setZipcodeQuery] = React.useState('');
   // const onZipcodeChangeSearch = query => setZipcodeQuery(query);
 
   // const [restaurantNameQuery, setRestaurantNameQuery] = React.useState('');
@@ -102,21 +102,22 @@ const ExploreScreen = ({ navigation }) => {
     // }
   };
 
-  // const getLocation = async () => {
-  //   let { status } = await Location.requestForegroundPermissionsAsync();
-  //   if (status !== 'granted') {
-  //     return;
-  //   }
-  //   let location = await Location.getCurrentPositionAsync({});
-  //   let longitude = location.coords.longitude;
-  //   let latitude = location.coords.latitude;
-  //   let address = await Location.reverseGeocodeAsync({ latitude, longitude });
-  //   setLocationZip(address[0].postalCode);
-  // };
+  const getLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      return;
+    }
+    let location = await Location.getCurrentPositionAsync({});
+    let longitude = location.coords.longitude;
+    let latitude = location.coords.latitude;
+    let address = await Location.reverseGeocodeAsync({ latitude, longitude });
+    // setLocationZip(address[0].postalCode);
+    setZipcodeQuery(address[0].postalCode);
+  };
 
-  // useEffect(() => {
-  //   return getLocation();
-  // }, []);
+  useEffect(() => {
+    return getLocation();
+  }, []);
 
   useEffect(() => {
     getRestaurants();
@@ -140,7 +141,7 @@ const ExploreScreen = ({ navigation }) => {
                 <Searchbar
                   placeholder="Enter Zip Code or City"
                   // onChangeText={onZipcodeChangeSearch}
-                  // value={zipcodeQuery}
+                  value={zipcodeQuery}
                   icon={() => null}
                   style={{ elevation: 0 }}
                 />
