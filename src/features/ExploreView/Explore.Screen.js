@@ -2,6 +2,7 @@
 import React, { useEffect, useContext, useState } from 'react';
 import axios from 'axios';
 import { BiteShareContext } from '../../BiteShareContext.js';
+import mockRestaurants from '../../../fixtures/mockRestaurants.json';
 import { Searchbar } from 'react-native-paper';
 import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native';
 import ExploreHeader from './ExploreHeader';
@@ -10,6 +11,13 @@ import ExploreMenu from './ExploreMenu';
 import RestaurantInfo from './RestaurantInfo';
 import { colors } from '../../infrastructure/colors';
 import * as Location from 'expo-location';
+
+//MOCK DATA VERSION
+//There is no search functionality:
+//1.getRestaurants now takes in no parameters
+//2.the 'Search' button just rerenders mockRestaurants each time
+//3.the search bar fields no longer have value, and onChangeText props
+//There is no more getLocation functionality
 
 const styles = StyleSheet.create({
   search: {
@@ -37,19 +45,19 @@ const styles = StyleSheet.create({
 
 const ExploreScreen = ({ navigation }) => {
 
-  const [zipcodeQuery, setZipcodeQuery] = React.useState('');
-  const onZipcodeChangeSearch = query => setZipcodeQuery(query);
+  // const [zipcodeQuery, setZipcodeQuery] = React.useState('');
+  // const onZipcodeChangeSearch = query => setZipcodeQuery(query);
 
-  const [restaurantNameQuery, setRestaurantNameQuery] = React.useState('');
-  const onRestaurantNameChangeSearch = query => setRestaurantNameQuery(query);
+  // const [restaurantNameQuery, setRestaurantNameQuery] = React.useState('');
+  // const onRestaurantNameChangeSearch = query => setRestaurantNameQuery(query);
 
-  //create new state for initial location load
-  const [locationZip, setLocationZip] = React.useState(94108);
+  // //create new state for initial location load
+  // const [locationZip, setLocationZip] = React.useState(94108);
 
   const { state: { restaurants, restaurantsImages, restaurantId, biteShareKey }, dispatch } = useContext(BiteShareContext);
 
-  const APIkey = biteShareKey;
-  const BASE_URL = 'https://api.documenu.com/v2/restaurants';
+  // const APIkey = biteShareKey;
+  // const BASE_URL = 'https://api.documenu.com/v2/restaurants';
 
   const getImages = () => {
     axios.get('https://api.unsplash.com/photos/random?query=food&client_id=GHgiPIKZT9Y-KTj_C0kolwugQpmWl1rGH2AetMxwanU&count=25')
@@ -62,53 +70,57 @@ const ExploreScreen = ({ navigation }) => {
       });
   };
 
-  const getRestaurants = (restaurantName, zipcode) => {
+  //MOCK DATA VERSION
+  const getRestaurants = () => {
     getImages();
 
-    const config = {
-      headers: {
-        'X-API-KEY': APIkey
-      }
-    };
-    //if user entered city instead of zipcode
-    if (zipcode && isNaN(zipcode)) {
-      axios.get(`${BASE_URL}/search/fields?restaurant_name=${restaurantName}&address=${zipcode}`, config)
-        .then(results => {
-          dispatch({ type: 'SET_RESTAURANTS', restaurants: results.data.data });
-        })
-        .catch(err => {
-          alert('failed to load, try again');
-        });
-    } else {
-      axios.get(`${BASE_URL}/search/fields?restaurant_name=${restaurantName}&zip_code=${zipcode}`, config)
-        .then(results => {
-          dispatch({ type: 'SET_RESTAURANTS', restaurants: results.data.data });
-        })
-        .catch(err => {
-          alert('failed to load, try again');
-        });
-    }
+    dispatch({ type: 'SET_RESTAURANTS', restaurants: mockRestaurants.data });
+
+    // const config = {
+    //   headers: {
+    //     'X-API-KEY': APIkey
+    //   }
+    // };
+
+    // //if user entered city instead of zipcode
+    // if (zipcode && isNaN(zipcode)) {
+    //   axios.get(`${BASE_URL}/search/fields?restaurant_name=${restaurantName}&address=${zipcode}`, config)
+    //     .then(results => {
+    //       dispatch({ type: 'SET_RESTAURANTS', restaurants: results.data.data });
+    //     })
+    //     .catch(err => {
+    //       alert('failed to load, try again');
+    //     });
+    // } else {
+    //   axios.get(`${BASE_URL}/search/fields?restaurant_name=${restaurantName}&zip_code=${zipcode}`, config)
+    //     .then(results => {
+    //       dispatch({ type: 'SET_RESTAURANTS', restaurants: results.data.data });
+    //     })
+    //     .catch(err => {
+    //       alert('failed to load, try again');
+    //     });
+    // }
   };
 
-  const getLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== 'granted') {
-      return;
-    }
-    let location = await Location.getCurrentPositionAsync({});
-    let longitude = location.coords.longitude;
-    let latitude = location.coords.latitude;
-    let address = await Location.reverseGeocodeAsync({ latitude, longitude });
-    setLocationZip(address[0].postalCode);
-  };
+  // const getLocation = async () => {
+  //   let { status } = await Location.requestForegroundPermissionsAsync();
+  //   if (status !== 'granted') {
+  //     return;
+  //   }
+  //   let location = await Location.getCurrentPositionAsync({});
+  //   let longitude = location.coords.longitude;
+  //   let latitude = location.coords.latitude;
+  //   let address = await Location.reverseGeocodeAsync({ latitude, longitude });
+  //   setLocationZip(address[0].postalCode);
+  // };
+
+  // useEffect(() => {
+  //   return getLocation();
+  // }, []);
 
   useEffect(() => {
-    return getLocation();
+    getRestaurants();
   }, []);
-
-  useEffect(() => {
-    getRestaurants('', locationZip);
-  }, [locationZip]);
 
   return (
     <SafeArea>
@@ -120,15 +132,15 @@ const ExploreScreen = ({ navigation }) => {
               <View style={styles.search}>
                 <Searchbar
                   placeholder="Enter Restaurant Name"
-                  onChangeText={onRestaurantNameChangeSearch}
-                  value={restaurantNameQuery}
+                  // onChangeText={onRestaurantNameChangeSearch}
+                  // value={restaurantNameQuery}
                   icon={() => null}
                   style={{ elevation: 0, marginBottom: 5 }}
                 />
                 <Searchbar
                   placeholder="Enter Zip Code or City"
-                  onChangeText={onZipcodeChangeSearch}
-                  value={zipcodeQuery}
+                  // onChangeText={onZipcodeChangeSearch}
+                  // value={zipcodeQuery}
                   icon={() => null}
                   style={{ elevation: 0 }}
                 />
@@ -136,7 +148,7 @@ const ExploreScreen = ({ navigation }) => {
                 <TouchableOpacity
                   style={styles.button}
                   onPress={() => {
-                    getRestaurants(restaurantNameQuery, zipcodeQuery);
+                    getRestaurants();
                   }}>
                   <Text style={styles.buttonText}>SEARCH</Text>
                 </TouchableOpacity>
