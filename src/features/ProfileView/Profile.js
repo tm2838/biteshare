@@ -25,11 +25,8 @@ const styles = StyleSheet.create({
     height: 20,
     flex: 2
   },
-  history: {
-
-  },
   settings: {
-    flex: .5
+    flex: .1
   },
   logout: {
     flex: .1,

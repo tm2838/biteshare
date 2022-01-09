@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     flexDirection: 'column',
-    height: '100%',
+    height: '130%',
   },
 });
 

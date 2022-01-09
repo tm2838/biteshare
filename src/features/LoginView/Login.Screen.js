@@ -9,6 +9,7 @@ import { BiteShareContext } from '../../BiteShareContext';
 import FacebookLogin from '../LoginView/FacebookLogin';
 import { auth } from '../../../firebase/firebase.config';
 import { signUpNewUser, loginUser, googleLogin, onAuthStateChanged } from '../../../firebase/helpers/authentication.firebase';
+import { getADocReferenceFromCollection } from '../../../firebase/helpers/database.firebase';
 import GoogleLogin from './GoogleLogin';
 
 const styles = StyleSheet.create({
@@ -101,6 +102,15 @@ const LoginScreen = () => {
       .then(userCredentials => {
         console.log('userCredentials in LOGIN:', userCredentials.user.providerData[0].displayName);
         dispatch({ type: 'SET_EMAIL', email });
+        getADocReferenceFromCollection('users', 'email', '==', email)
+          .then((qResult) => {
+            qResult.forEach((doc) => {
+              dispatch({ type: 'SET_USER_ID', userId: doc.id });
+            });
+          })
+          .catch((error) => {
+            console.log('fail to set user id');
+          });
       })
       .catch(err => {
         console.log(err);
