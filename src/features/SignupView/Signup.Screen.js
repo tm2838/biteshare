@@ -18,7 +18,7 @@ import { addANewAnonymousDocument } from '../../../firebase/helpers/database.fir
 const styles = StyleSheet.create({
   loginContainer: {
     flex: 1,
-    backgroundColor: 'rgb(255, 252, 242)',
+    backgroundColor: theme.colors.brand.login,
   },
   biteshareTitle: {
     marginTop: 70,
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     // flex: 4.5,
   },
   InputFieldsContainer: {
-    backgroundColor: 'rgb(245, 242, 232)',
+    backgroundColor: 'rgb(235, 220, 209)',
     padding: 20,
     alignItems: 'center',
     borderRadius: 50
@@ -78,13 +78,12 @@ const styles = StyleSheet.create({
 
 const SignupScreen = () => {
   const navigation = useNavigation();
-  const { state: { authenticated }, dispatch } = useContext(BiteShareContext);
+  const { state: { }, dispatch } = useContext(BiteShareContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setconfirmPassword] = useState('');
   const [signupError, setSignupError] = useState(null);
   const [accountHolderName, setAccountHolderName] = useState('');
-  const nickname = accountHolderName.split(' ')[0];
 
   const updateUserProfile = () => {
     updateProfile(auth.currentUser, {
@@ -103,7 +102,8 @@ const SignupScreen = () => {
 
     signUpNewUser(email, password)
       .then(async userCredentials => {
-        dispatch({ type: 'SET_AUTH', authenticated: true });
+        const nickname = accountHolderName.split(' ')[0];
+        // console.log('num one:', accountHolderName, nickname);
         dispatch({ type: 'SET_EMAIL', email });
         dispatch({ type: 'SET_ACCOUNT_HOLDER_NAME', accountHolderName });
         dispatch({ type: 'SET_NICKNAME', nickname });
@@ -116,7 +116,6 @@ const SignupScreen = () => {
         } catch (error) {
           console.log('Error creating new user in users collection when sign up for first time');
         }
-
       })
       .catch(err => {
         setSignupError(err.message.toString());

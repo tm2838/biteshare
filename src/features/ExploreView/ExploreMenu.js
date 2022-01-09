@@ -71,7 +71,7 @@ const ExploreMenu = ({ navigation }) => {
   const [restaurantAddress, setRestaurantAddress] = useState('');
   const [creatingSession, setCreatingSession] = useState(false);
 
-  const renderMenus = ({item}) => {
+  const renderMenus = ({ item }) => {
     return (<Item name={item.name} description={item.description} price={item.price} />);
   };
 
@@ -169,7 +169,7 @@ const ExploreMenu = ({ navigation }) => {
               <Text style={styles.text}> Menu </Text>
               <View style={styles.scrollView}>
                 <FlatList
-                  data= {restaurantMenus}
+                  data={restaurantMenus}
                   renderItem={renderMenus}
                   keyExtractor={item => item.key}
                 />

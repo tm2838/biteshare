@@ -52,7 +52,7 @@ const ExploreScreen = ({ navigation }) => {
   const BASE_URL = 'https://api.documenu.com/v2/restaurants';
 
   const getImages = () => {
-    axios.get('https://api.unsplash.com/photos/random?client_id=GHgiPIKZT9Y-KTj_C0kolwugQpmWl1rGH2AetMxwanU&count=25')
+    axios.get('https://api.unsplash.com/photos/random?query=food&client_id=GHgiPIKZT9Y-KTj_C0kolwugQpmWl1rGH2AetMxwanU&count=25')
       .then(results => {
         const images = results.data.map(obj => obj.urls.regular);
         dispatch({ type: 'SET_RESTAURANTS_IMAGES', restaurantsImages: images });

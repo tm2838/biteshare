@@ -6,8 +6,7 @@ import { ThemeProvider } from 'styled-components/native';
 import { theme } from './src/infrastructure/index.js';
 import DummyComponent from './src/features/Dummy.js';
 import { BiteShareContext, biteShareReducer, biteShareState } from './src/BiteShareContext';
-import { signUpNewUser } from './firebase/helpers/authentication.firebase.js';
-import { addANewAnonymousDocument, getAllDocuments, readDocSnapshotListener, readQuerySnapshotListener, updateADocument } from './firebase/helpers/database.firebase.js';
+// import { addANewAnonymousDocument, getAllDocuments, readDocSnapshotListener, readQuerySnapshotListener, updateADocument } from './firebase/helpers/database.firebase.js';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './src/features/HomeView/Home.Screen.js';
 import AppLoading from 'expo-app-loading';
@@ -80,10 +79,8 @@ export default function App() {
               />
             </Stack.Navigator>
           </NavigationContainer>
-          {/* <DummyComponent /> */}
         </ThemeProvider>)
       }
-
     </BiteShareContext.Provider>
   );
 }

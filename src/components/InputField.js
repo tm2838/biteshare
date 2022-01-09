@@ -6,6 +6,10 @@ const styles = StyleSheet.create({
   input: {
     padding: 20,
     backgroundColor: 'white',
+    shadowColor: 'rgba(0,0,0, .4)',
+    shadowOffset: { height: 1, width: 1 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
   },
   container: {
     width: '90%',
