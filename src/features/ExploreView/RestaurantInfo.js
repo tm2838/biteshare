@@ -42,7 +42,7 @@ const RestaurantInfo = ({ restaurant, image }) => {
     console.log(restaurant_address);
     dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: restaurant_id });
     dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: restaurant_name }); //cs*- added restaurant_name to context
-    dispatch({ type: 'SET_RESTAURANT_ADDRESS', restaurantAddress: restaurant_address }) //add address
+    dispatch({ type: 'SET_RESTAURANT_ADDRESS', restaurantAddress: restaurant_address }); //add address
     // alert(`restaurant_id: ${restaurant_id}`);
 
   };

@@ -9,7 +9,7 @@ export const biteShareState = {
   restaurants: [], //restaurants displayed in ExplorePage
   restaurantsImages: [], //images for ExplorePage
   restaurantName: '',
-  restaurantAddress:'',
+  restaurantAddress: '',
   restaurantId: null, //updates when user clicks See Full Menu from ExplorePage
   restaurantMenus: [],
   accountHolderName: '',
