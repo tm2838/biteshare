@@ -38,6 +38,8 @@ const GoogleLogin = () => {
               name: user.name,
               email: user.email,
             });
+          } else {
+            await userDocs.forEach((doc) => dispatch({ type: 'SET_USER_ID', userId: doc.id }));
           }
         } catch (error) {
           console.log('Error creating new user in users collections when google sign in');
