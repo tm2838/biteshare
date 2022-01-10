@@ -35,11 +35,14 @@ const styles = StyleSheet.create({
 });
 
 const RestaurantInfo = ({ restaurant, image }) => {
-  const { state: { restaurantId, restaurantName }, dispatch } = useContext(BiteShareContext);
+  const { state: { restaurantId, restaurantName, restaurantAddress }, dispatch } = useContext(BiteShareContext);
 
-  const seeFullMenuButtonPress = (restaurant_id, restaurant_name) => {
+
+  const seeFullMenuButtonPress = (restaurant_id, restaurant_name, restaurant_address) => {
+    console.log(restaurant_address);
     dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: restaurant_id });
     dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: restaurant_name }); //cs*- added restaurant_name to context
+    dispatch({ type: 'SET_RESTAURANT_ADDRESS', restaurantAddress: restaurant_address }) //add address
     // alert(`restaurant_id: ${restaurant_id}`);
 
   };
@@ -62,7 +65,7 @@ const RestaurantInfo = ({ restaurant, image }) => {
         <View style={{ alignItems: 'center' }}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => seeFullMenuButtonPress(restaurant.restaurant_id, restaurant.restaurant_name)}>
+            onPress={() => seeFullMenuButtonPress(restaurant.restaurant_id, restaurant.restaurant_name, restaurant.address.street)}>
             <Text style={{ color: colors.brand.kazan, fontWeight: '600' }}>See Full Menu</Text>
           </TouchableOpacity>
         </View>

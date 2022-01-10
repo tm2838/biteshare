@@ -7,6 +7,7 @@ import { BiteShareContext } from '../../BiteShareContext';
 import { addANewAnonymousDocument, getADocReferenceFromCollection, updateADocument } from '../../../firebase/helpers/database.firebase';
 import { Timestamp } from 'firebase/firestore';
 import Loading from '../../components/Loading.js';
+import mockParseMenu from '../../../fixtures/mockParseMenu.json';
 
 const styles = StyleSheet.create({
   menuContainer: {
@@ -65,43 +66,49 @@ const Item = ({ name, description, price }) => (
 );
 
 const ExploreMenu = ({ navigation }) => {
-  const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey, accountHolderName, accountType, nickname, sessionId, email, userId }, dispatch } = useContext(BiteShareContext);
-  const API_KEY = biteShareKey;
+  const { state: { restaurantName, restaurantId, restaurantAddress,restaurantMenus, biteShareKey, accountHolderName, accountType, nickname, sessionId, email, userId }, dispatch } = useContext(BiteShareContext);
+  // const API_KEY = biteShareKey;
   const [isLoading, setLoading] = useState(true);
-  const [restaurantAddress, setRestaurantAddress] = useState('');
+  // const [restaurantAddress, setRestaurantAddress] = useState('');
   const [creatingSession, setCreatingSession] = useState(false);
-
+  console.log('restaurant Name:', restaurantName, 'Address->', restaurantAddress);
   const renderMenus = ({ item }) => {
     return (<Item name={item.name} description={item.description} price={item.price} />);
   };
 
-  const parseJsonMenu = (data) => {
-    let prettyMenu = [];
-    let menuId = 1;
-    for (let i = 0; i < data.length; i++) {
-      let section = data[i].menu_items;
-      for (let j = 0; j < section.length; j++) {
-        let item = section[j];
-        prettyMenu.push({ key: menuId, name: item.name, description: item.description, price: item.price });
-        menuId++; //to remove the warning from react console - providing KEY for each component
-      }
-    }
-
-    dispatch({ type: 'SET_RESTAURANT_MENU', restaurantMenus: prettyMenu });
-  };
-
-  useEffect(() => {
-    fetch(`https://api.documenu.com/v2/restaurant/${restaurantId}?key=${API_KEY}`)
-      .then((response) => response.json())
-      .then((json) => {
-
-        setRestaurantAddress(json.result.address.formatted);
-        parseJsonMenu(json.result.menus[0].menu_sections);
-
-      })
-      .catch((error => console.error(error)))
-      .finally(() => setLoading(false));
+  useEffect(()=>{
+    dispatch({ type: 'SET_RESTAURANT_MENU', restaurantMenus: mockParseMenu });
+    setLoading(false);
   }, []);
+
+  // const parseJsonMenu = (data) => {
+  //   let prettyMenu = [];
+  //   let menuId = 1;
+  //   for (let i = 0; i < data.length; i++) {
+  //     let section = data[i].menu_items;
+  //     for (let j = 0; j < section.length; j++) {
+  //       let item = section[j];
+  //       prettyMenu.push({ key: menuId, name: item.name, description: item.description, price: item.price });
+  //       menuId++; //to remove the warning from react console - providing KEY for each component
+  //     }
+  //   }
+
+  //   dispatch({ type: 'SET_RESTAURANT_MENU', restaurantMenus: prettyMenu });
+  // };
+
+
+  // useEffect(() => {
+  //   fetch(`https://api.documenu.com/v2/restaurant/${restaurantId}?key=${API_KEY}`)
+  //     .then((response) => response.json())
+  //     .then((json) => {
+
+  //       setRestaurantAddress(json.result.address.formatted);
+  //       parseJsonMenu(json.result.menus[0].menu_sections);
+
+  //     })
+  //     .catch((error => console.error(error)))
+  //     .finally(() => setLoading(false));
+  // }, []);
 
   const createSessionHandler = () => {
     //Once user click 'create Session', the AccountType change to 'HOST'

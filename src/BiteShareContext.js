@@ -9,6 +9,7 @@ export const biteShareState = {
   restaurants: [], //restaurants displayed in ExplorePage
   restaurantsImages: [], //images for ExplorePage
   restaurantName: '',
+  restaurantAddress:'',
   restaurantId: null, //updates when user clicks See Full Menu from ExplorePage
   restaurantMenus: [],
   accountHolderName: '',
@@ -45,6 +46,8 @@ export const biteShareReducer = (state, action) => {
       return { ...state, restaurantsImages: action.restaurantsImages };
     case 'SET_RESTAURANT_NAME':
       return { ...state, restaurantName: action.restaurantName };
+      case 'SET_RESTAURANT_ADDRESS':
+      return { ...state, restaurantAddress: action.restaurantAddress };
     case 'SET_RESTAURANT_ID':
       return { ...state, restaurantId: action.restaurantId };
     case 'SET_RESTAURANT_MENU':
