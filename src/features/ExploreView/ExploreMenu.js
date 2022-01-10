@@ -66,7 +66,7 @@ const Item = ({ name, description, price }) => (
 );
 
 const ExploreMenu = ({ navigation }) => {
-  const { state: { restaurantName, restaurantId, restaurantAddress,restaurantMenus, biteShareKey, accountHolderName, accountType, nickname, sessionId, email, userId }, dispatch } = useContext(BiteShareContext);
+  const { state: { restaurantName, restaurantId, restaurantAddress, restaurantMenus, biteShareKey, accountHolderName, accountType, nickname, sessionId, email, userId }, dispatch } = useContext(BiteShareContext);
   // const API_KEY = biteShareKey;
   const [isLoading, setLoading] = useState(true);
   // const [restaurantAddress, setRestaurantAddress] = useState('');
