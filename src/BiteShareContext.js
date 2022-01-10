@@ -67,9 +67,9 @@ export const biteShareReducer = (state, action) => {
     case 'SET_NICKNAME':
       return { ...state, nickname: action.nickname };
     case 'SET_OPEN_CAMERA':
-        return { ...state, openCamera: action.openCamera };
+      return { ...state, openCamera: action.openCamera };
     case 'SET_CLEAR_CONTEXT':
-        return clearContextReducer(state, action);
+      return clearContextReducer(state, action);
     default:
       return state;
   }
