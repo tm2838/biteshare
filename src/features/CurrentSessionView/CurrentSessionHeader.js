@@ -57,9 +57,9 @@ const CurrentSessionHeader = () => {
         <View style={styles.profile}>
           <View>
             <Text style = {styles.accountTypeText}>{accountType}</Text>
-          </View>
+          </View >
           <View>
-            <Avatar.Image size = {35} source={require(profilePicturePath)} />
+            <Avatar.Image size = {35} style = {{backgroundColor: "#f2f2f2"}} source={require(profilePicturePath)} />
           </View>
           <View>
             <Text style = {styles.accountHolderName}>{accountHolderName}</Text>

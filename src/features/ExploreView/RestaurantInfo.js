@@ -39,7 +39,7 @@ const RestaurantInfo = ({ restaurant, image }) => {
 
 
   const seeFullMenuButtonPress = (restaurant_id, restaurant_name, restaurant_address) => {
-    console.log(restaurant_address);
+    
     dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: restaurant_id });
     dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: restaurant_name }); //cs*- added restaurant_name to context
     dispatch({ type: 'SET_RESTAURANT_ADDRESS', restaurantAddress: restaurant_address }); //add address

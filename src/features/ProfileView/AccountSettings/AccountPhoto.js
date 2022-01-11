@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
     height: 30,
     flexDirection: 'row',
     alignItems: 'center',
-
     // borderWidth: 1,
     // borderColor: 'black'
   },
@@ -30,11 +29,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   text: {
     fontWeight: 'bold',
-    fontSize: 20
+    fontSize: 20,
+    
   }
 });
 
@@ -51,6 +51,7 @@ const UserPhoto = () => {
         <Avatar.Image
           source = {require(profilePicturePath)}
           size = {80}
+          style = {{backgroundColor: "#f2f2f2"}}
         />
       </View>
 

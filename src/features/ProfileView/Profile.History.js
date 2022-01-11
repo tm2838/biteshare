@@ -22,9 +22,11 @@ const styles = StyleSheet.create({
     flex: .1,
     fontSize: 25,
     fontWeight: 'bold',
+    paddingLeft:15,
   },
   list: {
-    flex: 1
+    flex: 1,
+    paddingLeft:15,
   }
 });
 

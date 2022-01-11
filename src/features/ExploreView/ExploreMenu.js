@@ -71,7 +71,7 @@ const ExploreMenu = ({ navigation }) => {
   const [isLoading, setLoading] = useState(true);
   // const [restaurantAddress, setRestaurantAddress] = useState('');
   const [creatingSession, setCreatingSession] = useState(false);
-  console.log('restaurant Name:', restaurantName, 'Address->', restaurantAddress);
+  // console.log('restaurant Name:', restaurantName, 'Address->', restaurantAddress);
   const renderMenus = ({ item }) => {
     return (<Item name={item.name} description={item.description} price={item.price} />);
   };
