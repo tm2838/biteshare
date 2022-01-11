@@ -55,6 +55,7 @@ const JoinScreenHeader = () => {
             <Avatar.Image
               source = {require(profilePicturePath)}
               size = {40}
+              style = {{backgroundColor: "#f2f2f2"}}
             />
             {/* Is it possible to change to just nickname, (like firstName?) */}
             <Text style={styles.profileName}>{accountHolderName}</Text>

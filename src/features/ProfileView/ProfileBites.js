@@ -20,7 +20,9 @@ const styles = StyleSheet.create({
   },
   text: {
     flex: 1,
-    fontSize: 15
+    fontSize: 15,
+    paddingLeft:15,
+    
   }
 });
 

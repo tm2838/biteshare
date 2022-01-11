@@ -22,12 +22,14 @@ const styles = StyleSheet.create({
   },
   text: {
     flex: 1,
-    fontSize: 15
+    fontSize: 15,
+
   },
   title: {
     flex: 1,
     fontSize: 15,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    paddingLeft:15, //added some padding to the left
   },
   form: {
     flex: 1,

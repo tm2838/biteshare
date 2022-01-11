@@ -29,6 +29,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 15,
     color: colors.brand.rausch
+  },
+  guestQR:{
+    width:230,
+    height: 230,
   }
 });
 
@@ -70,6 +74,7 @@ const JoinScreen = ({ route, navigation }) => {
             <TouchableOpacity onPress={() => dispatch({ type: 'SET_OPEN_CAMERA', openCamera: true })}>
               <Image
                 source={require(scanQrCodeImage)}
+                style={styles.guestQR}
               />
             </TouchableOpacity>
             <Text>Scan QR code to join</Text>
