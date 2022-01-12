@@ -31,7 +31,7 @@ const MenuItemCard = ({ menuItems }) => {
   const renderMenuItem = (menuItem) => {
     return (
       <View style={styles.menuItemContainer}>
-        <View style={styles.menuItemInfoContainer}>
+        <View style={styles.menuItemInfoContainer} testID='menu-item-info'>
           <Text style={styles.menuItemName}>{menuItem.item.name}</Text>
           <Text style={styles.menuItemPrice}>${menuItem.item.price}</Text>
         </View>
