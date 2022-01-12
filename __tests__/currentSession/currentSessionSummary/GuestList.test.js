@@ -10,7 +10,7 @@ describe('<GuestList>', () => {
   beforeEach(() => {
     jest.spyOn(DBHelpers, 'readCollectionSnapshotListener');
     DBHelpers.readCollectionSnapshotListener = jest.fn();
-  })
+  });
 
   it('should render a list of guests whose joinRequest is "allowed"', () => {
     const mockContext = {

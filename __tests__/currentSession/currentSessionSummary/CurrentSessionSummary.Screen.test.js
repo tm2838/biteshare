@@ -54,7 +54,7 @@ describe('<CurrentSessionSummary>', () => {
     const { queryByText } = render(<BiteShareContext.Provider value={mockContext}><CurrentSessionSummary /></BiteShareContext.Provider>);
     const indicator = queryByText('Still waiting...');
     expect(indicator).toBeFalsy();
-  })
+  });
 
   it('should display the split bill options for the host', () => {
     const mockContext = {
