@@ -3,7 +3,7 @@ import { Appbar, Avatar } from 'react-native-paper';
 import { colors } from '../../infrastructure/colors';
 import { StyleSheet, Text, View, FlatList} from 'react-native';
 import { BiteShareContext } from '../../BiteShareContext';
-import { getADocReferenceFromCollection } from '../../../firebase/helpers/database.firebase.js';
+import { getADocReferenceFromCollection, readASingleDocument, getAllDocuments } from '../../../firebase/helpers/database.firebase.js';
 
 import SafeArea from '../../components/SafeArea';
 import PreviousBite from './ProfileBites';
@@ -49,24 +49,13 @@ const ProfileHistory = () => {
   const renderBite = ({item, index}) => (<PreviousBite meal={item} index={index}/>);
 
   useEffect(() => {
-    console.log('UserID in profile history state: ', userId, email);
 
-    getADocReferenceFromCollection(`users`, 'userId', '==', userId)
-      .then((qResult) => {
-        //Collection array for transactions
+    readASingleDocument(`users`, userId )
+      .then((data) => {
+        console.log(data.data())
+        let hist = data.data()
+      })
 
-        qResult.forEach((doc) => {
-          //Create a "bite" object for each entry {restauraunt: 'Grey Ghost', hostStatus: 'Host', bill: 32.42}
-          //push to collection array
-          console.log(doc)
-        });
-      })
-      .then((bites) => {
-        setBiteHistory(bites)
-      })
-      .catch((error) => {
-        console.log('fail to set user id');
-      });
   }, []);
 
   return (
@@ -85,3 +74,7 @@ const ProfileHistory = () => {
 };
 
 export default ProfileHistory;
+
+//Q's
+
+//
