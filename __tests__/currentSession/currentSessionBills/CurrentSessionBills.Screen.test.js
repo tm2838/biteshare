@@ -14,19 +14,23 @@ jest.mock('@react-navigation/native');
 
 describe('<CurrentSessionBills/>', () => {
 
-  it('should render ordered items', () => {
+  it('should render multiple ordered items', () => {
     const mockContext = {
       dispatch: jest.fn(),
       state: {
         ...biteShareState,
-        orderedItems: [{ name: 'Large Pizza', price: 13.59, description: 'thin crust pizza with toppings' }],
+        orderedItems: [
+          { name: 'Large Pizza', price: '13.59', description: 'thin crust pizza with toppings' },
+          { name: 'Salad', price: '13.59', description: 'greek salad' }],
       }
     };
 
     const { getByText } = render(<BiteShareContext.Provider value={mockContext}><CurrentSessionBills /></BiteShareContext.Provider>);
-    const orderedItem = getByText('Large Pizza');
+    const item1 = getByText('Large Pizza');
+    const item2 = getByText('Salad');
 
-    expect(orderedItem).toBeTruthy();
+    expect(item1).toBeTruthy();
+    expect(item2).toBeTruthy();
   });
 
   it('should render payment button', () => {
