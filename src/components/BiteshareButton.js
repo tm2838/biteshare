@@ -19,7 +19,7 @@ const styles = (size) => StyleSheet.create({
 
 const BiteshareButton = ({ size = 100, buttonStyle = {}, textStyle = {}, title, onPress = () => {}, disabled = false }) => {
   return (
-    <TouchableOpacity style={[styles(size).button, buttonStyle]} onPress={onPress} disabled={disabled} >
+    <TouchableOpacity style={[styles(size).button, buttonStyle]} onPress={onPress} disabled={disabled} testID='biteshare-button'>
       <Text style={[styles(size).text, textStyle]}>{title}</Text>
     </TouchableOpacity>
   );
