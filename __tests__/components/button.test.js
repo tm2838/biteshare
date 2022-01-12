@@ -48,40 +48,40 @@ describe('<BackButton>', () => {
 });
 
 describe('<BiteshareButton>', () => {
-  it("should render without crashing", () => {
+  it('should render without crashing', () => {
     const { getByText } = render(<BiteshareButton title='Hi button' />);
     const buttonText = getByText('Hi button');
     expect(buttonText).toBeTruthy();
-  })
+  });
 
   it ('should have one children', () => {
     const biteshareButton = TestRenderer.create(<BiteshareButton title='Hi button' />).toJSON();
     expect(biteshareButton?.children?.length).toBe(1);
   });
 
-  it("should render with the default style", () => {
+  it('should render with the default style', () => {
     const { getByText } = render(<BiteshareButton title='Hi button' />);
     const buttonText = getByText('Hi button');
-    expect(buttonText.props.style).toMatchObject([{"color": "#000", "fontSize": 20}, {}]);
-  })
+    expect(buttonText.props.style).toMatchObject([{color: '#000', fontSize: 20}, {}]);
+  });
 
-  it("should render with the given style", () => {
+  it('should render with the given style', () => {
     const { getByText } = render(<BiteshareButton title='Hi button' size={150} textStyle={{ color: 'red' }}/>);
     const buttonText = getByText('Hi button');
-    expect(buttonText.props.style).toMatchObject([{"color": "#000", "fontSize": 30}, {"color": "red"}]);
-  })
+    expect(buttonText.props.style).toMatchObject([{color: '#000', fontSize: 30}, {color: 'red'}]);
+  });
 
   it('should be not be disabled by default', () => {
     const { getByTestId } = render(<BiteshareButton title='Hi button' />);
     const button = getByTestId('biteshare-button');
     expect(button).toBeEnabled();
-  })
+  });
 
   it('should be not be disabled if given the argument', () => {
     const { getByTestId } = render(<BiteshareButton title='Hi button' disabled={true}/>);
     const button = getByTestId('biteshare-button');
     expect(button).toBeDisabled();
-  })
+  });
 
   it('should be accept a press event handler', () => {
     const pressHandler = jest.fn();
@@ -89,6 +89,6 @@ describe('<BiteshareButton>', () => {
     const button = getByTestId('biteshare-button');
     fireEvent.press(button);
     expect(pressHandler).toHaveBeenCalledTimes(1);
-  })
+  });
 
 });

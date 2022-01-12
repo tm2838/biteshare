@@ -16,7 +16,6 @@ const GuestList = () => {
 
   useEffect(() => {
     if (guests.length && guests.filter((guest) => guest.joinRequest === 'allowed').every((guest) => guest.orderStatus === 'ready')) {
-      console.log('hey there');
       dispatch({ type: 'SET_ORDER_STATUS', isEveryoneReady: true });
     }
   }, [guests]);

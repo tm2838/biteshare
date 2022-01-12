@@ -28,13 +28,13 @@ describe('<Guest>', () => {
 
     jest.spyOn(DBHelpers, 'deleteADocument');
     DBHelpers.deleteADocument = jest.fn(() => Promise.resolve());
-  })
+  });
 
   afterEach(() => {
     jest.clearAllMocks();
-  })
+  });
 
-  it("should display 'You' for the accountHolder", () => {
+  it('should display "You" for the accountHolder', () => {
     const mockContext = {
       dispatch: jest.fn(),
       state: {
@@ -42,14 +42,14 @@ describe('<Guest>', () => {
         guests: mockGuests,
         accountHolderName: 'Susan',
       }
-    }
+    };
     const { getByText } = render(<BiteShareContext.Provider value={mockContext}><Guest guest={mockGuests[0]} /></BiteShareContext.Provider>);
     const Susan = getByText('You');
 
     expect(Susan).toBeTruthy();
-  })
+  });
 
-  it("should display the user name for other attendees", () => {
+  it('should display the user name for other attendees', () => {
     const mockContext = {
       dispatch: jest.fn(),
       state: {
@@ -57,16 +57,16 @@ describe('<Guest>', () => {
         guests: mockGuests,
         accountHolderName: 'Susan',
       }
-    }
+    };
     const { getByText } = render(<BiteShareContext.Provider value={mockContext}><Guest guest={mockGuests[1]} /></BiteShareContext.Provider>);
     const Greg = getByText('Greg');
 
     expect(Greg).toBeTruthy();
-  })
+  });
 
   // GUEST view
 
-  it("should display a status indicator for the accountHolder in guest view", () => {
+  it('should display a status indicator for the accountHolder in guest view', () => {
     const mockContext = {
       dispatch: jest.fn(),
       state: {
@@ -75,14 +75,14 @@ describe('<Guest>', () => {
         accountHolderName: 'Susan',
         accountType: 'GUEST'
       }
-    }
+    };
     const { getByText } = render(<BiteShareContext.Provider value={mockContext}><Guest guest={mockGuests[0]} /></BiteShareContext.Provider>);
     const indicator = getByText('Not Ready');
 
     expect(indicator).toBeTruthy();
-  })
+  });
 
-  it("should not display a status indicator for other attendees in guest view", () => {
+  it('should not display a status indicator for other attendees in guest view', () => {
     const mockContext = {
       dispatch: jest.fn(),
       state: {
@@ -91,14 +91,14 @@ describe('<Guest>', () => {
         accountHolderName: 'Susan',
         accountType: 'GUEST'
       }
-    }
+    };
     const { queryByText } = render(<BiteShareContext.Provider value={mockContext}><Guest guest={mockGuests[1]} /></BiteShareContext.Provider>);
     const indicator = queryByText('Ready');
 
     expect(indicator).toBeFalsy();
-  })
+  });
 
-  it("should not display the 'allow'/'deny' buttons for other attendees in guest view", () => {
+  it('should not display the "allow"/"deny" buttons for other attendees in guest view', () => {
     const mockContext = {
       dispatch: jest.fn(),
       state: {
@@ -107,16 +107,16 @@ describe('<Guest>', () => {
         accountHolderName: 'Susan',
         accountType: 'GUEST'
       }
-    }
+    };
     const { queryByText } = render(<BiteShareContext.Provider value={mockContext}><Guest guest={mockGuests[3]} /></BiteShareContext.Provider>);
     const access = queryByText('Allow');
 
     expect(access).toBeFalsy();
-  })
+  });
 
   // HOST view
 
-  it("should display a status indicator for everyone in host view", () => {
+  it('should display a status indicator for everyone in host view', () => {
     const mockContext = {
       dispatch: jest.fn(),
       state: {
@@ -125,14 +125,14 @@ describe('<Guest>', () => {
         accountHolderName: 'Susan',
         accountType: 'HOST'
       }
-    }
+    };
     const { getByText } = render(<BiteShareContext.Provider value={mockContext}><Guest guest={mockGuests[1]} /></BiteShareContext.Provider>);
     const indicator = getByText('Ready');
 
     expect(indicator).toBeTruthy();
-  })
+  });
 
-  it("should display the 'allow'/'deny' buttons for other attendees in host view", () => {
+  it('should display the "allow"/"deny" buttons for other attendees in host view', () => {
     const mockContext = {
       dispatch: jest.fn(),
       state: {
@@ -141,14 +141,14 @@ describe('<Guest>', () => {
         accountHolderName: 'Susan',
         accountType: 'HOST'
       }
-    }
+    };
     const { getByText } = render(<BiteShareContext.Provider value={mockContext}><Guest guest={mockGuests[3]} /></BiteShareContext.Provider>);
     const access = getByText('Allow');
 
     expect(access).toBeTruthy();
-  })
+  });
 
-  it("should display the 'allow'/'deny' buttons for other attendees in host view", () => {
+  it('should display the "allow"/"deny" buttons for other attendees in host view', () => {
     const mockContext = {
       dispatch: jest.fn(),
       state: {
@@ -157,14 +157,14 @@ describe('<Guest>', () => {
         accountHolderName: 'Susan',
         accountType: 'HOST'
       }
-    }
+    };
     const { getByText } = render(<BiteShareContext.Provider value={mockContext}><Guest guest={mockGuests[3]} /></BiteShareContext.Provider>);
     const access = getByText('Allow');
 
     expect(access).toBeTruthy();
-  })
+  });
 
-  it("should be able to allow a guest into the session as a host", async () => {
+  it('should be able to allow a guest into the session as a host', async () => {
     const mockContext = {
       dispatch: jest.fn(),
       state: {
@@ -174,7 +174,7 @@ describe('<Guest>', () => {
         accountType: 'HOST',
         sessionId: 'test-session-id'
       }
-    }
+    };
     const { getByText } = render(<BiteShareContext.Provider value={mockContext}><Guest guest={mockGuests[3]} /></BiteShareContext.Provider>);
     const access = getByText('Allow');
     await fireEvent.press(access);
@@ -187,9 +187,9 @@ describe('<Guest>', () => {
       orderStatus: 'not ready',
       joinRequest: 'allowed',
     });
-  })
+  });
 
-  it("should be able to deny a guest from the session as a host", async () => {
+  it('should be able to deny a guest from the session as a host', async () => {
     const mockContext = {
       dispatch: jest.fn(),
       state: {
@@ -199,7 +199,7 @@ describe('<Guest>', () => {
         accountType: 'HOST',
         sessionId: 'test-session-id'
       }
-    }
+    };
     const { getByText } = render(<BiteShareContext.Provider value={mockContext}><Guest guest={mockGuests[3]} /></BiteShareContext.Provider>);
     const access = getByText('Deny');
     await fireEvent.press(access);
@@ -214,5 +214,5 @@ describe('<Guest>', () => {
     });
 
     // expect(DBHelpers.readASingleDocument).toHaveBeenCalledTimes(1);
-  })
+  });
 });

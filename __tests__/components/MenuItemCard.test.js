@@ -6,7 +6,7 @@ import mockParseMenu from '../../fixtures/mockParseMenu';
 const TestRenderer = require('react-test-renderer');
 
 describe('<MenuItemCard>', () => {
-  it("should render without crashing", () => {
+  it('should render without crashing', () => {
     const { getByText } = render(<MenuItemCard menuItems={mockParseMenu} />);
     const menuItemName = getByText('Organic Kale And Quinoa Salad');
     const menuItemDescription = getByText('local apples, black currants, marcona almonds, pecorino pepato');
@@ -15,11 +15,11 @@ describe('<MenuItemCard>', () => {
     expect(menuItemName).toBeTruthy();
     expect(menuItemDescription).toBeTruthy();
     expect(menuItemPrice).toBeTruthy();
-  })
+  });
 
-  it("should render with the declared style", () => {
+  it('should render with the declared style', () => {
     const { getAllByTestId } = render(<MenuItemCard menuItems={mockParseMenu} />);
     const itemInfoContainer = getAllByTestId('menu-item-info')[0];
     expect(itemInfoContainer.props.style).toMatchObject({flexDirection: 'row', justifyContent: 'flex-start'});
-  })
+  });
 });

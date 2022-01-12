@@ -12,48 +12,48 @@ describe('<GuestList>', () => {
     DBHelpers.readCollectionSnapshotListener = jest.fn();
   })
 
-  it("should render a list of guests whose joinRequest is 'allowed'", () => {
+  it('should render a list of guests whose joinRequest is "allowed"', () => {
     const mockContext = {
       dispatch: jest.fn(),
       state: {
         ...biteShareState,
         guests: mockGuests,
       }
-    }
+    };
     const { getByText } = render(<BiteShareContext.Provider value={mockContext}><GuestList /></BiteShareContext.Provider>);
     const Susan = getByText('Susan');
     const Greg = getByText('Greg');
 
     expect(Susan).toBeTruthy();
     expect(Greg).toBeTruthy();
-  })
+  });
 
-  it("should reade the list of guests from the database", () => {
+  it('should reade the list of guests from the database', () => {
     const mockContext = {
       dispatch: jest.fn(),
       state: {
         ...biteShareState,
         sessionId: 'test'
       }
-    }
+    };
     render(<BiteShareContext.Provider value={mockContext}><GuestList /></BiteShareContext.Provider>);
 
     expect(DBHelpers.readCollectionSnapshotListener).toHaveBeenCalledTimes(1);
-  })
+  });
 
-  it("should not render guests whose joinRequest is 'denied'", () => {
+  it('should not render guests whose joinRequest is "denied"', () => {
     const mockContext = {
       dispatch: jest.fn(),
       state: {
         ...biteShareState,
         guests: mockGuests,
       }
-    }
+    };
     const { queryByText } = render(<BiteShareContext.Provider value={mockContext}><GuestList /></BiteShareContext.Provider>);
     const Ava = queryByText('Ava');
 
     expect(Ava).toBeFalsy();
-  })
+  });
 
   // it("should update the context with isEveryoneReady === true when every guest has placed an order", () => {
   //   const mockContext = {
