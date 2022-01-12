@@ -1,11 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Appbar, Avatar } from 'react-native-paper';
 import { colors } from '../../infrastructure/colors';
 import { StyleSheet, Text, View, FlatList} from 'react-native';
 import { BiteShareContext } from '../../BiteShareContext';
-import SafeArea from '../../components/SafeArea';
+import { getADocReferenceFromCollection } from '../../../firebase/helpers/database.firebase.js';
 
+import SafeArea from '../../components/SafeArea';
 import PreviousBite from './ProfileBites';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -31,6 +33,8 @@ const styles = StyleSheet.create({
 
 
 const ProfileHistory = () => {
+  const [biteHistory, setBiteHistory] = useState([]);
+  const { state: { userId, email }, dispatch } = useContext(BiteShareContext);
 
   const mockBites = [
     {restauraunt: 'Grey Ghost', hostStatus: 'Host', bill: 32.42},
@@ -44,10 +48,26 @@ const ProfileHistory = () => {
 
   const renderBite = ({item, index}) => (<PreviousBite meal={item} index={index}/>);
 
-  //TODO
-  //Query previous bites from db
-  //Restauraunt Name - Guest / Host Status - Price
-  //Place in array in state to be rendered via Flatlist
+  useEffect(() => {
+    console.log('UserID in profile history state: ', userId, email);
+
+    getADocReferenceFromCollection(`users`, 'userId', '==', userId)
+      .then((qResult) => {
+        //Collection array for transactions
+
+        qResult.forEach((doc) => {
+          //Create a "bite" object for each entry {restauraunt: 'Grey Ghost', hostStatus: 'Host', bill: 32.42}
+          //push to collection array
+          console.log(doc)
+        });
+      })
+      .then((bites) => {
+        setBiteHistory(bites)
+      })
+      .catch((error) => {
+        console.log('fail to set user id');
+      });
+  }, []);
 
   return (
     <View style={styles.container}>
