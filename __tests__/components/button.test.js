@@ -54,6 +54,11 @@ describe('<BiteshareButton>', () => {
     expect(buttonText).toBeTruthy();
   })
 
+  it ('should have one children', () => {
+    const biteshareButton = TestRenderer.create(<BiteshareButton title='Hi button' />).toJSON();
+    expect(biteshareButton?.children?.length).toBe(1);
+  });
+
   it("should render with the default style", () => {
     const { getByText } = render(<BiteshareButton title='Hi button' />);
     const buttonText = getByText('Hi button');

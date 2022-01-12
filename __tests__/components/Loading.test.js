@@ -25,4 +25,15 @@ describe('<Loading>', () => {
     expect(primary).toBeTruthy();
     expect(secondary).toBeTruthy();
   })
+
+  it ('should have two children when only one message is passed in', () => {
+    const loading = TestRenderer.create(<Loading primaryMessage='Loading' />).toJSON();
+    expect(loading?.children?.length).toBe(2);
+  });
+
+  it ('should have three children when two messages are passed in', () => {
+    const loading = TestRenderer.create(<Loading primaryMessage='Loading' secondaryMessage='Please wait'/>).toJSON();
+    expect(loading?.children?.length).toBe(3);
+  });
+
 });

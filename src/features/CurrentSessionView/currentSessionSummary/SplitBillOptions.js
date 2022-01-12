@@ -62,8 +62,10 @@ const SplitBillOptions = ({ changeTab }) => {
               console.log('Error updating individual bill: ', error);
             });
         });
+      })
+      .then(() => {
+        changeTab('Bills');
       });
-    changeTab('Bills');
   };
 
   const handleSplitByItem = (event) => {
@@ -72,8 +74,10 @@ const SplitBillOptions = ({ changeTab }) => {
     })
       .catch((error) => {
         console.log('Error updating split method: ', error);
+      })
+      .then(() => {
+        changeTab('Bills');
       });
-    changeTab('Bills');
   };
 
   return (
@@ -82,7 +86,7 @@ const SplitBillOptions = ({ changeTab }) => {
         <Text style={styles.title}>How do you want to split the bill?</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <BiteshareButton title='Evenly' buttonStyle={buttonStyle} onPress={handleSplitEvenly} />
+        <BiteshareButton title='Evenly' buttonStyle={buttonStyle} onPress={handleSplitEvenly} testID='option-evenly' />
         <BiteshareButton title='By Item' buttonStyle={buttonStyle} onPress={handleSplitByItem} />
       </View>
     </View>

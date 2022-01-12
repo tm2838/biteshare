@@ -84,7 +84,6 @@ const Guest = ({ guest }) => {
   }, [guest.orderStatus]);
 
   const handleAllowGuest = () => {
-    // @TODO: update DB USERS collection to add this currenct session to 'transactions' field
     getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', guest.name)
       .then((qResult) => {
         qResult.forEach((doc) => {
@@ -100,7 +99,6 @@ const Guest = ({ guest }) => {
   };
 
   const handleDenyGuest = () => {
-    // @TODO: update DB USERS collection to remove this currenct session from 'transactions' field
     let guestId;
     getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'name', '==', guest.name)
       .then((qResult) => {

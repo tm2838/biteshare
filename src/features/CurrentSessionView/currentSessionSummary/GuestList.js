@@ -1,7 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import { SafeAreaView, StyleSheet, FlatList } from 'react-native';
 import Guest from './Guest.js';
-import mockGuests from '../../../../fixtures/mockGuests.json';
 import { BiteShareContext } from '../../../BiteShareContext.js';
 import { readCollectionSnapshotListener } from '../../../../firebase/helpers/database.firebase.js';
 
@@ -17,6 +16,7 @@ const GuestList = () => {
 
   useEffect(() => {
     if (guests.length && guests.filter((guest) => guest.joinRequest === 'allowed').every((guest) => guest.orderStatus === 'ready')) {
+      console.log('hey there');
       dispatch({ type: 'SET_ORDER_STATUS', isEveryoneReady: true });
     }
   }, [guests]);
@@ -26,7 +26,6 @@ const GuestList = () => {
       readCollectionSnapshotListener(`transactions/${sessionId}/attendees`, (result) => {
         const guests = [];
         result.forEach((doc) => {
-          // console.log('Listening attenee doc:', doc);
           guests.push(doc.data());
         });
         const currentAccount = guests.filter((guest) => guest.name === accountHolderName || guest.name === nickname); // Might Need to change here
