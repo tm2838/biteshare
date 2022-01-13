@@ -1,51 +1,63 @@
 
 [
   {
-    "description": "japanese cucumber, shiso leaf and sweet miso asian ginger vinaigrette",
+    "description": "11\" Medium regular hand tossed crust pizza with classic red sauce",
     "key": 1,
-    "name": "Yellowfin Tuna Tartare",
-    "price": 23
+    "name": "Cheese Pizza",
+    "price": 10.99
   },
   {
-    "description": "compressed pineapple, watermelon radish, finger limes, avocado, grenada citrus",
+    "description": "11\" Medium regular thin crust pizza with classic red sauce with extra toppings",
     "key": 2,
-    "name": "Wild Bass Ceviche",
-    "price": 21
+    "name": "Vegan Pizza",
+    "price": 12.99
   },
   {
-    "description": "scallops, squid, spanish octopus, lobster, sweet shrimp, avocado and lemon vinaigrette",
+    "description": "1\" Medium regular thin crust pizza with white Alfredo sauce with extra cheese toppings",
     "key": 3,
-    "name": "Seafood Salad",
-    "price": 24
+    "name": "Gluten Free Pizza",
+    "price": 13.99
   },
   {
-    "description": "local apples, black currants, marcona almonds, pecorino pepato",
+    "description": "BBQ sauce, chicken, red onion, breakfast bacon and extra cheese.",
     "key": 4,
-    "name": "Organic Kale And Quinoa Salad",
-    "price": 17
+    "name": "BBQ Chicken Gluten Free Pizza",
+    "price": 17.99
   },
   {
-    "description": "goat cheese, tangerine, toasted hazelnuts and shaved fennel citrus vinaigrette",
+    "description": "Classic red sauce, pepperoni, Canadian bacon, beef, Italian sausage, breakfast bacon and extra cheese",
     "key": 5,
-    "name": "Roasted Red And Yellow Beet Salad",
-    "price": 14
+    "name": "Meat Eater Classic Pizza",
+    "price": 10.99
   },
   {
-    "description": "black trumpet mushrooms, figs, pistachios, chioggia beets, brioche toast",
+    "description": "Classic red sauce, mushroom, black olive, green pepper, tomato, red onion and extra cheese.",
     "key": 6,
-    "name": "Squab And Foie Gras Terrine",
-    "price": 24
+    "name": "Garden Veggie Pizza",
+    "price": 10.99
   },
   {
-    "description": "aged sherry and extra virgin olive oil dressing",
+    "description": "Basil pesto sauce, green olive, black olive, artichoke heart, red onion, feta cheese and extra cheese.",
     "key": 7,
-    "name": "Baby Organic Mixed Green Salad",
-    "price": 10
+    "name": "The Greek Pizza",
+    "price": 14.99
   },
   {
-    "description": "bok choy, shiitake mushrooms and sticky rice, soy lemongrass ginger sauce",
+    "description": "Basil pesto sauce, spinach, garlic, red onion, black olive, tomato, feta cheese and extra cheese.",
     "key": 8,
-    "name": "Miso Marinated Black Cod",
-    "price": 25
+    "name": "The Athenian Pizza",
+    "price": 10.99
+  },
+  {
+    "description": "Classic red sauce, pepperoni, Canadian bacon, beef, Italian sausage, mushroom, black olive, green pepper, red onion and extra cheese.",
+    "key": 9,
+    "name": "Party Pizza",
+    "price": 14.99
+  },
+  {
+    "description": "Classic red sauce, Canadian bacon, pineapple, breakfast bacon and extra cheese.",
+    "key": 10,
+    "name": "Jumbo 18\" Hawaiian Supreme Pizza",
+    "price": 22.99
   }
 ]
