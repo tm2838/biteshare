@@ -49,22 +49,25 @@ const ProfileHistory = () => {
   useEffect(() => {
     getAllDocuments(`users/${userId}/transactions`)
       .then((user) => {
-        // let transactions = user.data().transactions;
-        console.log(user.id);
         let cleanedTransactions = biteHistory;
 
-        // user.forEach((meal) => {
-        //   let bite = {
-        //     restauraunt: meal.restaurauntName,
-        //     bill: meal.individualBill,
-        //     hostStatus: meal.role
-        //   };
+        user.forEach((session) => {
+          readASingleDocument(`users/${userId}/transactions`, session.id)
+            .then((summary) => {
+              summary = summary.data();
+              let bite = {
+                restauraunt: summary.restaurantName,
+                bill: summary.individualBills,
+                hostStatus: summary.role || 'guest'
+              };
+              cleanedTransactions.push(bite);
+            })
+            .catch((err) => {
+              console.log('Error pulling transaction history for meal session: ', session.id);
+            });
+        });
 
-        //   // console.log(bite);
-        //   cleanedTransactions.push(bite);
-        // });
-
-        // setBiteHistory(cleanedTransactions);
+        setBiteHistory(cleanedTransactions);
       })
       .catch((err) => {
         console.log('Error pulling transaction history for user: ', userId );
