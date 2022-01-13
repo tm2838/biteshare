@@ -37,15 +37,13 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 12,
   },
-  accountHolderName: {
-    color: 'white',
-    fontSize: 12,
-  }
 });
 
 const CurrentSessionHeader = () => {
-  const {state: { restaurantName, accountHolderName, accountType }, dispatch } = useContext(BiteShareContext);
+  const {state: { restaurantName, accountHolderName, accountType, sessionId, joinRequest }, dispatch } = useContext(BiteShareContext);
   const profilePicturePath = '../../../assets/profilePicture.png';
+  const picSize = (sessionId === '' || joinRequest !== 'allowed') ? 40 : 35;
+  const accountHolderNameStyle = (sessionId === '' || joinRequest !== 'allowed') ? { color: 'white' } : { color: 'white', fontSize: 12 };
   return (
     <Appbar.Header style = {styles.currentSessionHeader}>
       <View style = {styles.currentSessionContainer}>
@@ -55,14 +53,16 @@ const CurrentSessionHeader = () => {
           </Text>
         </View>
         <View style={styles.profile}>
+          {accountType !== '' && (
+            <View>
+              <Text style = {styles.accountTypeText}>{accountType}</Text>
+            </View >
+          )}
           <View>
-            <Text style = {styles.accountTypeText}>{accountType}</Text>
-          </View >
-          <View>
-            <Avatar.Image size = {35} style = {{backgroundColor: '#f2f2f2'}} source={require(profilePicturePath)} />
+            <Avatar.Image size = {picSize} style = {{backgroundColor: '#f2f2f2'}} source={require(profilePicturePath)} />
           </View>
           <View>
-            <Text style = {styles.accountHolderName}>{accountHolderName}</Text>
+            <Text style = {accountHolderNameStyle}>{accountHolderName}</Text>
           </View>
         </View>
       </View>

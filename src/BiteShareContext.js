@@ -31,6 +31,13 @@ const clearContextReducer = (state, action) => {
 
 };
 
+const logoutReducer = (state, action) => {
+  if (action.type === 'SET_LOG_OUT') {
+    return biteShareState;
+  }
+
+};
+
 export const biteShareReducer = (state, action) => {
   switch (action.type) {
     case 'SET_ORDER_STATUS':
@@ -73,6 +80,8 @@ export const biteShareReducer = (state, action) => {
       return { ...state, openCamera: action.openCamera };
     case 'SET_CLEAR_CONTEXT':
       return clearContextReducer(state, action);
+    case 'SET_LOG_OUT':
+      return logoutReducer(state, action);
     default:
       return state;
   }

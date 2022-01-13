@@ -31,7 +31,7 @@ const PreviousBite = ({ meal }) => {
   return (
     <View style={styles.container}>
 
-      <Text style={styles.text}>{meal.restauraunt}</Text>
+      <Text style={styles.text}>{meal.restaurant}</Text>
       <Text style={styles.text}>{meal.hostStatus}</Text>
       <Text style={styles.text}>${meal.bill}</Text>
 

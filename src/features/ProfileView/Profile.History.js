@@ -3,7 +3,7 @@ import { Appbar, Avatar } from 'react-native-paper';
 import { colors } from '../../infrastructure/colors';
 import { StyleSheet, Text, View, FlatList} from 'react-native';
 import { BiteShareContext } from '../../BiteShareContext';
-import { getADocReferenceFromCollection, readASingleDocument, getAllDocuments } from '../../../firebase/helpers/database.firebase.js';
+import { readCollectionSnapshotListener } from '../../../firebase/helpers/database.firebase.js';
 
 import SafeArea from '../../components/SafeArea';
 import PreviousBite from './ProfileBites';
@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
     flex: .1,
     fontSize: 25,
     fontWeight: 'bold',
+    padding: 15
   },
   list: {
     flex: 1
@@ -32,13 +33,13 @@ const styles = StyleSheet.create({
 
 const ProfileHistory = () => {
   const mockBites = [
-    {restauraunt: 'Grey Ghost', hostStatus: 'Host', bill: 32.42},
-    {restauraunt: 'Barda', hostStatus: 'Guest', bill: 22.42},
-    {restauraunt: 'Ima', hostStatus: 'Guest', bill: 12.43},
-    {restauraunt: 'Lenny\'s', hostStatus: 'Host', bill: 9.44},
-    {restauraunt: 'Supinos', hostStatus: 'Guest', bill: 25.45},
-    {restauraunt: 'Flowers of Vietnam', hostStatus: 'Host', bill: 42.45},
-    {restauraunt: 'Taqueria El Rey', hostStatus: 'Host', bill: 8.49}
+    {restaurant: 'Grey Ghost', hostStatus: 'Host', bill: 32.42, date: new Date('1995-10-21')},
+    {restaurant: 'Barda', hostStatus: 'Guest', bill: 22.42, date: new Date('1995-10-21')},
+    {restaurant: 'Ima', hostStatus: 'Guest', bill: 12.43, date: new Date('1995-10-21')},
+    {restaurant: 'Lenny\'s', hostStatus: 'Host', bill: 9.44, date: new Date('1995-10-21')},
+    {restaurant: 'Supinos', hostStatus: 'Guest', bill: 25.45, date: new Date('1995-10-21')},
+    {restaurant: 'Flowers of Vietnam', hostStatus: 'Host', bill: 42.45, date: new Date('1995-10-21')},
+    {restaurant: 'Taqueria El Rey', hostStatus: 'Host', bill: 8.49, date: new Date('1995-10-21')}
   ];
 
   const [biteHistory, setBiteHistory] = useState(mockBites);
@@ -47,33 +48,26 @@ const ProfileHistory = () => {
   const renderBite = ({item, index}) => (<PreviousBite meal={item} index={index}/>);
 
   useEffect(() => {
-    getAllDocuments(`users/${userId}/transactions`)
-      .then((user) => {
-        let cleanedTransactions = biteHistory;
-
-        user.forEach((session) => {
-          readASingleDocument(`users/${userId}/transactions`, session.id)
-            .then((summary) => {
-              summary = summary.data();
-              let bite = {
-                restauraunt: summary.restaurantName,
-                bill: summary.individualBills,
-                hostStatus: summary.role || 'guest'
-              };
-              cleanedTransactions.push(bite);
-            })
-            .catch((err) => {
-              console.log('Error pulling transaction history for meal session: ', session.id);
-            });
+    if (userId) {
+      readCollectionSnapshotListener(`users/${userId}/transactions`, (transactions) => {
+        let cleanedTransactions = [...biteHistory];
+        transactions.forEach((session) => {
+          const { restaurantName, individualBills, role, date, isCurrent } = session.data();
+          if (!isCurrent) {
+            const bite = {
+              restaurant: restaurantName,
+              bill: individualBills,
+              hostStatus: role || 'Guest',
+              date: date.toDate()
+            };
+            cleanedTransactions.unshift(bite);
+          }
         });
-
+        cleanedTransactions = cleanedTransactions.sort((a, b) => a.date > b.date ? -1 : a.date < b.date ? 1 : 0);
         setBiteHistory(cleanedTransactions);
       })
-      .catch((err) => {
-        console.log('Error pulling transaction history for user: ', userId );
-      });
-
-  }, []);
+    }
+  }, [userId]);
 
   return (
     <View style={styles.container}>
