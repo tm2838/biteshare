@@ -97,7 +97,6 @@ const CurrentSessionBills = ({ changeTab }) => {
           updateADocument(`users/${userId}/transactions`, sessionDoc.id, {
             isCurrent: false,
             individualBills: individualBill,
-            restaurantName: restaurantName,
           })
             .then(() => {
               console.log('Successfully added the transaction for current user');

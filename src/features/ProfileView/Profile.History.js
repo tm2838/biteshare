@@ -24,11 +24,9 @@ const styles = StyleSheet.create({
     flex: .1,
     fontSize: 25,
     fontWeight: 'bold',
-    paddingLeft:15,
   },
   list: {
-    flex: 1,
-    paddingLeft:15,
+    flex: 1
   }
 });
 
@@ -46,31 +44,31 @@ const ProfileHistory = () => {
   const [biteHistory, setBiteHistory] = useState(mockBites);
   const { state: { userId }, dispatch } = useContext(BiteShareContext);
 
-
   const renderBite = ({item, index}) => (<PreviousBite meal={item} index={index}/>);
 
   useEffect(() => {
-    readASingleDocument(`users`, userId )
+    getAllDocuments(`users/${userId}/transactions`)
       .then((user) => {
-        let transactions = user.data().transactions;
+        // let transactions = user.data().transactions;
+        console.log(user.id);
         let cleanedTransactions = biteHistory;
 
-        transactions.forEach((meal) => {
-          let bite = {
-            restauraunt: meal.restaurauntName,
-            bill: meal.individualBill,
-            hostStatus: meal.role
-          };
+        // user.forEach((meal) => {
+        //   let bite = {
+        //     restauraunt: meal.restaurauntName,
+        //     bill: meal.individualBill,
+        //     hostStatus: meal.role
+        //   };
 
-          // console.log(bite);
-          cleanedTransactions.push(bite);
-        });
+        //   // console.log(bite);
+        //   cleanedTransactions.push(bite);
+        // });
 
-        setBiteHistory(cleanedTransactions)
+        // setBiteHistory(cleanedTransactions);
       })
       .catch((err) => {
-        console.log(`Error pulling transaction history for user: `, userId )
-      })
+        console.log('Error pulling transaction history for user: ', userId );
+      });
 
   }, []);
 
