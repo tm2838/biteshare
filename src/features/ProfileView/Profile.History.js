@@ -47,33 +47,22 @@ const ProfileHistory = () => {
   const renderBite = ({item, index}) => (<PreviousBite meal={item} index={index}/>);
 
   useEffect(() => {
-    getAllDocuments(`users/${userId}/transactions`)
-      .then((user) => {
-        let cleanedTransactions = biteHistory;
-
-        user.forEach((session) => {
-          readASingleDocument(`users/${userId}/transactions`, session.id)
-            .then((summary) => {
-              summary = summary.data();
-              let bite = {
-                restauraunt: summary.restaurantName,
-                bill: summary.individualBills,
-                hostStatus: summary.role || 'guest'
-              };
-              cleanedTransactions.push(bite);
-            })
-            .catch((err) => {
-              console.log('Error pulling transaction history for meal session: ', session.id);
-            });
+    if (userId) {
+      readCollectionSnapshotListener(`users/${userId}/transactions`, (transactions) => {
+        let cleanedTransactions = [...biteHistory];
+        transactions.forEach((session) => {
+          const { restaurantName, individualBills, role } = session.data();
+          const bite = {
+            restauraunt: restaurantName,
+            bill: individualBills,
+            hostStatus: role || 'Guest'
+          };
+          cleanedTransactions.unshift(bite);
         });
-
         setBiteHistory(cleanedTransactions);
-      })
-      .catch((err) => {
-        console.log('Error pulling transaction history for user: ', userId );
       });
-
-  }, []);
+    }
+  }, [userId]);
 
   return (
     <View style={styles.container}>
