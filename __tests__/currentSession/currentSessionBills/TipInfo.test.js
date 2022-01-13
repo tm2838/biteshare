@@ -21,7 +21,6 @@ describe('<TipInfo/>', () => {
 
     const tip = getByText('Add 10% tip: $2.00');
     expect(tip).toBeTruthy();
-
   });
 
   it('should call setSelected when pressed', () => {
