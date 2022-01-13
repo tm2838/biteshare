@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 });
 
 const Loading = ({ size = 'small', color = colors.brand.kazan, primaryMessage, secondaryMessage = '' }) => (
-  <View style={styles.loadingContainer}>
+  <View style={styles.loadingContainer} testID='activity-indicator'>
     <ActivityIndicator size={size} color={color} />
     <Text style={styles.text}>{primaryMessage}</Text>
     {secondaryMessage !== '' && <Text>{secondaryMessage}</Text>}

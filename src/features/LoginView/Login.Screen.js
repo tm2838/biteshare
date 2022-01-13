@@ -136,7 +136,7 @@ const LoginScreen = () => {
               secureText={true}
               inputValue={password}
               setInputValue={setPassword} />
-            {loginError ? <Text testID='loginButton'>{loginError}</Text> : null}
+            {loginError ? <Text testID='loginError'>{loginError}</Text> : null}
           </View>
 
           <View style={styles.buttonsContainer}>
