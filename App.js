@@ -1,4 +1,6 @@
 /* eslint-disable camelcase */
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs();
 import { StatusBar } from 'expo-status-bar';
 import React, { useReducer } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
@@ -12,6 +14,7 @@ import HomeScreen from './src/features/HomeView/Home.Screen.js';
 import AppLoading from 'expo-app-loading';
 import LoginScreen from './src/features/LoginView/Login.Screen';
 import SignupScreen from './src/features/SignupView/Signup.Screen';
+
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
