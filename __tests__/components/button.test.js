@@ -1,7 +1,9 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
+import '@testing-library/jest-native/extend-expect';
 import BigButton from '../../src/components/BigButton';
 import BackButton from '../../src/components/BackButton';
+import BiteshareButton from '../../src/components/BiteshareButton';
 const TestRenderer = require('react-test-renderer');
 import { useNavigation } from '@react-navigation/native';
 

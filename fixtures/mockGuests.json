@@ -1,11 +1,13 @@
 [
   {
     "name": "Susan",
-    "orderStatus": "Not Ready"
+    "orderStatus": "not ready",
+    "joinRequest": "allowed",
+    "orderedItems": []
   },
   {
     "name": "Greg",
-    "orderStatus": "Ready",
+    "orderStatus": "ready",
     "orderedItems": [
       {
         "name": "1 Large 2 Topping Pizza Special",
@@ -31,26 +33,37 @@
         ],
         "price": 15.99
       }
-    ]
+    ],
+    "joinRequest": "allowed"
   },
   {
     "name": "Ava",
-    "orderStatus": "Not Ready"
+    "orderStatus": "not ready",
+    "joinRequest": "denied",
+    "orderedItems": []
   },
   {
-    "name": "Alex", 
-    "orderStatus": "Ready"
+    "name": "Alex",
+    "orderStatus": "not ready",
+    "joinRequest": "pending",
+    "orderedItems": []
   },
   {
     "name": "Ali",
-    "orderStatus": "Not Ready"
+    "orderStatus": "not ready",
+    "joinRequest": "allowed",
+    "orderedItems": []
   },
   {
     "name": "Linda",
-    "orderStatus": "Not Ready"
+    "orderStatus": "not ready",
+    "joinRequest": "allowed",
+    "orderedItems": []
   },
   {
     "name": "Jennie",
-    "orderStatus": "Not Ready"
+    "orderStatus": "not ready",
+    "joinRequest": "allowed",
+    "orderedItems": []
   }
 ]
