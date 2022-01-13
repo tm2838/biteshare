@@ -1,11 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Appbar, Avatar } from 'react-native-paper';
 import { colors } from '../../infrastructure/colors';
 import { StyleSheet, Text, View, FlatList} from 'react-native';
 import { BiteShareContext } from '../../BiteShareContext';
-import SafeArea from '../../components/SafeArea';
+import { getADocReferenceFromCollection, readASingleDocument, getAllDocuments } from '../../../firebase/helpers/database.firebase.js';
 
+import SafeArea from '../../components/SafeArea';
 import PreviousBite from './ProfileBites';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -30,10 +32,7 @@ const styles = StyleSheet.create({
   }
 });
 
-
-
 const ProfileHistory = () => {
-
   const mockBites = [
     {restauraunt: 'Grey Ghost', hostStatus: 'Host', bill: 32.42},
     {restauraunt: 'Barda', hostStatus: 'Guest', bill: 22.42},
@@ -44,21 +43,44 @@ const ProfileHistory = () => {
     {restauraunt: 'Taqueria El Rey', hostStatus: 'Host', bill: 8.49}
   ];
 
+  const [biteHistory, setBiteHistory] = useState(mockBites);
+  const { state: { userId }, dispatch } = useContext(BiteShareContext);
+
+
   const renderBite = ({item, index}) => (<PreviousBite meal={item} index={index}/>);
 
-  //TODO
-  //Query previous bites from db
-  //Restauraunt Name - Guest / Host Status - Price
-  //Place in array in state to be rendered via Flatlist
+  useEffect(() => {
+    readASingleDocument(`users`, userId )
+      .then((user) => {
+        let transactions = user.data().transactions;
+        let cleanedTransactions = biteHistory;
+
+        transactions.forEach((meal) => {
+          let bite = {
+            restauraunt: meal.restaurauntName,
+            bill: meal.individualBill,
+            hostStatus: meal.role
+          };
+
+          // console.log(bite);
+          cleanedTransactions.push(bite);
+        });
+
+        setBiteHistory(cleanedTransactions)
+      })
+      .catch((err) => {
+        console.log(`Error pulling transaction history for user: `, userId )
+      })
+
+  }, []);
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Bites Shared </Text>
       <FlatList
         style={styles.list}
-        data={ mockBites }
+        data={ biteHistory }
         renderItem={renderBite}
-        // keyExtractor={mockBites.index}
         keyExtractor={(mockBites, index) => index.toString()}
       />
     </View>
@@ -67,3 +89,7 @@ const ProfileHistory = () => {
 };
 
 export default ProfileHistory;
+
+//Q's
+
+//
