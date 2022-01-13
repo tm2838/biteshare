@@ -21,6 +21,9 @@ describe('<CurrentSessionBills/>', () => {
 
     jest.spyOn(DBHelpers, 'readDocSnapshotListener');
     DBHelpers.readDocSnapshotListener = jest.fn(() => Promise.resolve());
+
+    jest.spyOn(DBHelpers, 'updateADocument');
+    DBHelpers.updateADocument = jest.fn(() => Promise.resolve());
   });
 
   afterEach(() => {
@@ -86,7 +89,7 @@ describe('<CurrentSessionBills/>', () => {
     expect(paymentButton).toBeTruthy();
   });
 
-  it('should press the make payment button and call DB functions', () => {
+  it('should press the make payment button and call DB functions', async () => {
     const mockContext = {
       dispatch: jest.fn(),
       state: {
@@ -98,7 +101,7 @@ describe('<CurrentSessionBills/>', () => {
 
     const { getByText } = render(<BiteShareContext.Provider value={mockContext}><CurrentSessionBills /></BiteShareContext.Provider>);
     const paymentButton = getByText('MAKE PAYMENT');
-    fireEvent.press(paymentButton);
+    await fireEvent.press(paymentButton);
     expect(DBHelpers.getADocReferenceFromCollection).toHaveBeenCalledTimes(2);
     expect(DBHelpers.getADocReferenceFromCollection).toHaveBeenCalledWith('users/test-user/transactions', 'sessionId', '==', 'test-session');
   });
