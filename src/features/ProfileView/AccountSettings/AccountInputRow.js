@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 15,
     fontWeight: 'bold',
-    paddingLeft:15, //added some padding to the left
+    paddingLeft: 15, //added some padding to the left
   },
   form: {
     flex: 1,

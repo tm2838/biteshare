@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
 
 const CurrentSessionBills = ({ changeTab }) => {
 
-  const { state: { accountHolderName, nickname, sessionId, orderedItems, email, userId }, dispatch } = useContext(BiteShareContext);
+  const { state: { accountHolderName, nickname, sessionId, orderedItems, email, userId, restaurauntName }, dispatch } = useContext(BiteShareContext);
   const [individualBill, setIndividualBill] = useState(0);
   const [totalBill, setTotalBill] = useState(0);
   const [selected, setSelected] = useState(null);

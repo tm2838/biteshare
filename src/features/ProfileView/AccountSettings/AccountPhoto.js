@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: 'bold',
     fontSize: 20,
-    
+
   }
 });
 
@@ -51,7 +51,7 @@ const UserPhoto = () => {
         <Avatar.Image
           source = {require(profilePicturePath)}
           size = {80}
-          style = {{backgroundColor: "#f2f2f2"}}
+          style = {{backgroundColor: '#f2f2f2'}}
         />
       </View>
 

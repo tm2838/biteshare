@@ -33,7 +33,7 @@ const ExploreHeader = () => {
           <Avatar.Image
             source={require(profilePicturePath)}
             size = {40}
-            style = {{backgroundColor: "#f2f2f2"}}
+            style = {{backgroundColor: '#f2f2f2'}}
           />
         </View>
       </View>
