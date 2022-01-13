@@ -129,8 +129,6 @@ const SignupScreen = () => {
   return (
     <SafeArea>
       <View style={styles.loginContainer}>
-        {/* <Text style={styles.biteshareTitle}>BITESHARE</Text>
-         */}
         <View style={styles.biteshareTitleContainer}>
           <Image source={require('../../../assets/signuplogo.png')} style={styles.biteshareTitle} />
 

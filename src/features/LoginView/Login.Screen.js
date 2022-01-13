@@ -18,24 +18,17 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.brand.login,
   },
   biteshareTitle: {
-    // flex: 1,
-    // textAlign: 'center',
-    // fontFamily: theme.fonts.heading,
-    // fontSize: 64,
     marginTop: 70,
     width: 285,
     height: 250
   },
   biteshareTitleContainer: {
-    // marginTop: 70,
     width: '100%',
     alignItems: 'center'
   },
   loginEntries: {
-    // flex: 2.5,
     margin: 20,
     marginTop: 10
-    // alignItems: 'center',
   },
   InputFieldsContainer: {
     backgroundColor: 'rgb(247, 228, 213)',
@@ -79,6 +72,7 @@ const LoginScreen = () => {
   const { state: { accountType, accountHolderName, nickname }, dispatch } = useContext(BiteShareContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -100,7 +94,7 @@ const LoginScreen = () => {
     //isloading?
     loginUser(email, password)
       .then(userCredentials => {
-        console.log('userCredentials in LOGIN:', userCredentials.user.providerData[0].displayName);
+        // console.log('userCredentials in LOGIN:', userCredentials.user.providerData[0].displayName);
         dispatch({ type: 'SET_EMAIL', email });
         getADocReferenceFromCollection('users', 'email', '==', email)
           .then((qResult) => {
@@ -114,6 +108,7 @@ const LoginScreen = () => {
       })
       .catch(err => {
         console.log(err);
+        setLoginError(err.message);
       });
   };
 
@@ -124,28 +119,27 @@ const LoginScreen = () => {
   return (
     <SafeArea>
       <View style={styles.loginContainer}>
-        {/* <Text style={styles.biteshareTitle}>BITESHARE</Text> */}
         <View style={styles.biteshareTitleContainer}>
           <Image source={require('../../../assets/loginlogo.png')} style={styles.biteshareTitle} />
         </View>
         <KeyboardAvoidingView
           style={styles.loginEntries}>
           <View style={styles.InputFieldsContainer}>
-
             <InputField
               placeholder={'Email'}
               secureText={false}
               inputValue={email}
               setInputValue={setEmail} />
             <InputField
+              testID='passwordInput'
               placeholder={'Password'}
               secureText={true}
               inputValue={password}
               setInputValue={setPassword} />
+            {loginError ? <Text testID='loginButton'>{loginError}</Text> : null}
           </View>
 
           <View style={styles.buttonsContainer}>
-
             <TouchableOpacity
               style={styles.loginButton}
               onPress={handleLogin}>
@@ -153,7 +147,7 @@ const LoginScreen = () => {
             </TouchableOpacity>
             <Pressable onPress={goToSignup}>
               <Text>Don't have an account?
-                <Text style={styles.signUp}> Sign Up</Text> {/*this will need "onPress => go to Sign up page"}*/}
+                <Text style={styles.signUp}> Sign Up</Text>
               </Text>
             </Pressable>
             <View style={styles.authProvider}>

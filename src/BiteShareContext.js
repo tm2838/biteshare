@@ -27,7 +27,6 @@ const clearContextReducer = (state, action) => {
   if (action.type === 'SET_CLEAR_CONTEXT') {
     return { ...state, sessionId: '', joinRequest: '', restaurantId: '', restaurantName: '', restaurantMenus: [], accountType: '' };
   }
-
 };
 
 export const biteShareReducer = (state, action) => {
