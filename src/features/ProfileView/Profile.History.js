@@ -30,12 +30,7 @@ const styles = StyleSheet.create({
   }
 });
 
-
-
 const ProfileHistory = () => {
-  const [biteHistory, setBiteHistory] = useState([]);
-  const { state: { userId, email }, dispatch } = useContext(BiteShareContext);
-
   const mockBites = [
     {restauraunt: 'Grey Ghost', hostStatus: 'Host', bill: 32.42},
     {restauraunt: 'Barda', hostStatus: 'Guest', bill: 22.42},
@@ -46,14 +41,33 @@ const ProfileHistory = () => {
     {restauraunt: 'Taqueria El Rey', hostStatus: 'Host', bill: 8.49}
   ];
 
+  const [biteHistory, setBiteHistory] = useState(mockBites);
+  const { state: { userId }, dispatch } = useContext(BiteShareContext);
+
+
   const renderBite = ({item, index}) => (<PreviousBite meal={item} index={index}/>);
 
   useEffect(() => {
-
     readASingleDocument(`users`, userId )
-      .then((data) => {
-        console.log(data.data())
-        let hist = data.data()
+      .then((user) => {
+        let transactions = user.data().transactions;
+        let cleanedTransactions = biteHistory;
+
+        transactions.forEach((meal) => {
+          let bite = {
+            restauraunt: meal.restaurauntName,
+            bill: meal.individualBill,
+            hostStatus: meal.role
+          };
+
+          // console.log(bite);
+          cleanedTransactions.push(bite);
+        });
+
+        setBiteHistory(cleanedTransactions)
+      })
+      .catch((err) => {
+        console.log(`Error pulling transaction history for user: `, userId )
       })
 
   }, []);
@@ -63,9 +77,8 @@ const ProfileHistory = () => {
       <Text style={styles.title}>Bites Shared </Text>
       <FlatList
         style={styles.list}
-        data={ mockBites }
+        data={ biteHistory }
         renderItem={renderBite}
-        // keyExtractor={mockBites.index}
         keyExtractor={(mockBites, index) => index.toString()}
       />
     </View>

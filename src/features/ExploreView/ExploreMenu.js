@@ -147,6 +147,7 @@ const ExploreMenu = ({ navigation }) => {
               individualBills: 0,
               date: Timestamp.fromDate(new Date()),
               role: 'Host',
+              restaurantName: restaurantName,
             })
               .then(() => {
                 console.log('Successfully added the transaction for current user');

@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
 
 const CurrentSessionBills = ({ changeTab }) => {
 
-  const { state: { accountHolderName, nickname, sessionId, orderedItems, email, userId }, dispatch } = useContext(BiteShareContext);
+  const { state: { accountHolderName, nickname, sessionId, orderedItems, email, userId, restaurauntName }, dispatch } = useContext(BiteShareContext);
   const [individualBill, setIndividualBill] = useState(0);
   const [totalBill, setTotalBill] = useState(0);
   const [selected, setSelected] = useState(null);
@@ -97,6 +97,7 @@ const CurrentSessionBills = ({ changeTab }) => {
           updateADocument(`users/${userId}/transactions`, sessionDoc.id, {
             isCurrent: false,
             individualBills: individualBill,
+            restaurantName: restaurantName,
           })
             .then(() => {
               console.log('Successfully added the transaction for current user');
