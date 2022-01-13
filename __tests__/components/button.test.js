@@ -12,18 +12,18 @@ describe ('<BigButton>', () => {
   const props = {
     title: 'BiteShare button',
     handleLogin: () => mockCallback()
-  }
+  };
 
   it('should have a title', () => {
     const { getByText } = render(<BigButton {...props} />);
     const button = getByText('BiteShare button');
     expect(button).not.toBe(null);
-  })
+  });
 
   it ('should have one children', () => {
     const bigButton = TestRenderer.create(<BigButton {...props} />).toJSON();
     expect(bigButton?.children?.length).toBe(1);
-  })
+  });
 
   it('should click the button', () => {
     const { getByText } = render(<BigButton {...props} />);
@@ -31,16 +31,16 @@ describe ('<BigButton>', () => {
     fireEvent.press(button);
     expect(mockCallback).toHaveBeenCalledTimes(1);
 
-  })
-})
+  });
+});
 
 describe('<BackButton>', () => {
   useNavigation.mockResolvedValue(12);
   const props = {
     screenName: 'Home'
-  }
+  };
   it('should have one children', () => {
     const backButton = TestRenderer.create(<BackButton {...props} />).toJSON();
     expect(backButton?.children?.length).toBe(1);
-  })
-})
+  });
+});

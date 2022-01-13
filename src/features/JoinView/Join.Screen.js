@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: colors.brand.rausch
   },
-  guestQR:{
-    width:230,
+  guestQR: {
+    width: 230,
     height: 230,
   }
 });
