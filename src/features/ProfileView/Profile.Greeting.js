@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
 
   },
   profileAvatar: {
-    marginRight: 15
+    marginRight: 15,
   },
   profileName: {
     fontSize: 25,
@@ -32,10 +32,11 @@ const ProfileGreeting = () => {
         <Avatar.Image
           source = {require(profilePicturePath)}
           size = {80}
+          style = {{backgroundColor: '#f2f2f2'}}
         />
       </View>
 
-      <Text style={styles.profileName}>Welcome{accountHolderName}</Text>
+      <Text style={styles.profileName}>Welcome {accountHolderName}</Text>
 
     </View>
   );

@@ -147,7 +147,7 @@ const ExploreScreen = ({ navigation }) => {
                 data={restaurants}
                 renderItem={({ item, index }) => <RestaurantInfo restaurant={item} image={restaurantsImages[index]} />}
                 keyExtractor={restaurant => restaurant.restaurant_id}
-                ListFooterComponent={<View style={{ padding: 115 }} />}
+                ListFooterComponent={<View style={{ padding: 125 }} />}
               />
             </>
         }

@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
 const GuestMenu = () => {
 
   const { state: { restaurantName, restaurantId, restaurantMenus, biteShareKey, sessionId }, dispatch } = useContext(BiteShareContext);
-  const API_KEY = biteShareKey;
+  // const API_KEY = biteShareKey;
 
   const [isLoading, setLoading] = useState(true);
   const [restaurantAddress, setRestaurantAddress] = useState('');

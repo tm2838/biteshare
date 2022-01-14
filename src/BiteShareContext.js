@@ -9,6 +9,7 @@ export const biteShareState = {
   restaurants: [], //restaurants displayed in ExplorePage
   restaurantsImages: [], //images for ExplorePage
   restaurantName: '',
+  restaurantAddress: '',
   restaurantId: null, //updates when user clicks See Full Menu from ExplorePage
   restaurantMenus: [],
   accountHolderName: '',
@@ -30,6 +31,13 @@ const clearContextReducer = (state, action) => {
 
 };
 
+const logoutReducer = (state, action) => {
+  if (action.type === 'SET_LOG_OUT') {
+    return biteShareState;
+  }
+
+};
+
 export const biteShareReducer = (state, action) => {
   switch (action.type) {
     case 'SET_ORDER_STATUS':
@@ -46,6 +54,8 @@ export const biteShareReducer = (state, action) => {
       return { ...state, restaurantsImages: action.restaurantsImages };
     case 'SET_RESTAURANT_NAME':
       return { ...state, restaurantName: action.restaurantName };
+      case 'SET_RESTAURANT_ADDRESS':
+      return { ...state, restaurantAddress: action.restaurantAddress };
     case 'SET_RESTAURANT_ID':
       return { ...state, restaurantId: action.restaurantId };
     case 'SET_RESTAURANT_MENU':
@@ -70,6 +80,8 @@ export const biteShareReducer = (state, action) => {
       return { ...state, openCamera: action.openCamera };
     case 'SET_CLEAR_CONTEXT':
       return clearContextReducer(state, action);
+    case 'SET_LOG_OUT':
+      return logoutReducer(state, action);
     default:
       return state;
   }
