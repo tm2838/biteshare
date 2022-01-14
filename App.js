@@ -1,4 +1,6 @@
 /* eslint-disable camelcase */
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs();
 import { StatusBar } from 'expo-status-bar';
 import React, { useReducer } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
