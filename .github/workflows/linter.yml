@@ -9,11 +9,7 @@ jobs:
     # Installs new modules to virtual machine
     - name: Install modules
       run: sudo rm -rf node_modules package-lock.json
-<<<<<<< HEAD
-    - run: npm install ----legacy-peer-deps
-=======
     - run: npm install --legacy-peer-deps
->>>>>>> bug-fixes-and-style-adjustments
     # Runs lint on whole repo per script in package.json
-    - name: Run ESLint
-      run: npm run lint
+    # - name: Run ESLint
+    #   run: npm run lint

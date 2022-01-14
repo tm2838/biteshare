@@ -111,7 +111,7 @@ const CurrentSessionBills = ({ changeTab }) => {
       .then(() => {
         dispatch({ type: 'SET_CLEAR_CONTEXT' });
         navigation.navigate('Profile');
-      })
+      });
   };
 
   return (
