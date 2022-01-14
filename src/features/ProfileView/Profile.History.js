@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Appbar, Avatar } from 'react-native-paper';
 import { colors } from '../../infrastructure/colors';
 import { StyleSheet, Text, View, FlatList} from 'react-native';
@@ -42,7 +42,7 @@ const ProfileHistory = () => {
   ];
 
   const [biteHistory, setBiteHistory] = useState(mockBites);
-  const { state: { userId }, dispatch } = useContext(BiteShareContext);
+  const { state: { userId, restaurantName, individualBills, role }, dispatch } = useContext(BiteShareContext);
 
   const renderBite = ({item, index}) => (<PreviousBite meal={item} index={index}/>);
 
@@ -69,9 +69,8 @@ const ProfileHistory = () => {
       <Text style={styles.title}>Bites Shared </Text>
       <FlatList
         style={styles.list}
-        data={ mockBites }
+        data={ biteHistory }
         renderItem={renderBite}
-        // keyExtractor={mockBites.index}
         keyExtractor={(mockBites, index) => index.toString()}
       />
     </View>
