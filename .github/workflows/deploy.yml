@@ -19,5 +19,5 @@ jobs:
           expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
           expo-cache: true
       - run: sudo rm -rf node_modules package-lock.json
-      - run: npm install
+      - run: npm install --legacy-peer-deps
       - run: expo publish

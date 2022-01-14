@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { colors } from '../../../infrastructure/colors.js';
 import { BiteShareContext } from '../../../BiteShareContext.js';
@@ -61,6 +62,7 @@ const CurrentSessionBills = ({ changeTab }) => {
   const [totalBill, setTotalBill] = useState(0);
   const [selected, setSelected] = useState(null);
   const tipPercentages = [0.1, 0.15, 0.2];
+  const navigation = useNavigation();
 
   //function to add tax- 7.25%
   const addTax = (bill) => (bill * .0725) + bill;
@@ -79,7 +81,7 @@ const CurrentSessionBills = ({ changeTab }) => {
 
   const getTotalBill = () => {
     readDocSnapshotListener('transactions', sessionId, (doc) => {
-      setTotalBill(doc.data().totalBills);
+      setTotalBill(doc?.data()?.totalBills);
     });
   };
 
@@ -105,6 +107,10 @@ const CurrentSessionBills = ({ changeTab }) => {
               console.log('Error adding the transaction for current user');
             });
         });
+      })
+      .then(() => {
+        dispatch({ type: 'SET_CLEAR_CONTEXT' });
+        navigation.navigate('Profile');
       });
   };
 

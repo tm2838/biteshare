@@ -62,10 +62,10 @@ export default function QRScanner() {
     alert('Please wait until the host allows you to join the session');
 
     const sessionData = data.split('&');
-    const [sessionId, hostName, diningPlaceName, diningPlaceId] = sessionData;
+    const [ sessionId, hostName, diningPlaceName ] = sessionData;
 
     dispatch({ type: 'SET_SESSION_ID', sessionId: sessionId });
-    dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: diningPlaceId });
+    // dispatch({ type: 'SET_RESTAURANT_ID', restaurantId: diningPlaceId });
     dispatch({ type: 'SET_RESTAURANT_NAME', restaurantName: diningPlaceName });
 
     getADocReferenceFromCollection(`transactions/${sessionId}/attendees`, 'userId', '==', userId)
@@ -102,6 +102,7 @@ export default function QRScanner() {
           individualBills: 0,
           date: Timestamp.fromDate(new Date()),
           role: 'GUEST',
+          restaurantName: restaurantName || diningPlaceName,
         })
           .then(() => {
             console.log('Successfully added the transaction for current user');
