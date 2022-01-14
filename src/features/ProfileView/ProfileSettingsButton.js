@@ -19,13 +19,13 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: colors.brand.ebisuLight2,
-    margin: 5,
     borderRadius: 15,
     height: 40,
     width: '100%',
 
     flex: 1,
     textAlign: 'center',
+    justifyContent: 'center',
 
     fontSize: 15,
   }
@@ -43,7 +43,7 @@ const SettingButton = ({ navPage }) => {
           navPage('Account');
         }}
       >
-        <Text>Personal Information</Text>
+        <Text style={{ paddingLeft: 10 }}>Personal Information</Text>
       </TouchableOpacity>
 
     </View>

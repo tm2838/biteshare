@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
 });
 
 const LogoutModal = ({ modalVisible, setModalVisible }) => {
-  const { state: { guests, accountType, sessionId, nickname }, dispatch } = useContext(BiteShareContext);
+  const { state: { guests, accountType, sessionId, nickname, accountHolderName }, dispatch } = useContext(BiteShareContext);
   const navigation = useNavigation();
 
   const logout = async () => {
@@ -90,7 +90,7 @@ const LogoutModal = ({ modalVisible, setModalVisible }) => {
     }
     signOutUser()
       .then(() => {
-        dispatch({ type: 'SET_CLEAR_CONTEXT' });
+        dispatch({ type: 'SET_LOG_OUT' });
         navigation.navigate('Login');
       })
       .catch(err => {

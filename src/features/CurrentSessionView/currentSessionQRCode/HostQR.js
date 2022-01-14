@@ -5,6 +5,7 @@ import { BiteShareContext } from '../../../BiteShareContext.js';
 import { colors } from '../../../infrastructure/colors.js';
 import { fonts } from '../../../infrastructure/fonts.js';
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -24,9 +25,10 @@ const styles = StyleSheet.create({
 });
 
 const HostQR = () => {
-  const { state: { sessionId, accountHolderName, restaurantName, restaurantId }, dispatch } = useContext(BiteShareContext);
+  const { state: { sessionId, accountHolderName, restaurantName}, dispatch } = useContext(BiteShareContext);
   //also pass in resturant name
-  const sessionInfoString = `${sessionId}&${accountHolderName}&${restaurantName}&${restaurantId}`;
+  const sessionInfoString = `${sessionId}&${accountHolderName}&${restaurantName}`;
+  const biteShareLogo = require('../../../../assets/explorelogo.png');
 
   return (
 
@@ -35,9 +37,10 @@ const HostQR = () => {
       <QRCode
         value={sessionInfoString}
         color={colors.brand.darkBlue}
-        size={150}
+        size={250}
+        logo={biteShareLogo}
         logoMargin={2}
-        logoSize={80}
+        logoSize={50}
         logoBorderRadius={10}
         logoBackgroundColor={'transparent'}
       />
