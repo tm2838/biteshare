@@ -15,7 +15,12 @@ authMethods.signUpNewUser = jest.fn((email, password) => {
   } else
     return Promise.reject({ message: 'failed' })
 })
+
 authMethods.updateProfile = jest.fn(() => {
+  return Promise.resolve('success')
+})
+
+DBHelpers.addANewAnonymousDocument = jest.fn(() => {
   return Promise.resolve('success')
 })
 
@@ -40,45 +45,15 @@ describe('Signup Screen', () => {
   })
 
   it('should perform a signup and login when someone creates a new user', async () => {
-    const { findByTestId, findAllByTestId, findByRole, debug } = render(<SignupScreen />);
-    const signupButton = await findByRole('TouchableOpacity');
+    const { findByTestId, findAllByTestId, getByText, debug } = render(<SignupScreen />);
+    const signupButton = getByText('CREATE ACCOUNT');
     const signupInput = await findAllByTestId('emailInput1');
-    fireEvent.changeText(signupInput[2], 'dur bur')
-    fireEvent.changeText(signupInput[3], 'dur@dur.com')
-    fireEvent.changeText(signupInput[4], 'biteshare')
-    fireEvent.changeText(signupInput[5], 'biteshare')
+    fireEvent.changeText(signupInput[0], 'dur bur')
+    fireEvent.changeText(signupInput[1], 'dur@dur.com')
+    fireEvent.changeText(signupInput[2], 'biteshare')
+    fireEvent.changeText(signupInput[3], 'biteshare')
     fireEvent.press(signupButton)
     expect(authMethods.signUpNewUser).toHaveBeenCalledWith('dur@dur.com', 'biteshare');
   })
 
 });
-
-// // describe('Login Screen', () => {
-
-// //   it('should have Login button', () => {
-// //     const { getAllByText } = render(<LoginScreen {...props} />);
-// //     const loginButton = getAllByText('LOGIN');
-// //     expect(loginButton).toBeTruthy();
-// //   });
-
-// //   it('should render error message for invalid user', async () => {
-// //     const { getByText, findByTestId } = render(<LoginScreen {...props} />);
-// //     const loginButton = getByText('LOGIN');
-// //     fireEvent.press(loginButton);
-// //     const loginError = await findByTestId('loginButton')
-// //     expect(loginError).toBeTruthy();
-// //   });
-
-// //   it('has an image logo as 3rd child', async () => {
-// //     const loginTest = TestRenderer.create(<LoginScreen {...props} />).toJSON();
-// //     const image = loginTest.children[0].children[0].children[0];
-// //     expect(image.type).toBe('Image')
-// //   });
-
-// //   it.only('should log someone in with valid login credentials', async () => {
-// //     const { getByTestId, findByTestId } = render(<LoginScreen {...props} />);
-// //     const loginInput = getByTestId('emailInput');
-// //     console.log(loginInput);
-// //     // fireEvent(loginInput, 'inputValue', 'Car@car.com')
-// //   })
-// // });
