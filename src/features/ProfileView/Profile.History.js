@@ -4,7 +4,7 @@ import { colors } from '../../infrastructure/colors';
 import { StyleSheet, Text, View, FlatList} from 'react-native';
 import { BiteShareContext } from '../../BiteShareContext';
 import SafeArea from '../../components/SafeArea';
-
+import { readCollectionSnapshotListener } from '../../../firebase/helpers/database.firebase.js';
 import PreviousBite from './ProfileBites';
 
 const styles = StyleSheet.create({
@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
 
 
 const ProfileHistory = () => {
-
   const mockBites = [
     {restauraunt: 'Grey Ghost', hostStatus: 'Host', bill: 32.42},
     {restauraunt: 'Barda', hostStatus: 'Guest', bill: 22.42},
@@ -42,12 +41,28 @@ const ProfileHistory = () => {
     {restauraunt: 'Taqueria El Rey', hostStatus: 'Host', bill: 8.49}
   ];
 
+  const [biteHistory, setBiteHistory] = useState(mockBites);
+  const { state: { userId }, dispatch } = useContext(BiteShareContext);
+
   const renderBite = ({item, index}) => (<PreviousBite meal={item} index={index}/>);
 
-  //TODO
-  //Query previous bites from db
-  //Restauraunt Name - Guest / Host Status - Price
-  //Place in array in state to be rendered via Flatlist
+  useEffect(() => {
+    if (userId) {
+      readCollectionSnapshotListener(`users/${userId}/transactions`, (transactions) => {
+        let cleanedTransactions = [...biteHistory];
+        transactions.forEach((session) => {
+          const { restaurantName, individualBills, role } = session.data();
+          const bite = {
+            restauraunt: restaurantName,
+            bill: individualBills,
+            hostStatus: role || 'Guest'
+          };
+          cleanedTransactions.unshift(bite);
+        });
+        setBiteHistory(cleanedTransactions);
+      });
+    }
+  }, [userId]);
 
   return (
     <View style={styles.container}>

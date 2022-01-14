@@ -88,6 +88,7 @@ export default function QRScanner() {
             orderStatus: 'not ready',
             orderedItems: [],
             userId: userId,
+            restaurantName: restaurantName,
           })
             .then((guestDoc) => {
               console.log('Successfully added GUEST into the database');
