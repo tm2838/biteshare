@@ -21,6 +21,7 @@ const InputField = ({ placeholder, secureText, inputValue, setInputValue }) => {
   return (
     <View style={styles.container}>
       <TextInput
+        testID='emailInput1'
         elevation={5}
         value={inputValue}
         onChangeText={setInputValue}

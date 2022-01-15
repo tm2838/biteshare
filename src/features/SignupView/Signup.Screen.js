@@ -113,14 +113,14 @@ const SignupScreen = () => {
             name: accountHolderName,
             email: email,
           })
-          .then(() => {
-            getADocReferenceFromCollection('users', 'email', '==', email)
-            .then((qResult) => {
-              qResult.forEach((doc) => {
-                dispatch({ type: 'SET_USER_ID', userId: doc.id });
-              });
+            .then(() => {
+              getADocReferenceFromCollection('users', 'email', '==', email)
+                .then((qResult) => {
+                  qResult.forEach((doc) => {
+                    dispatch({ type: 'SET_USER_ID', userId: doc.id });
+                  });
+                })
             })
-          })
         } catch (error) {
           console.log('Error creating new user in users collection when sign up for first time');
         }
@@ -137,8 +137,6 @@ const SignupScreen = () => {
   return (
     <SafeArea>
       <View style={styles.loginContainer}>
-        {/* <Text style={styles.biteshareTitle}>BITESHARE</Text>
-         */}
         <View style={styles.biteshareTitleContainer}>
           <Image source={require('../../../assets/signuplogo.png')} style={styles.biteshareTitle} />
 
