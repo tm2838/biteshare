@@ -1,6 +1,8 @@
-# Biteshare
-   ![loginlogo](https://user-images.githubusercontent.com/43324065/149425783-571ff4bb-c102-495e-b144-af6ee5df81a7.png)
+<p align="center" width="100%">
+    <img width="33%" src="https://user-images.githubusercontent.com/43324065/149425783-571ff4bb-c102-495e-b144-af6ee5df81a7.png">
+</p>
 
+# Biteshare
 Biteshare is a mobile application for splitting bills wisely. 
 
 ## Demo:
