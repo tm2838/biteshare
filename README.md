@@ -52,5 +52,5 @@ https://user-images.githubusercontent.com/43324065/149425271-cd9f79ee-1e66-4c02-
 - [Christina Nathan](https://github.com/christinanate)
 - [Crystal Song](https://github.com/crystalsong2021)
 - [Jeremiah Berndt](https://github.com/JeremiahBerndt)
-- [Josh Kohl](https://github.com/JK0hl)
+- [Josh Kohl](https://github.com/Josh-Kohl)
 - [Tingjun Man](https://github.com/tm2838)
